@@ -50,9 +50,10 @@ fi
 echo ""
 
 cd /tmp 
-wget -O - --no-check-certificate https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz | tar xz "KeyAdder-main.tar.gz"
-mv KeyAdder-main/usr /
-rm -r KeyAdder-master
+wget --no-check-certificate --content-disposition https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz
+tar -xf KeyAdder-main.tar.gz
+cp -rf KeyAdder-main/usr /
+rm -rf KeyAdder-main*
 cd ..
 
 sync
