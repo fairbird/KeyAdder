@@ -2,8 +2,8 @@
 ##setup command=wget -q "--no-check-certificate" https://raw.githubusercontent.com/fairbird/KeyAdder/main/installer.sh -O - | /bin/sh
 
 ######### Only These two lines to edit with new version ######
-version=5.7
-description=What is NEW:\n[[Fix some bugs]\nما هو الجديد:\n[اصلاح بعض الأخطاء]
+version=5.8
+description=What is NEW:\n[[Move plugin to my source github]\nما هو الجديد:\n[github نقل البلجن الى سورساتي على]
 ##############################################################
 
 # Python version
