@@ -50,8 +50,8 @@ fi
 echo ""
 
 cd /tmp 
-wget --no-check-certificate --content-disposition https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz
-tar -xf KeyAdder-main.tar.gz
+wget --no-check-certificate https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz
+tar -xf main.tar.gz
 cp -rf KeyAdder-main/usr /
 rm -rf KeyAdder-main*
 cd ..
