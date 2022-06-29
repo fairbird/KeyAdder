@@ -73,12 +73,12 @@ def VTI():
 
 #if os.path.islink(py_link) and os.path.exists(py_NewVirtualKeyBoard):
 #        if fileExists(BRANDOS):
-#        	if boxtype == "dreamone" or boxtype == "dreamtwo":
-#        		copyfile(pyo_VirtualKeyBoardOS64, pyo_KeyAdder)
- #       		from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard import VirtualKeyBoard
-#        	else:
-#        		copyfile(pyo_VirtualKeyBoardOS, pyo_KeyAdder)
-#        		from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard import VirtualKeyBoard
+#               if boxtype == "dreamone" or boxtype == "dreamtwo":
+#                       copyfile(pyo_VirtualKeyBoardOS64, pyo_KeyAdder)
+ #                      from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard import VirtualKeyBoard
+#               else:
+#                       copyfile(pyo_VirtualKeyBoardOS, pyo_KeyAdder)
+#                       from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard import VirtualKeyBoard
 #        elif os.path.exists(py_backup):
 #                copyfile(py_backup, py_KeyAdder)
 #        elif os.path.exists(pyo_backup):
@@ -88,11 +88,11 @@ def VTI():
 #        from Screens.VirtualKeyBoard import VirtualKeyBoard
 
 if DreamOS():
-	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardOS import VirtualKeyBoardKeyAdder
+        from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardOS import VirtualKeyBoardKeyAdder
 elif BHVU() or VTI():
-	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardVU import VirtualKeyBoardKeyAdder
+        from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardVU import VirtualKeyBoardKeyAdder
 else:
-	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardopen import VirtualKeyBoardKeyAdder
+        from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardopen import VirtualKeyBoardKeyAdder
 
 def getboxtype():
         boxtype="dm7080hd"
@@ -198,18 +198,18 @@ class KeyAdderUpdate(Screen):
     if reswidth == 1920:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="704,424" backgroundColor="#16000000" title="KeyAdderUpdate">
-                	<widget name="menu" position="center,43" size="650,306" backgroundColor="#16000000"/>
-                	<eLabel position="25,360" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
-                	<eLabel text="MENU" font="Regular;30" position="28,364" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-                	<eLabel text="Press Menu for more options" font="Regular;33" position="148,360" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+                        <widget name="menu" position="center,43" size="650,306" backgroundColor="#16000000"/>
+                        <eLabel position="25,360" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
+                        <eLabel text="MENU" font="Regular;30" position="28,364" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+                        <eLabel text="Press Menu for more options" font="Regular;33" position="148,360" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
                 </screen>'''
     else:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate">
-                	<widget name="menu" position="15,25" size="450,230" backgroundColor="#16000000"/>
-                	<eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
-                	<eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-                	<eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+                        <widget name="menu" position="15,25" size="450,230" backgroundColor="#16000000"/>
+                        <eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
+                        <eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+                        <eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
                 </screen>'''
 
     def __init__(self, session, title='', datalist = []):
@@ -243,9 +243,9 @@ class KeyAdderUpdate(Screen):
                 self.siteselect()
         elif index==2:
                 if config.plugins.KeyAdder.softcampath.value == True:
-                	self.pathselect()
+                        self.pathselect()
                 else:
-                	self.close()
+                        self.close()
         else:
             self.close()
 
@@ -270,10 +270,10 @@ class KeyAdderUpdate(Screen):
          if result:
              customPath = result[0]
              if customPath == "Add your custom path":
-             	from Screens.VirtualKeyBoard import VirtualKeyBoard
-             	self.session.openWithCallback(self.savepath, VirtualKeyBoard, title=_("Please enter the path"), text="")
+                from Screens.VirtualKeyBoard import VirtualKeyBoard
+                self.session.openWithCallback(self.savepath, VirtualKeyBoard, title=_("Please enter the path"), text="")
              else:
-             	config.plugins.KeyAdder.custom_softcampath.value = customPath
+                config.plugins.KeyAdder.custom_softcampath.value = customPath
              config.plugins.KeyAdder.custom_softcampath.save()
              configfile.save()
              softcamkey = os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
@@ -284,14 +284,14 @@ class KeyAdderUpdate(Screen):
 
     def savepath(self, word):
          if word is None:
-         	pass
+                pass
          else:
-         	config.plugins.KeyAdder.custom_softcampath.value = word
-         	config.plugins.KeyAdder.custom_softcampath.save()
-         	configfile.save()
-         	softcamkey = os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
-         	if not os_path.exists(softcamkey):
-             		os.system('mkdir -p %s' % config.plugins.KeyAdder.custom_softcampath.value)
+                config.plugins.KeyAdder.custom_softcampath.value = word
+                config.plugins.KeyAdder.custom_softcampath.save()
+                configfile.save()
+                softcamkey = os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
+                if not os_path.exists(softcamkey):
+                        os.system('mkdir -p %s' % config.plugins.KeyAdder.custom_softcampath.value)
 
     def siteselect(self):
         list1 = []
@@ -409,7 +409,7 @@ class KeyAdderUpdate(Screen):
         try:
                 from twisted.web.client import getPage, error
                 #url = b"http://tunisia-dreambox.info/TSplugins/AddKey/installer.sh"
-		url = b"https://raw.githubusercontent.com/fairbird/KeyAdder/main/installer.sh"
+                url = b"https://raw.githubusercontent.com/fairbird/KeyAdder/main/installer.sh"
                 getPage(url,timeout=10).addCallback(self.parseData).addErrback(self.errBack)
         except Exception as error:
                 trace_error()
