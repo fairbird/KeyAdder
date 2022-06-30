@@ -56,6 +56,12 @@ cp -rf KeyAdder-main/usr /
 rm -rf KeyAdder-main*
 cd ..
 
+### Check if plugin installed correctly
+if [ ! -d '/usr/lib/enigma2/python/Plugins/Extensions/KeyAdder' ]; then
+	echo "Some thing wrong .. Plugin not installed"
+	exit 1
+fi
+
 sync
 echo "#########################################################"
 echo "#          KeyAdder INSTALLED SUCCESSFULLY              #"
