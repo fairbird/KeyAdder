@@ -52,8 +52,8 @@ echo ""
 cd /tmp 
 wget -q "--no-check-certificate" https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz
 tar -xf main.tar.gz
-cp -rf KeyAdder-main/usr /
-rm -rf KeyAdder-main*
+cp -r KeyAdder-main/usr /
+rm -rf *main*
 cd ..
 
 ### Check if plugin installed correctly
