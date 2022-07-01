@@ -71,16 +71,17 @@ fi
 install $Packagesix
 
 #########################
+cd $TMPDIR
 set -e
 echo "Downloading And Insallling KeyAdder plugin Please Wait ......"
 echo
 wget --show-progress https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz -qP $TMPDIR
-tar -xzf $TMPDIR/main.tar.gz
-cp -r $TMPDIR/KeyAdder-main/usr /
+tar -xzf main.tar.gz
+cp -r KeyAdder-main/usr /
+rm -rf *main*
 set +e
-
+cd ..
 #########################
-rm -rf $TMPDIR/*main*
 
 sleep 1
 clear
