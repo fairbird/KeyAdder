@@ -49,12 +49,15 @@ else
 fi
 echo ""
 
-cd /tmp 
+cd /tmp
+set -e
 wget -q "--no-check-certificate" https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz
 tar -xf main.tar.gz
 cp -r KeyAdder-main/usr /
 rm -rf *main*
+set +e
 cd ..
+sync
 
 ### Check if plugin installed correctly
 if [ ! -d '/usr/lib/enigma2/python/Plugins/Extensions/KeyAdder' ]; then
