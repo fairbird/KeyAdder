@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version=5.8
-description=What is NEW:\n[[Move plugin to my source github]\nما هو الجديد:\n[github نقل البلجن الى سورساتي على]
+version=5.9
+description=What is NEW:\n-Update VirtualKeyBoard\n\n*************************\n:ما هو الجديد\n-VirtualKeyBoardopen تحديث
 ##############################################################
 
 ###########################################
