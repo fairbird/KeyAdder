@@ -575,7 +575,11 @@ class VirtualKeyBoardKeyAdder(Screen, HelpableScreen):
 		}, -2, description=_("Virtual KeyBoard Functions"))
 		self.lang = language.getLanguage()
 		self["prompt"] = Label(prompt)
-		self["text"] = Input(text=text, maxSize=maxSize, visible_width=visible_width, type=type, currPos=len(six.ensure_text(text, errors='ignore')) if currPos is None else currPos, allMarked=allMarked)
+		if PY2:
+			TEXTTYPE = text.decode("utf-8", "ignore")
+		else:
+			TEXTTYPE = text.encode("utf-8", "ignore")
+		self["text"] = Input(text=text, maxSize=maxSize, visible_width=visible_width, type=type, currPos=len(TEXTTYPE) if currPos is None else currPos, allMarked=allMarked)
 		self["list"] = VirtualKeyBoardList([])
 		self["mode"] = Label(_("INS"))
 		self["locale"] = Label(_("Locale") + ": " + self.lang)
