@@ -58,7 +58,7 @@ install() {
 }
 
 #########################
-if [ "${PYTHON_VERSION}" == 3 ]; then
+if python --version 2>&1 | grep -q '^Python 3\.'; then
     echo ":You have Python3 image ..."
     sleep 1
     Packagesix=python3-six
