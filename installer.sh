@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version=5.9
-description=What is NEW:\n-Update VirtualKeyBoard\n\n*************************\n:ما هو الجديد\n-VirtualKeyBoardopen تحديث
+version='5.9'
+description='What is NEW:\n-Update VirtualKeyBoard\n\n*************************\n:ما هو الجديد\n-VirtualKeyBoardopen تحديث'
 ##############################################################
 
 ###########################################
