@@ -408,7 +408,6 @@ class KeyAdderUpdate(Screen):
     def checkupdates(self):
         try:
                 from twisted.web.client import getPage, error
-                #url = b"http://tunisia-dreambox.info/TSplugins/AddKey/installer.sh"
                 url = b"https://raw.githubusercontent.com/fairbird/KeyAdder/main/installer.sh"
                 getPage(url,timeout=10).addCallback(self.parseData).addErrback(self.errBack)
         except Exception as error:
@@ -427,10 +426,12 @@ class KeyAdderUpdate(Screen):
                 for line in lines:
                        #line=str(line)
                        if line.startswith("version"):
-                          self.new_version = line.split("=")[1]
+                          self.new_version = line.split("=")
+                          self.new_version = line.split("'")[1]
                           #break #if enabled the for loop will exit before reading description line
                        if line.startswith("description"):
-                          self.new_description = line.split("=")[1]
+                          self.new_description = line.split("=")
+                          self.new_description = line.split("'")[1]
                           break
         if float(VER) == float(self.new_version) or float(VER)>float(self.new_version):
                 logdata("Updates","No new version available")
@@ -443,7 +444,6 @@ class KeyAdderUpdate(Screen):
         try:
                 if answer:
                            cmdlist = []
-                           #cmd='wget http://tunisia-dreambox.info/TSplugins/AddKey/installer.sh -O - | /bin/sh'
                            cmd='wget https://raw.githubusercontent.com/fairbird/KeyAdder/main/installer.sh -O - | /bin/sh'
                            cmdlist.append(cmd)
                            self.session.open(Console, title='Installing last update, enigma will be started after install', cmdlist=cmdlist, finishedCallback=self.myCallback, closeOnSuccess=False)
