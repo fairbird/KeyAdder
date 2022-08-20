@@ -75,7 +75,7 @@ cd $TMPDIR
 set -e
 echo "Downloading And Insallling KeyAdder plugin Please Wait ......"
 echo
-wget --show-progress https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz -qP $TMPDIR
+wget https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz -qP $TMPDIR
 tar -xzf main.tar.gz
 cp -r KeyAdder-main/usr /
 rm -rf *main*
