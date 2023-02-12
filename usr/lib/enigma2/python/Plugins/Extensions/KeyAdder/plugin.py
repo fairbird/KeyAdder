@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 # Code By RAED and mfaraj57
 
-# python3
-from __future__ import print_function
-
 from enigma import eConsoleAppContainer, eDVBDB, iServiceInformation, eTimer, loadPNG, getDesktop, RT_WRAP, RT_HALIGN_LEFT, RT_VALIGN_CENTER, eListboxPythonMultiContent, gFont
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
 from Components.config import config, getConfigListEntry, ConfigText, ConfigSubsection, ConfigYesNo, configfile, ConfigSelection
@@ -62,12 +59,7 @@ def VTI():
     if os.path.exists(VTI):
         return VTI
 
-if DreamOS():
-        from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardOS import VirtualKeyBoardKeyAdder
-elif BHVU() or VTI():
-        from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardVU import VirtualKeyBoardKeyAdder
-else:
-        from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardopen import VirtualKeyBoardKeyAdder
+from Plugins.Extensions.KeyAdder.tools.VirtualKeyboardKeyAdder import VirtualKeyBoardKeyAdder
 
 def logdata(label_name = '', data = None):
     try:
