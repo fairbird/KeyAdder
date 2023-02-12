@@ -9,7 +9,7 @@
 
 ######### Only These two lines to edit with new version ######
 version='6.0'
-description='What is NEW:\n-Update VirtualKeyBoard depend on @zKhadiri codes\n\n*************************\n:ما هو الجديد\n-بالإعتماد على كود أخي زكريا VirtualKeyBoardopen تحديث'
+description='What is NEW:\n-Update VirtualKeyBoard depend on @zKhadiri codes\n\n*************************\n:ما هو الجديد\n-بالإعتماد على كود أخي زكريا VirtualKeyBoard تحديث'
 ##############################################################
 
 ###########################################
