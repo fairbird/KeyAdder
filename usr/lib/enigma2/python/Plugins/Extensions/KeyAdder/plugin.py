@@ -49,15 +49,6 @@ BRANDTS='/usr/lib/enigma2/python/Plugins/TSimage/__init__.pyo' ## TS
 BRANDOS='/var/lib/dpkg/status' ## DreamOS
 BRANDVU='/proc/stb/info/vumodel' ## VU+
 
-py_link = "/usr/lib/enigma2/python/Screens/VirtualKeyBoard.py"
-py_backup = "/usr/lib/enigma2/python/Screens/VirtualKeyBoard_backup.py"
-pyo_backup = "/usr/lib/enigma2/python/Screens/VirtualKeyBoard_backup.pyo"
-py_KeyAdder = resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/VirtualKeyBoardPath/VirtualKeyBoard.py")
-pyo_KeyAdder = resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/VirtualKeyBoardPath/VirtualKeyBoard.pyo")
-py_NewVirtualKeyBoard = resolveFilename(SCOPE_PLUGINS, "SystemPlugins/NewVirtualKeyBoard/VirtualKeyBoard.py")
-pyo_VirtualKeyBoardOS = resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/VirtualKeyBoardPath/VirtualKeyBoardOS.pyo")
-pyo_VirtualKeyBoardOS64 = resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/VirtualKeyBoardPath/VirtualKeyBoardOS64.pyo")
-
 def DreamOS():
     if os_path.exists('/var/lib/dpkg/status'):
         return DreamOS
@@ -71,45 +62,12 @@ def VTI():
     if os.path.exists(VTI):
         return VTI
 
-#if os.path.islink(py_link) and os.path.exists(py_NewVirtualKeyBoard):
-#        if fileExists(BRANDOS):
-#               if boxtype == "dreamone" or boxtype == "dreamtwo":
-#                       copyfile(pyo_VirtualKeyBoardOS64, pyo_KeyAdder)
- #                      from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard import VirtualKeyBoard
-#               else:
-#                       copyfile(pyo_VirtualKeyBoardOS, pyo_KeyAdder)
-#                       from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard import VirtualKeyBoard
-#        elif os.path.exists(py_backup):
-#                copyfile(py_backup, py_KeyAdder)
-#        elif os.path.exists(pyo_backup):
-#                copyfile(pyo_backup, pyo_KeyAdder)
-#        from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard import VirtualKeyBoard
-#else:
-#        from Screens.VirtualKeyBoard import VirtualKeyBoard
-
 if DreamOS():
         from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardOS import VirtualKeyBoardKeyAdder
 elif BHVU() or VTI():
         from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardVU import VirtualKeyBoardKeyAdder
 else:
         from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardopen import VirtualKeyBoardKeyAdder
-
-def getboxtype():
-        boxtype="dm7080hd"
-        if os.path.exists('/proc/stb/info/model'):
-            f = open('/proc/stb/info/model')
-            boxtype = f.read()
-            f.close()
-            boxtype = boxtype.replace('\n', '').replace('\\l', '')
-            if boxtype == "one":
-                    boxtype="dreamone"
-            if boxtype == "two":
-                    boxtype="dreamtwo"
-        if boxtype.strip()=="":
-           boxtype=getHostName()
-        return boxtype
-
-boxtype = getboxtype()
 
 def logdata(label_name = '', data = None):
     try:
