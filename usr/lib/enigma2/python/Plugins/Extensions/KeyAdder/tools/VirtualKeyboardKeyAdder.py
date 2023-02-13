@@ -9,13 +9,15 @@ from Components.Pixmap import Pixmap
 from Components.MenuList import MenuList
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaBlend
 from Screens.HelpMenu import HelpableScreen
-from enigma import eWidget, gRGB
+from enigma import eWidget, gRGB, getDesktop
 from Tools.Directories import resolveFilename, SCOPE_CURRENT_SKIN
 from Tools.LoadPixmap import LoadPixmap
 from Tools.NumericalTextInput import NumericalTextInput
 import skin, os
 from Components.GUIComponent import GUIComponent
 from sys import version_info
+
+reswidth = getDesktop(0).size().width()
 
 def parseColor(s):
 	return gRGB(int(s[1:], 0x10))
@@ -25,9 +27,14 @@ PY3 = version_info[0] == 3
 class VirtualKeyBoardList(MenuList):
 	def __init__(self, list, enableWrapAround=False):
 		MenuList.__init__(self, list, enableWrapAround, eListboxPythonMultiContent)
-		self.l.setFont(0, gFont('Regular', 28))
-		self.l.setFont(1, gFont("Regular", 28))
-		self.l.setItemHeight(45)
+		if reswidth >= 1920:
+			self.l.setFont(0, gFont('Regular', 28))
+			self.l.setFont(1, gFont("Regular", 28))
+			self.l.setItemHeight(45)
+		else:
+			self.l.setFont(0, gFont('Regular', 22))
+			self.l.setFont(1, gFont("Regular", 22))
+			self.l.setItemHeight(35)
 
 def VirtualKeyBoardEntryComponent(keys, selectedKey, shiftMode=False):
 	primaryColor = '#282828'
@@ -41,8 +48,12 @@ def VirtualKeyBoardEntryComponent(keys, selectedKey, shiftMode=False):
 	bgselok = skin.parseColor("#00006600").argb()
 	bgselcancel = skin.parseColor("#00660000").argb()
 
-	height = 45
-	width = int(1880/12)
+	if reswidth >= 1920:
+		height = 45
+		width = int(1880/12)
+	else:
+		height = 35
+		width = int(1265/12)
 	x = 0
 	count = 0
 	for key in keys:
@@ -157,51 +168,51 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 
 
 		self["actions"] = ActionMap(["KeyboardInputActions", "InputAsciiActions"],
-									{
-										"gotAsciiCode": self.keyGotAscii,
-										"deleteBackward": self.backClicked,
-									}, -2)
+			{
+				"gotAsciiCode": self.keyGotAscii,
+				"deleteBackward": self.backClicked,
+			}, -2)
 		self["InputBoxActions"] = HelpableActionMap(self, "InputBoxActions",
-													{
-														"deleteBackward": (self.cursorLeft, _("Move cursor left")),
-														"deleteForward": (self.cursorRight, _("Move cursor right")),
-													}, -2)
+			{
+				"deleteBackward": (self.cursorLeft, _("Move cursor left")),
+				"deleteForward": (self.cursorRight, _("Move cursor right")),
+			}, -2)
 		self["OkCancelActions"] = HelpableActionMap(self, "OkCancelActions",
-													{
-														"ok": (self.okClicked, _("Select key")),
-														"cancel": (self.exit, _("Cancel")),
-													}, -2)
+			{
+				"ok": (self.okClicked, _("Select key")),
+				"cancel": (self.exit, _("Cancel")),
+			}, -2)
 		self["ShortcutActions"] = HelpableActionMap(self, "ShortcutActions",
-													{
-														"red": (self.backClicked, _("Delete (left of the cursor)")),
-														"blue": (self.backSpace, _("Delete (right of the cursor)")),
-														"green": (self.ok, _("Save")),
-													}, -2)
+			{
+				"red": (self.backClicked, _("Delete (left of the cursor)")),
+				"blue": (self.backSpace, _("Delete (right of the cursor)")),
+				"green": (self.ok, _("Save")),
+			}, -2)
 		self["WizardActions"] = HelpableActionMap(self, "WizardActions",
-												  {
-													  "left": (self.left, _("Left")),
-													  "right": (self.right, _("Right")),
-													  "up": (self.up, _("Up")),
-													  "down": (self.down, _("Down")),
-												  }, -2)
+			{
+				"left": (self.left, _("Left")),
+				"right": (self.right, _("Right")),
+				"up": (self.up, _("Up")),
+				"down": (self.down, _("Down")),
+			}, -2)
 		self["SeekActions"] = HelpableActionMap(self, "SeekActions",
-												{
-													"seekBack": (self.move_to_begin, _("Move to begin")),
-													"seekFwd": (self.move_to_end, _("Move to end")),
-												}, -2)
+			{
+				"seekBack": (self.move_to_begin, _("Move to begin")),
+				"seekFwd": (self.move_to_end, _("Move to end")),
+			}, -2)
 		self["NumberActions"] = NumberActionMap(["NumberActions"],
-												{
-													"1": self.keyNumberGlobal,
-													"2": self.keyNumberGlobal,
-													"3": self.keyNumberGlobal,
-													"4": self.keyNumberGlobal,
-													"5": self.keyNumberGlobal,
-													"6": self.keyNumberGlobal,
-													"7": self.keyNumberGlobal,
-													"8": self.keyNumberGlobal,
-													"9": self.keyNumberGlobal,
-													"0": self.keyNumberGlobal
-												})
+			{
+				"1": self.keyNumberGlobal,
+				"2": self.keyNumberGlobal,
+				"3": self.keyNumberGlobal,
+				"4": self.keyNumberGlobal,
+				"5": self.keyNumberGlobal,
+				"6": self.keyNumberGlobal,
+				"7": self.keyNumberGlobal,
+				"8": self.keyNumberGlobal,
+				"9": self.keyNumberGlobal,
+				"0": self.keyNumberGlobal
+			})
 
 		
 		self.set_GUI_Text()
@@ -213,12 +224,20 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 	def buildSKin(self):
 		primaryColor = '#282828'
 		primaryColorLabel = '#DCE1E3'
-		skin = """<screen backgroundColor="#70000000" flags="wfNoBorder" name="VirtualKeyBoard KeyAdder" position="0,0" size="1920,1080" title="Virtual KeyBoard" transparent="0" zPosition="99">
-			<eLabel position="0,720" size="1920,360" backgroundColor="#70000000"/>
-			<widget backgroundColor="#70000000" font="Regular;30" foregroundColor="#DCE1E3" name="header" noWrap="1" position="center,260" size="1235,40" transparent="1" valign="center" zPosition="30" />
-			<widget backgroundColor="#70000000" foregroundColor="{}" name="list" position="20,725" selectionDisabled="1" size="1880,350" transparent="0" zPosition="30" />
-			<widget backgroundColor="{}" font="Regular;33" foregroundColor="{}" halign="right" name="text" noWrap="1" position="center,300" size="1235,70" valign="center" zPosition="30" />
-		</screen>""".format(primaryColorLabel,primaryColor,primaryColorLabel)
+		if reswidth >= 1920:
+			skin = """<screen backgroundColor="#70000000" flags="wfNoBorder" name="VirtualKeyBoard KeyAdder" position="0,0" size="1920,1080" title="Virtual KeyBoard" transparent="0" zPosition="99">
+				<eLabel position="0,720" size="1920,360" backgroundColor="#70000000"/>
+				<widget backgroundColor="#70000000" font="Regular;30" foregroundColor="#DCE1E3" name="header" noWrap="1" position="center,260" size="1235,40" transparent="1" valign="center" zPosition="30" />
+				<widget backgroundColor="#70000000" foregroundColor="{}" name="list" position="20,725" selectionDisabled="1" size="1880,350" transparent="0" zPosition="30" />
+				<widget backgroundColor="{}" font="Regular;33" foregroundColor="{}" halign="right" name="text" noWrap="1" position="center,300" size="1235,70" valign="center" zPosition="30" />
+			</screen>""".format(primaryColorLabel,primaryColor,primaryColorLabel)
+		else:
+			skin = """<screen backgroundColor="#70000000" flags="wfNoBorder" name="VirtualKeyBoard KeyAdder" position="0,0" size="1280,720" title="Virtual KeyBoard" transparent="0" zPosition="99">
+				<eLabel position="132,474" size="1280,246" backgroundColor="#70000000"/>
+				<widget backgroundColor="#70000000" font="Regular;24" foregroundColor="#DCE1E3" name="header" noWrap="1" position="132,155" size="1020,40" transparent="1" valign="center" zPosition="30" />
+				<widget backgroundColor="#70000000" foregroundColor="{}" name="list" position="10,480" selectionDisabled="1" size="1265,235"  transparent="0" zPosition="30" />
+				<widget backgroundColor="{}" font="Regular;26" foregroundColor="{}" halign="right" name="text" noWrap="1" position="center,200" size="1020,50" valign="center" zPosition="30" />
+			</screen>""".format(primaryColorLabel,primaryColor,primaryColorLabel)
 		return skin
 
 	def switchLang(self):
