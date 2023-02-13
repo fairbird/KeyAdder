@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='6.0'
-description='What is NEW:\n-Update VirtualKeyBoard depend on @zKhadiri codes\n\n*************************\n:ما هو الجديد\n-بالإعتماد على كود أخي زكريا VirtualKeyBoard تحديث'
+version='6.1'
+description='What is NEW:\n-Update VirtualKeyBoard Support HD skins\n\n*************************\n:ما هو الجديد\n- HD دعم سكينات VirtualKeyBoard تحديث'
 ##############################################################
 
 ###########################################
