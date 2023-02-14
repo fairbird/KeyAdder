@@ -592,8 +592,7 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 					selkey += 1
 
 	def keyGotAscii(self):
-		from Components.config import getCharValue
-		char = getCharValue(getPrevAsciiCode())
+		char = chr(getPrevAsciiCode())
 		if len(str(char)) == 1:
 			if PY3:
 				char = char
