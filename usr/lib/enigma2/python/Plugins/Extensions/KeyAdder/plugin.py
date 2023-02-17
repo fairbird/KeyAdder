@@ -11,6 +11,7 @@ from Tools.BoundFunction import boundFunction
 from ServiceReference import ServiceReference
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
+from Screens.Standby import TryQuitMainloop
 from Screens.ChoiceBox import ChoiceBox
 from Screens.InputBox import InputBox
 from Components.Input import Input
@@ -38,7 +39,8 @@ config.plugins.KeyAdder = ConfigSubsection()
 config.plugins.KeyAdder.update = ConfigYesNo(default=True)
 config.plugins.KeyAdder.lastcaid = ConfigText(default='0', fixed_size=False)
 config.plugins.KeyAdder.softcampath = ConfigYesNo(default=False) #False = Auto Detecte path
-config.plugins.KeyAdder.custom_softcampath = ConfigText(default="/usr/keys", visible_width = 250, fixed_size = False) 
+config.plugins.KeyAdder.custom_softcampath = ConfigText(default="/usr/keys", visible_width = 250, fixed_size = False)
+config.plugins.KeyAdder.keyboardStyle = ConfigYesNo(default=True)
 BRANATV='/usr/lib/enigma2/python/boxbranding.so' ## OpenATV
 BRANDPLI='/usr/share/enigma2/rc_models/rc_models.cfg' ## OpenPLI/OV
 BRANDOPEN='/usr/lib/enigma2/python/Tools/StbHardware.pyo' ## Open source
@@ -59,7 +61,15 @@ def VTI():
     if os.path.exists(VTI):
         return VTI
 
-from Plugins.Extensions.KeyAdder.tools.VirtualKeyboardKeyAdder import VirtualKeyBoardKeyAdder
+if config.plugins.KeyAdder.keyboardStyle.value == True:
+	from Plugins.Extensions.KeyAdder.tools.VirtualKeyboardKeyAdder import VirtualKeyBoardKeyAdder
+else:
+	if DreamOS():
+        	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardOS import VirtualKeyBoardKeyAdder
+	elif BHVU() or VTI():
+        	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardVU import VirtualKeyBoardKeyAdder
+	else:
+        	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardopen import VirtualKeyBoardKeyAdder
 
 def logdata(label_name = '', data = None):
     try:
@@ -322,6 +332,7 @@ class KeyAdderUpdate(Screen):
         self.list = []
         EnablecheckUpdate = config.plugins.KeyAdder.update.value
         Enablesoftcampath = config.plugins.KeyAdder.softcampath.value
+        EnablekeyboardStyle = config.plugins.KeyAdder.keyboardStyle.value
         choices.append(("Install KeyAdder version %s" %self.new_version,"Install"))
         if EnablecheckUpdate == False:
                 choices.append(("Press Ok to [Enable checking for Online Update]","enablecheckUpdate"))
@@ -331,6 +342,10 @@ class KeyAdderUpdate(Screen):
                 choices.append(("Press Ok to [Enable custom softCam file path]","enablesoftcampath"))
         else:
                 choices.append(("Press Ok to [Disable auto softCam file path]","disablesoftcampath"))
+        if EnablekeyboardStyle == False:
+        	choices.append(("Press Ok to [Enable New keyboard Style]","enablekeyboardStyle"))
+        else:
+        	choices.append(("Press Ok to [Enable Old keyboard Style]","disablekeyboardStyle"))
         self.session.openWithCallback(self.choicesback, ChoiceBox, _('select task'),choices)
 
     def choicesback(self, select):
@@ -354,6 +369,23 @@ class KeyAdderUpdate(Screen):
                          config.plugins.KeyAdder.softcampath.save()
                          configfile.save()
                          self.close()
+                elif select[1] == "enablekeyboardStyle":
+                         config.plugins.KeyAdder.keyboardStyle.value = True
+                         config.plugins.KeyAdder.keyboardStyle.save()
+                         configfile.save()
+                         self.session.openWithCallback(self.restart, MessageBox, _("Settings changed, restart enigma2 need it now ?!"))
+                elif select[1] == "disablekeyboardStyle":
+                         config.plugins.KeyAdder.keyboardStyle.value = False
+                         config.plugins.KeyAdder.keyboardStyle.save()
+                         configfile.save()
+                         self.session.openWithCallback(self.restart, MessageBox, _("Settings changed, restart enigma2 need it now ?!"))
+
+    def restart(self, answer=None):
+        if answer:
+                self.session.open(TryQuitMainloop, 3)
+                return
+        self.close(True)
+
 
     def checkupdates(self):
         try:
