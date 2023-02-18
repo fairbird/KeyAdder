@@ -61,15 +61,7 @@ def VTI():
     if os.path.exists(VTI):
         return VTI
 
-if config.plugins.KeyAdder.keyboardStyle.value == True:
-	from Plugins.Extensions.KeyAdder.tools.VirtualKeyboardKeyAdder import VirtualKeyBoardKeyAdder
-else:
-	if DreamOS():
-        	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardOS import VirtualKeyBoardKeyAdder
-	elif BHVU() or VTI():
-        	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardVU import VirtualKeyBoardKeyAdder
-	else:
-        	from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoardopen import VirtualKeyBoardKeyAdder
+from Plugins.Extensions.KeyAdder.tools.VirtualKeyboardKeyAdder import VirtualKeyBoardKeyAdder
 
 def logdata(label_name = '', data = None):
     try:
