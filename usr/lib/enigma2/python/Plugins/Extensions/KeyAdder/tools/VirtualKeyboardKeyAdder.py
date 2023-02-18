@@ -1,23 +1,32 @@
 # -*- coding: UTF-8 -*-
 from enigma import eListboxPythonMultiContent, gFont, RT_HALIGN_CENTER, RT_VALIGN_CENTER, getPrevAsciiCode, eTimer
 from Screens.Screen import Screen
+from Components.config import config
 from Components.Language import language
 from Components.ActionMap import ActionMap, HelpableActionMap, NumberActionMap
 from Components.Sources.StaticText import StaticText
 from Components.Label import Label
 from Components.Pixmap import Pixmap
 from Components.MenuList import MenuList
-from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaBlend
+from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
 from Screens.HelpMenu import HelpableScreen
 from enigma import eWidget, gRGB, getDesktop
-from Tools.Directories import resolveFilename, SCOPE_CURRENT_SKIN
+from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 from Tools.LoadPixmap import LoadPixmap
 from Tools.NumericalTextInput import NumericalTextInput
 import skin, os
 from Components.GUIComponent import GUIComponent
 from sys import version_info
 
-reswidth = getDesktop(0).size().width()
+from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard_Icons.skin import SKIN_HD, SKIN_FHD
+
+def getDesktopSize():
+    s = getDesktop(0).size()
+    return (s.width(), s.height())
+
+def isHD():
+    desktopSize = getDesktopSize()
+    return desktopSize[0] == 1280
 
 def parseColor(s):
 	return gRGB(int(s[1:], 0x10))
@@ -27,121 +36,202 @@ PY3 = version_info[0] == 3
 class VirtualKeyBoardList(MenuList):
 	def __init__(self, list, enableWrapAround=False):
 		MenuList.__init__(self, list, enableWrapAround, eListboxPythonMultiContent)
-		if reswidth >= 1920:
-			self.l.setFont(0, gFont('Regular', 28))
-			self.l.setFont(1, gFont("Regular", 28))
-			self.l.setItemHeight(45)
-		else:
+		if isHD():
 			self.l.setFont(0, gFont('Regular', 22))
 			self.l.setFont(1, gFont("Regular", 22))
 			self.l.setItemHeight(35)
+		else:
+			self.l.setFont(0, gFont('Regular', 28))
+			self.l.setFont(1, gFont("Regular", 28))
+			self.l.setItemHeight(45)
 
 def VirtualKeyBoardEntryComponent(keys, selectedKey, shiftMode=False):
-	primaryColor = '#282828'
-	secondaryColor = '#4e4e4e'
-	res = [(keys)]
-	bg = skin.parseColor("#00494949").argb()
-	bgkey = skin.parseColor(primaryColor).argb()
-	bgsel = skin.parseColor(secondaryColor).argb()
-	bgok = skin.parseColor("#00009900").argb()
-	bgcancel = skin.parseColor("#00990000").argb()
-	bgselok = skin.parseColor("#00006600").argb()
-	bgselcancel = skin.parseColor("#00660000").argb()
+	if config.plugins.KeyAdder.keyboardStyle.value == True:
+		res = [(keys)]
+		primaryColor = '#282828'
+		secondaryColor = '#4e4e4e'
+		bg = skin.parseColor("#00494949").argb()
+		bgkey = skin.parseColor(primaryColor).argb()
+		bgsel = skin.parseColor(secondaryColor).argb()
+		bgok = skin.parseColor("#00009900").argb()
+		bgcancel = skin.parseColor("#00990000").argb()
+		bgselok = skin.parseColor("#00006600").argb()
+		bgselcancel = skin.parseColor("#00660000").argb()
 
-	if reswidth >= 1920:
-		height = 45
-		width = int(1880/12)
-	else:
-		height = 35
-		width = int(1265/12)
-	x = 0
-	count = 0
-	for key in keys:
-		if key == "EXIT":
-			if selectedKey == count:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="EXIT",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
-			else:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="EXIT",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
-		elif key == "BACKSPACE":
-			if selectedKey == count:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="BACKSPACE",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgselcancel))
-			else:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="BACKSPACE",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgcancel))
-		elif key == "CLEAR":
-			if selectedKey == count:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="CLR",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
-			else:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="CLR",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
-		elif key == "SHIFT":
-			if shiftMode:
-				if selectedKey == count:
-					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="SHIFT",
-										  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
-				else:
-					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="SHIFT",
-										  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bg))
-			else:
-				if selectedKey == count:
-					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="SHIFT",
-										  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
-				else:
-					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="SHIFT",
-										  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
-		elif key == "SPACE":
-			if selectedKey == count:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
-			else:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
-		elif key == "OK":
-			if selectedKey == count:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="OK",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgselok))
-			else:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="OK",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgok))
-		elif key == "LEFT":
-			if selectedKey == count:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="LEFT",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
-			else:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="LEFT",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
-		elif key == "RIGHT":
-			if selectedKey == count:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="RIGHT",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
-			else:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="RIGHT",
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
+		if isHD():
+			height = 35
+			width = int(1265/12)
 		else:
-			if not PY3:
-				key = key.encode("utf-8")
-			if selectedKey == count:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text=key,
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+			height = 45
+			width = int(1880/12)
+		x = 0
+		count = 0
+		for key in keys:
+			if key == "EXIT":
+				if selectedKey == count:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="EXIT",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+				else:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="EXIT",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
+			elif key == "BACKSPACE":
+				if selectedKey == count:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="BACKSPACE",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgselcancel))
+				else:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="BACKSPACE",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgcancel))
+			elif key == "CLEAR":
+				if selectedKey == count:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="CLR",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+				else:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="CLR",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
+			elif key == "SHIFT":
+				if shiftMode:
+					if selectedKey == count:
+						res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="SHIFT",
+										  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+					else:
+						res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="SHIFT",
+										  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bg))
+				else:
+					if selectedKey == count:
+						res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="SHIFT",
+										  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+					else:
+						res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="SHIFT",
+										  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
+			elif key == "SPACE":
+				if selectedKey == count:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+				else:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
+			elif key == "OK":
+				if selectedKey == count:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="OK",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgselok))
+				else:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="OK",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgok))
+			elif key == "LEFT":
+				if selectedKey == count:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="LEFT",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+				else:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="LEFT",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
+			elif key == "RIGHT":
+				if selectedKey == count:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="RIGHT",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+				else:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="RIGHT",
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
 			else:
-				res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text=key,
-									  flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
-		x += width
-		count += 1
+				if not PY3:
+					key = key.encode("utf-8")
+				if selectedKey == count:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text=key,
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+				else:
+					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text=key,
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
+			x += width
+			count += 1
+	else:
+		if isHD():
+			key_backspace = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_backspace.png"))
+			key_bg = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_bg.png"))
+			key_clr = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_clr.png"))
+			key_esc = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_esc.png"))
+			key_ok = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_ok.png"))
+			key_sel = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_sel.png"))
+			key_shift = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_shift.png"))
+			key_shift_sel = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_shift_sel.png"))
+			key_space = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsHD/vkey_space.png"))
+		else:
+			key_backspace = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_backspace.png"))
+			key_bg = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_bg.png"))
+			key_clr = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_clr.png"))
+			key_esc = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_esc.png"))
+			key_ok = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_ok.png"))
+			key_sel = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_sel.png"))
+			key_shift = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_shift.png"))
+			key_shift_sel = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_shift_sel.png"))
+			key_space = LoadPixmap(cached=True, path=resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/tools/VirtualKeyBoard_Icons/buttonsFHD/vkey_space.png"))
+		res = [ (keys) ]
+	
+		x = 0
+		count = 0
+		if isHD():
+			height = 45
+		else:
+			height = 68
+		if shiftMode:
+			shiftkey_png = key_shift_sel
+		else:
+			shiftkey_png = key_shift
+		for key in keys:
+			width = None
+			if key == "EXIT":
+				width = key_esc.size().width()
+				res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(width, height), png=key_esc))
+			elif key == "BACKSPACE":
+				width = key_backspace.size().width()
+				res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(width, height), png=key_backspace))
+			elif key == "CLEAR":
+				width = key_clr.size().width()
+				res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(width, height), png=key_clr))
+			elif key == "SHIFT":
+				width = shiftkey_png.size().width()
+				res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(width, height), png=shiftkey_png))
+			elif key == "SPACE":
+				width = key_space.size().width()
+				res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(width, height), png=key_space))
+			elif key == "OK":
+				width = key_ok.size().width()
+				res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(width, height), png=key_ok))
+			#elif key == "<-":
+				#	res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(45, 45), png=key_left))
+			#elif key == "->":
+				#	res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(45, 45), png=key_right))
+		
+			else:
+				width = key_bg.size().width()
+				if not PY3:
+					key = key.encode("utf-8")
+				res.extend((
+					MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(width, height), png=key_bg),
+					MultiContentEntryText(pos=(x, 0), size=(width, height), font=0, text=key, flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER)
+				))
+
+			if selectedKey == count:
+				width = key_sel.size().width()
+				res.append(MultiContentEntryPixmapAlphaTest(pos=(x, 0), size=(width, height), png=key_sel))
+
+			if width is not None:
+				x += width
+			else:
+				x += height
+			count += 1
 	return res
 
 
-class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
-	
-			
+class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):	
 	def __init__(self, session, title="", text="",nb_only=False):
 		Screen.__init__(self, session)
 		NumericalTextInput.__init__(self, nextFunc=self.timeoutNI, handleTimeout=True)
-		self.skin = self.buildSKin()
+		if config.plugins.KeyAdder.keyboardStyle.value == True:
+			self.skin = self.buildSKin()
+		else:
+			if isHD():
+				self.skin = SKIN_HD
+			else:
+				self.skin = SKIN_FHD
 		self.sms_txt = None
 		self.keys_list = []
 		self.shiftkeys_list = []
@@ -165,7 +255,6 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 		self["header"] = Label(title)
 		self["text"] = Label()
 		self["list"] = VirtualKeyBoardList([])
-
 
 		self["actions"] = ActionMap(["KeyboardInputActions", "InputAsciiActions"],
 			{
@@ -224,20 +313,21 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 	def buildSKin(self):
 		primaryColor = '#282828'
 		primaryColorLabel = '#DCE1E3'
-		if reswidth >= 1920:
-			skin = """<screen backgroundColor="#70000000" flags="wfNoBorder" name="VirtualKeyBoard KeyAdder" position="0,0" size="1920,1080" title="Virtual KeyBoard" transparent="0" zPosition="99">
-				<eLabel position="0,720" size="1920,360" backgroundColor="#70000000"/>
-				<widget backgroundColor="#70000000" font="Regular;30" foregroundColor="#DCE1E3" name="header" noWrap="1" position="center,260" size="1235,40" transparent="1" valign="center" zPosition="30" />
-				<widget backgroundColor="#70000000" foregroundColor="{}" name="list" position="20,725" selectionDisabled="1" size="1880,350" transparent="0" zPosition="30" />
-				<widget backgroundColor="{}" font="Regular;33" foregroundColor="{}" halign="right" name="text" noWrap="1" position="center,300" size="1235,70" valign="center" zPosition="30" />
-			</screen>""".format(primaryColorLabel,primaryColor,primaryColorLabel)
-		else:
+		if isHD():
 			skin = """<screen backgroundColor="#70000000" flags="wfNoBorder" name="VirtualKeyBoard KeyAdder" position="0,0" size="1280,720" title="Virtual KeyBoard" transparent="0" zPosition="99">
 				<eLabel position="132,474" size="1280,246" backgroundColor="#70000000"/>
 				<widget backgroundColor="#70000000" font="Regular;24" foregroundColor="#DCE1E3" name="header" noWrap="1" position="132,155" size="1020,40" transparent="1" valign="center" zPosition="30" />
 				<widget backgroundColor="#70000000" foregroundColor="{}" name="list" position="10,480" selectionDisabled="1" size="1265,235"  transparent="0" zPosition="30" />
 				<widget backgroundColor="{}" font="Regular;26" foregroundColor="{}" halign="right" name="text" noWrap="1" position="center,200" size="1020,50" valign="center" zPosition="30" />
 			</screen>""".format(primaryColorLabel,primaryColor,primaryColorLabel)
+		else:
+			skin = """<screen backgroundColor="#70000000" flags="wfNoBorder" name="VirtualKeyBoard KeyAdder" position="0,0" size="1920,1080" title="Virtual KeyBoard" transparent="0" zPosition="99">
+				<eLabel position="0,720" size="1920,360" backgroundColor="#70000000"/>
+				<widget backgroundColor="#70000000" font="Regular;30" foregroundColor="#DCE1E3" name="header" noWrap="1" position="center,260" size="1235,40" transparent="1" valign="center" zPosition="30" />
+				<widget backgroundColor="#70000000" foregroundColor="{}" name="list" position="20,725" selectionDisabled="1" size="1880,350" transparent="0" zPosition="30" />
+				<widget backgroundColor="{}" font="Regular;33" foregroundColor="{}" halign="right" name="text" noWrap="1" position="center,300" size="1235,70" valign="center" zPosition="30" />
+			</screen>""".format(primaryColorLabel,primaryColor,primaryColorLabel)
+
 		return skin
 
 	def switchLang(self):
