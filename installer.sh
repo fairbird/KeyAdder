@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='6.2'
-description='What is NEW:\n-Add new option to change VirtualKeyBoard style\n\n*************************\n:ما هو الجديد\n- إضافة خاصية جديدة لتغير شكل الكيبورد'
+version='6.3'
+description='What is NEW:\n-Update VirtualKeyBoard\n\n*************************\n:ما هو الجديد\n- تحديث الكيبورد'
 ##############################################################
 
 ###########################################
