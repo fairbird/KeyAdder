@@ -70,17 +70,17 @@ def VirtualKeyBoardEntryComponent(keys, selectedKey, shiftMode=False):
 			if key == "EXIT":
 				if selectedKey == count:
 					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="EXIT",
-									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgselcancel))
 				else:
 					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="EXIT",
-									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgcancel))
 			elif key == "BACKSPACE":
 				if selectedKey == count:
 					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="BACKSPACE",
-									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgselcancel))
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgsel))
 				else:
 					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=1, text="BACKSPACE",
-									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgcancel))
+									  	flags=RT_HALIGN_CENTER | RT_VALIGN_CENTER, backcolor=bgkey))
 			elif key == "CLEAR":
 				if selectedKey == count:
 					res.append(MultiContentEntryText(pos=(x + 3, 3), size=(width - 6, height - 6), font=0, text="CLR",
@@ -273,8 +273,7 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 			}, -2)
 		self["ShortcutActions"] = HelpableActionMap(self, "ShortcutActions",
 			{
-				"red": (self.backClicked, _("Delete (left of the cursor)")),
-				"blue": (self.backSpace, _("Delete (right of the cursor)")),
+				"red": (self.exit, _("Delete (left of the cursor)")),
 				"green": (self.ok, _("Save")),
 			}, -2)
 		self["WizardActions"] = HelpableActionMap(self, "WizardActions",
