@@ -8,7 +8,7 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='6.3'
+version='6.4'
 description='What is NEW:\n-Update VirtualKeyBoard\n\n*************************\n:ما هو الجديد\n- تحديث الكيبورد'
 ##############################################################
 
