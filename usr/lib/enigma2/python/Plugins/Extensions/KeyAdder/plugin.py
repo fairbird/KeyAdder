@@ -474,7 +474,7 @@ class HexKeyBoard(VirtualKeyBoardKeyAdder):
 def saveKey(key):
      try:
       f=open("/usr/keys/savekeys","w")
-      f.write(str(key))
+      f.write(str(key.replace("|", "")))
       f.close()
      except:
              pass
