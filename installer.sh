@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='6.4'
-description='What is NEW:\n-Update VirtualKeyBoard\n\n*************************\n:ما هو الجديد\n- تحديث الكيبورد'
+version='6.5'
+description='What is NEW:\n-Fix green button to save new key\n\n*************************\n:ما هو الجديد\n- إصلاح الزر الأخضر لحفظ المفاتح الجديد'
 ##############################################################
 
 ###########################################
