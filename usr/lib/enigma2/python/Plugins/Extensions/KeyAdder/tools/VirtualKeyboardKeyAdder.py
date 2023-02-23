@@ -274,7 +274,7 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 		self["ShortcutActions"] = HelpableActionMap(self, "ShortcutActions",
 			{
 				"red": (self.exit, _("Delete (left of the cursor)")),
-				"green": (self.ok, _("Save")),
+				"green": (self.save, _("Save")),
 			}, -2)
 		self["WizardActions"] = HelpableActionMap(self, "WizardActions",
 			{
@@ -302,7 +302,6 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 				"0": self.keyNumberGlobal
 			})
 
-		
 		self.set_GUI_Text()
 		HelpableScreen.__init__(self)
 		self.onExecBegin.append(self.setKeyboardModeAscii)
@@ -602,6 +601,9 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 			text = self.text.encode("utf-8")
 		text = text.replace(self.cursor, "")
 		self.close(text)
+
+	def save(self):
+		self.close(self["text"].getText())
 
 	def exit(self):
 		self.close(None)
