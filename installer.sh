@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='6.5'
-description='What is NEW:\n-Fix green button to save new key\n\n*************************\n:ما هو الجديد\n- إصلاح الزر الأخضر لحفظ المفاتح الجديد'
+version='6.6'
+description='What is NEW:\n-Add (smcam and MOHAMED_Nasr) to download area.\n-Improve the keyboard.\n\n*************************\n:ما هو الجديد\n- لمنطقة تحديث السوفت كام (smcam and MOHAMED_Nasr) إضافة\n- تحسين الكيبورد'
 ##############################################################
 
 ###########################################
