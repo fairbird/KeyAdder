@@ -314,17 +314,17 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 		if isHD():
 			skin = """<screen backgroundColor="#70000000" flags="wfNoBorder" name="VirtualKeyBoard KeyAdder" position="0,0" size="1280,720" title="Virtual KeyBoard" transparent="0" zPosition="99">
 				<eLabel position="132,474" size="1280,246" backgroundColor="#70000000"/>
-				<widget backgroundColor="#70000000" font="Regular;24" foregroundColor="#DCE1E3" name="header" noWrap="1" position="132,155" size="1020,40" transparent="1" valign="center" zPosition="30" />
-				<widget backgroundColor="#70000000" foregroundColor="{}" name="list" position="10,480" selectionDisabled="1" size="1265,235"  transparent="0" zPosition="30" />
-				<widget backgroundColor="{}" font="Regular;26" foregroundColor="{}" halign="right" name="text" noWrap="1" position="center,200" size="1020,50" valign="center" zPosition="30" />
-			</screen>""".format(primaryColorLabel,primaryColor,primaryColorLabel)
+				<widget name="header" backgroundColor="#70000000" font="Regular;26" foregroundColor="#DCE1E3" noWrap="1" position="132,155" size="1020,40" transparent="1" valign="center" zPosition="30" />
+				<widget name="list" backgroundColor="#70000000" foregroundColor="{}" position="10,480" selectionDisabled="1" size="1265,235"  transparent="0" zPosition="30" />
+				<widget name="text" backgroundColor="{}" font="Regular;35" foregroundColor="{}" halign="center" noWrap="1" position="center,200" size="1020,50" valign="center" zPosition="30" />
+			</screen>""".format(primaryColorLabel, primaryColor, primaryColorLabel)
 		else:
 			skin = """<screen backgroundColor="#70000000" flags="wfNoBorder" name="VirtualKeyBoard KeyAdder" position="0,0" size="1920,1080" title="Virtual KeyBoard" transparent="0" zPosition="99">
 				<eLabel position="0,720" size="1920,360" backgroundColor="#70000000"/>
-				<widget backgroundColor="#70000000" font="Regular;30" foregroundColor="#DCE1E3" name="header" noWrap="1" position="center,260" size="1235,40" transparent="1" valign="center" zPosition="30" />
-				<widget backgroundColor="#70000000" foregroundColor="{}" name="list" position="20,725" selectionDisabled="1" size="1880,350" transparent="0" zPosition="30" />
-				<widget backgroundColor="{}" font="Regular;33" foregroundColor="{}" halign="right" name="text" noWrap="1" position="center,300" size="1235,70" valign="center" zPosition="30" />
-			</screen>""".format(primaryColorLabel,primaryColor,primaryColorLabel)
+				<widget name="header" backgroundColor="#70000000" font="Regular;35" foregroundColor="#DCE1E3" noWrap="1" position="center,260" size="1235,40" transparent="1" valign="center" zPosition="30" />
+				<widget name="list" backgroundColor="#70000000" foregroundColor="{}" position="20,725" selectionDisabled="1" size="1880,350" transparent="0" zPosition="30" />
+				<widget name="text" backgroundColor="{}" font="Regular;60" foregroundColor="{}" halign="center" noWrap="1" position="center,300" size="1235,70" valign="center" zPosition="30" />
+			</screen>""".format(primaryColorLabel, primaryColor, primaryColorLabel)
 
 		return skin
 

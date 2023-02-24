@@ -247,9 +247,11 @@ class KeyAdderUpdate(Screen):
 
     def siteselect(self):
         list1 = []
+        list1.append(("smcam (Always Updated)", "smcam"))
         list1.append(("softcam.org (Always Updated)", "softcam.org"))
-        list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
         list1.append(("enigma1969 (Always Updated)", "enigma1969"))
+        list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
+        list1.append(("MOHAMED_Nasr (Always Updated)", "MOHAMED_Nasr"))
         list1.append(("Serjoga", "Serjoga"))
         self.session.openWithCallback(self.Downloadkeys, ChoiceBox, _('select site to downloan file'), list1)
            
@@ -267,6 +269,14 @@ class KeyAdderUpdate(Screen):
                 self.session.open(imagedownloadScreen,'softcam',SoftCamKey, myurl)
             elif select[1] == "MOHAMED_OS":
                 myurl = 'https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/Enigma2/SoftCam.Key'
+                command = 'wget -q %s %s %s %s' % (crt, agent, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,'softcam',SoftCamKey,myurl)
+            elif select[1] == "MOHAMED_Nasr":
+                myurl = 'https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key'
+                command = 'wget -q %s %s %s %s' % (crt, agent, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,'softcam',SoftCamKey,myurl)
+            elif select[1] == "smcam":
+                myurl = 'https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key'
                 command = 'wget -q %s %s %s %s' % (crt, agent, SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,'softcam',SoftCamKey,myurl)
             elif select[1] == "enigma1969":
@@ -427,49 +437,20 @@ class KeyAdderUpdate(Screen):
     def myCallback(self,result):
          return
 
+
 class HexKeyBoard(VirtualKeyBoardKeyAdder):
       def __init__(self, session, title="", **kwargs):
             VirtualKeyBoardKeyAdder.__init__(self, session, title, **kwargs)
 
-            self.skinName = "VirtualKeyBoardKeyAdder"
-            self.keys_list = [[
-                               [u"EXIT", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"0", u"BACKSPACE", u"", u""],
-                               [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"ALL", u"CLR", u"", u""]
-                             ]]
             self.locales = { "hex" : [_("HEX"), _("HEX"), self.keys_list] }
             self.lang = "hex"
-            try:
-                 self.setLocale()
-            except:
-                 self.max_key = all
-                 self.setLang()
+            self.max_key = all
+            self.setLang()
             self.buildVirtualKeyBoard()
 
       def setLang(self):
             self.keys_list = [[u"EXIT", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"0", u"BACKSPACE"],
-                                 [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"ALL", u"CLEAR"]]
-
-      #def Menucopypast(self):
-      #      choices=[]
-      #      choices.append(("Copy keys", "Copy"))
-      #      choices.append(("Paste keys", "Paste"))
-      #      self.session.openWithCallback(self.choicesback, ChoiceBox, _('select task'),choices)
-
-      #def choicesback(self, select):
-      #      if select:
-      #          #if select[1] == "Copy":
-                #         self.session.open(MessageBox, "Copy Function Test", MessageBox.TYPE_INFO, timeout=10)
-      #          if select[1] == "Paste":
-      #                   value=self.readKey()
-      #                   if value!='':
-      #                      self["text"].setText(value)
-
-      #def readKey(self):
-      #      if os.path.exists("/usr/keys/savekeys"):
-      #         key=open("/usr/keys/savekeys").read()
-      #         return key
-      #      else:
-      #         return ""
+                                 [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"EXIT"]]
 
 def saveKey(key):
      try:
