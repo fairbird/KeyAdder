@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='6.6'
-description='What is NEW:\n-Add (smcam and MOHAMED_Nasr) to download area.\n-Improve the keyboard.\n\n*************************\n:ما هو الجديد\n- لمنطقة تحديث السوفت كام (smcam and MOHAMED_Nasr) إضافة\n- تحسين الكيبورد'
+version='6.7'
+description='What is NEW:\n-Some improvement in custom path select to softcam.key files.\n\n*************************\n:ما هو الجديد\n- softcam.key حدد بعض التحسينات في المسار المخصص لملفات'
 ##############################################################
 
 ###########################################
