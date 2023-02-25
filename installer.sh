@@ -9,7 +9,7 @@
 
 ######### Only These two lines to edit with new version ######
 version='6.7'
-description='What is NEW:\n-Some improvement in custom path select to softcam.key files.\n\n*************************\n:ما هو الجديد\n- softcam.key حدد بعض التحسينات في المسار المخصص لملفات'
+description='What is NEW:\n-Some improvement in custom path select to softcam.key files.\n\n*************************\n:ما هو الجديد\n- softcam.key بعض التحسينات في المسار المخصص لملفات'
 ##############################################################
 
 ###########################################
