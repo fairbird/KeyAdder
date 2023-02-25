@@ -15,7 +15,10 @@ from Screens.Standby import TryQuitMainloop
 from Screens.ChoiceBox import ChoiceBox
 from Screens.InputBox import InputBox
 from Components.Input import Input
+from Components.Sources.StaticText import StaticText
+from Components.FileList import FileList
 from Components.ActionMap import ActionMap, NumberActionMap
+from Components.Label import Label
 from array import array
 from string import hexdigits
 from datetime import datetime
@@ -150,6 +153,7 @@ class KeyAdderUpdate(Screen):
     if reswidth == 1920:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="704,424" backgroundColor="#16000000" title="KeyAdderUpdate">
+                	<widget name="pathfile" position="center,5" size="650,38" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
                         <widget name="menu" position="center,43" size="650,306" backgroundColor="#16000000"/>
                         <eLabel position="25,360" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
                         <eLabel text="MENU" font="Regular;30" position="28,364" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
@@ -158,6 +162,7 @@ class KeyAdderUpdate(Screen):
     else:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate">
+                	<widget name="pathfile" position="5,-10" size="450,40" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
                         <widget name="menu" position="15,25" size="450,230" backgroundColor="#16000000"/>
                         <eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
                         <eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
@@ -172,6 +177,9 @@ class KeyAdderUpdate(Screen):
          'back': self.close,
          'menu' :self.showMenuoptions})
         title = 'KeyAdder Version %s' % VER
+        self["pathfile"] = Label()
+        self["pathfile"].setText("Current Path : " + findSoftCamKey())
+        self.softcampath = config.plugins.KeyAdder.custom_softcampath.value
         menuData = []
         menuData.append((0, 'Add key Manually', 'key'))
         menuData.append((1, 'Update Softcam online', 'update'))
@@ -189,11 +197,11 @@ class KeyAdderUpdate(Screen):
 
     def select(self):
         index = self['menu'].getSelectionIndex()
-        if index==0:
+        if index == 0:
                 keymenu(self.session)
-        elif index==1:
+        elif index == 1:
                 self.siteselect()
-        elif index==2:
+        elif index == 2:
                 if config.plugins.KeyAdder.softcampath.value == True:
                         self.pathselect()
                 else:
@@ -202,48 +210,8 @@ class KeyAdderUpdate(Screen):
             self.close()
 
     def pathselect(self):
-        paths = ["/var/keys",
-               "/etc",
-               "/etc/tuxbox/config",
-               "/etc/tuxbox/config/ncam",
-               "/etc/tuxbox/config/oscam",
-               "/etc/tuxbox/config/gcam",
-               "/etc/tuxbox/config/oscam-emu",
-               "/etc/tuxbox/config/oscam-trunk",
-               "Add your custom path"]
-        list=[]
-        for path in paths:
-                pathsfiles = path.split('" "')
-                list.append((pathsfiles))
-        from Screens.ChoiceBox import ChoiceBox
-        self.session.openWithCallback(self.pathCallback, ChoiceBox, _('select your softcams file path'), list)
-
-    def pathCallback(self, result):
-         if result:
-             customPath = result[0]
-             if customPath == "Add your custom path":
-                from Screens.VirtualKeyBoard import VirtualKeyBoard
-                self.session.openWithCallback(self.savepath, VirtualKeyBoard, title=_("Please enter the path"), text="")
-             else:
-                config.plugins.KeyAdder.custom_softcampath.value = customPath
-             config.plugins.KeyAdder.custom_softcampath.save()
-             configfile.save()
-             softcamkey = os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
-             if not os_path.exists(softcamkey):
-                os.system('mkdir -p %s' % config.plugins.KeyAdder.custom_softcampath.value)
-                #os.system('touch %s/SoftCam.Key' % config.plugins.KeyAdder.custom_softcampath.value)
-         return
-
-    def savepath(self, word):
-         if word is None:
-                pass
-         else:
-                config.plugins.KeyAdder.custom_softcampath.value = word
-                config.plugins.KeyAdder.custom_softcampath.save()
-                configfile.save()
-                softcamkey = os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
-                if not os_path.exists(softcamkey):
-                        os.system('mkdir -p %s' % config.plugins.KeyAdder.custom_softcampath.value)
+        self.session.open(PathsSelect)
+        self.close()
 
     def siteselect(self):
         list1 = []
@@ -345,9 +313,9 @@ class KeyAdderUpdate(Screen):
         else:
                 choices.append(("Press Ok to [Disable auto softCam file path]","disablesoftcampath"))
         if EnablekeyboardStyle == False:
-        	choices.append(("Press Ok to [Enable New keyboard Style]","enablekeyboardStyle"))
+                choices.append(("Press Ok to [Enable New keyboard Style]","enablekeyboardStyle"))
         else:
-        	choices.append(("Press Ok to [Enable Old keyboard Style]","disablekeyboardStyle"))
+                choices.append(("Press Ok to [Enable Old keyboard Style]","disablekeyboardStyle"))
         self.session.openWithCallback(self.choicesback, ChoiceBox, _('select task'),choices)
 
     def choicesback(self, select):
@@ -436,6 +404,107 @@ class KeyAdderUpdate(Screen):
 
     def myCallback(self,result):
          return
+
+
+class PathsSelect(Screen):
+        if reswidth == 1920:
+                if DreamOS():
+                        skin = """
+                                <screen name="PathsSelect" position="center,center" size="906,812" title="Select Select" >
+                                        <eLabel position="180,805" size="170,3" foregroundColor="#00ff2525" backgroundColor="#00ff2525"/>
+                                        <eLabel position="525,805" size="170,3" foregroundColor="#00389416" backgroundColor="#00389416"/>
+                                        <widget name="list_head" position="5,5" size="891,40" font="Regular;28" foregroundColor="#00cccc40"/>
+                                        <widget source="key_red" render="Label" position="180,765" zPosition="1" size="170,40" font="Regular;28" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+                                        <widget source="key_green" render="Label" position="525,765" zPosition="1" size="170,40" font="Regular;28" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+                                        <widget name="checkList" font="Regular;28" position="5,50" zPosition="2" size="892,707" scrollbarMode="showOnDemand"/>
+                                </screen>"""
+                else:
+                        skin = """
+                                <screen name="PathsSelect" position="center,center" size="906,812" title="Select Select" >
+                                        <eLabel position="180,805" size="170,3" foregroundColor="#00ff2525" backgroundColor="#00ff2525"/>
+                                        <eLabel position="525,805" size="170,3" foregroundColor="#00389416" backgroundColor="#00389416"/>
+                                        <widget name="list_head" position="5,5" size="891,40" font="Regular;28" foregroundColor="#00cccc40"/>
+                                        <widget source="key_red" render="Label" position="180,765" zPosition="1" size="170,40" font="Regular;28" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+                                        <widget source="key_green" render="Label" position="525,765" zPosition="1" size="170,40" font="Regular;28" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+                                        <widget name="checkList" font="Regular;28" itemHeight="40" position="5,50" zPosition="2" size="892,707" scrollbarMode="showOnDemand"/>
+                                </screen>"""
+        else:
+                skin = """
+                        <screen name="PathsSelect" position="center,center" size="708,590" title="Select Select" >
+                                <eLabel position="95,580" size="170,3" foregroundColor="#00ff2525" backgroundColor="#00ff2525"/>
+                                <eLabel position="415,580" size="170,3" foregroundColor="#00389416" backgroundColor="#00389416"/>
+                                <widget name="list_head" position="5,5" size="689,38" font="Regular;24" foregroundColor="#00cccc40"/>
+                                <widget source="key_red" render="Label" position="95,540" zPosition="1" size="170,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+                                <widget source="key_green" render="Label" position="415,540" zPosition="1" size="170,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+                                <widget name="checkList" position="5,50" zPosition="2" size="693,483" scrollbarMode="showOnDemand"/>
+                        </screen>"""
+
+        def __init__(self, session):
+                Screen.__init__(self, session)
+                self.setTitle(_("Select Softcam.key Path"))
+
+                self["actions"] = ActionMap(["OkCancelActions", "ColorActions", "DirectionActions", "MenuActions"],
+                {
+                        "cancel": self.exit,
+                        "red": self.exit,
+                        "green": self.saveSelection,
+                        "ok": self.okClicked,
+                        "left": self.left,
+                        "right": self.right,
+                        "down": self.down,
+                        "up": self.up
+                }, -1)
+
+                self["key_red"] = StaticText(_("Close"))
+                self["key_green"] = StaticText(_("Save"))
+
+                self["list_head"] = Label()
+
+                self.filelist = FileList("/", matchingPattern="")
+                self["checkList"] = self.filelist
+                self.onLayoutFinish.append(self.layoutFinished)
+                self.updateHead()
+
+        def layoutFinished(self):
+                idx = 0
+                self["checkList"].moveToIndex(idx)
+
+        def up(self):
+                self["checkList"].up()
+                self.updateHead()
+
+        def down(self):
+                self["checkList"].down()
+                self.updateHead()
+
+        def left(self):
+                self["checkList"].pageUp()
+                self.updateHead()
+
+        def right(self):
+                self["checkList"].pageDown()
+                self.updateHead()
+
+        def updateHead(self):
+                curdir = self["checkList"].getCurrentDirectory()
+                self["list_head"].setText(curdir)
+
+        def saveSelection(self):
+                self.selectedFiles = self["checkList"].getCurrentDirectory()
+                config.plugins.KeyAdder.custom_softcampath.value = self.selectedFiles
+                config.plugins.KeyAdder.custom_softcampath.save()
+                configfile.save()
+                softcamkey = os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
+                if not os_path.exists(softcamkey):
+                	os.system('mkdir -p %s' % config.plugins.KeyAdder.custom_softcampath.value)
+                self.close(True)
+
+        def okClicked(self):
+                if self.filelist.canDescent():
+                        self.filelist.descent()
+
+        def exit(self):
+                self.close(True)
 
 
 class HexKeyBoard(VirtualKeyBoardKeyAdder):
