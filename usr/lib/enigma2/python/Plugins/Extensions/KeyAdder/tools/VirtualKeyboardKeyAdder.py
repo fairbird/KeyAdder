@@ -11,7 +11,7 @@ from Components.MenuList import MenuList
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
 from Screens.HelpMenu import HelpableScreen
 from enigma import eWidget, gRGB, getDesktop
-from Tools.Directories import resolveFilename, SCOPE_PLUGINS
+from Tools.Directories import resolveFilename, SCOPE_PLUGINS, fileExists
 from Tools.LoadPixmap import LoadPixmap
 from Tools.NumericalTextInput import NumericalTextInput
 import skin, os
@@ -589,6 +589,8 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 				self.set_GUI_Text()
 
 	def readKey(self):
+		if not fileExists(save_key):
+            		os.system("touch %s" % save_key)
 		with open(save_key, "r") as lists:
 			list = []
 			for key in lists:
