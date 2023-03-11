@@ -9,7 +9,7 @@
 
 ######### Only These two lines to edit with new version ######
 version='6.9'
-description='What is NEW:\n- Add New option to menu for choose number of save keys.\n- Add New button (Clean/Paste) keyboard to clean savefile.\n\n*************************\n:ما هو الجديد\n- .إضافة خيار جديد في قائمة الاعدادات لاختيار عدد المفاتيح التي تريي تخزينها\n- إضافة زر جديد إلى الكيبورد لمسح ملف تخزين المفاتيح'
+description='What is NEW:\n- Add New option to menu for choose number of save keys.\n- Add New button (Clean/Paste) keyboard to clean savefile.\n\n*************************\n:ما هو الجديد\n- .إضافة خيار جديد في قائمة الاعدادات لاختيار عدد المفاتيح التي تريد تخزينها\n- إضافة زر جديد إلى الكيبورد لمسح ملف تخزين المفاتيح'
 ##############################################################
 
 ###########################################
