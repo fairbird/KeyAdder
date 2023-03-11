@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='6.7'
-description='What is NEW:\n-Some improvement in custom path select to softcam.key files.\n\n*************************\n:ما هو الجديد\n- softcam.key بعض التحسينات في المسار المخصص لملفات'
+version='6.8'
+description='What is NEW:\n-Update Copy/Paste Option (Now Save latest 5 keys).\n\n*************************\n:ما هو الجديد\n- تحديث خاصية حفظ/طباعة الشفرات الأن يمكن تخزين اخر خمس شفرات'
 ##############################################################
 
 ###########################################
