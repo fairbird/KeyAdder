@@ -51,6 +51,8 @@ BRANDTS='/usr/lib/enigma2/python/Plugins/TSimage/__init__.pyo' ## TS
 BRANDOS='/var/lib/dpkg/status' ## DreamOS
 BRANDVU='/proc/stb/info/vumodel' ## VU+
 
+save_key = "/etc/enigma2/savekeys"
+
 def DreamOS():
     if os_path.exists('/var/lib/dpkg/status'):
         return DreamOS
@@ -522,12 +524,50 @@ class HexKeyBoard(VirtualKeyBoardKeyAdder):
                                  [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"EXIT"]]
 
 def saveKey(key):
-     try:
-      f=open("/usr/keys/savekeys","w")
-      f.write(str(key.replace("|", "")))
-      f.close()
-     except:
-             pass
+	try:
+            if key != None:
+            	## read save keys file
+            	if not fileExists(save_key):
+            		os.system("touch %s" % save_key)
+            		with open(save_key, "w") as f:
+            			f.writelines(str(key.replace("|", "") + "\n"))
+            			return
+            	## Replace new key with None value
+            	with open(save_key, "r") as r:
+            		for line in r:
+              			line = line.strip()
+              			if line == "None":
+              				with open(save_key, "w") as r:
+              					r.write(str(key.replace("|", "") + "\n"))
+              					return
+            	with open(save_key, "r") as file:
+            		keyslist = [line.rstrip("\n") for line in file]
+            	## check current key if in list
+            	currentkey = str(key.replace("|", ""))
+            	if currentkey in keyslist:
+            		print("[KeyAdder] ****** Key already in save list")
+            		return
+            	## count numbers of lines
+            	lines = 1
+            	with open(save_key, "r") as file:
+            		for i, l in enumerate(file):
+            			lines = i + 1
+            	## save key in line 5 If the specified number is exceeded
+            	with open(save_key, "r") as file:
+            		data = file.readlines()
+            	print("[KeyAdder] lines ************** %s" % lines)
+            	if lines == 5:
+            		with open(save_key, "w") as f:
+            			for i,line in enumerate(data,1):
+            				if i == 5:
+            					f.writelines("%s" % currentkey)
+            				else:
+            					f.writelines("%s" % line)
+            	else:
+            		with open(save_key, "a") as f:
+            			f.writelines(str(key.replace("|", "") + "\n"))
+	except Exception as error:
+            	trace_error()
 
 table = array('L')
 for byte in range(256):
@@ -619,13 +659,13 @@ def keymenu(session, service=None):
       
 def setKeyCallback(session, SoftCamKey, key):
       global newcaid
-      saveKey(key)
       service = session.nav.getCurrentService()
       info = service and service.info()
       caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
       SoftCamKey = findSoftCamKey()
       ref = session.nav.getCurrentlyPlayingServiceReference()
       if key: key = "".join(c for c in key if c in hexdigits).upper()
+      saveKey(key)
       if key and len(key) == 14:
             if key != findKeyPowerVU(session, SoftCamKey, ""): # no change was made ## PowerVU
                   keystr = "P %s 00 %s" % (getonidsid(session), key)
@@ -633,7 +673,7 @@ def setKeyCallback(session, SoftCamKey, key):
                   datastr = "\n%s ; Added on %s for %s at %s\n" % (keystr, datetime.now(), name, getOrb(session))
                   restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                   open(SoftCamKey, "a").write(datastr)
-                  eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                  #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                   session.open(MessageBox, _("PowerVU key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
       elif key and len(key) == 16:
             if 0x2600 in caids:
@@ -643,7 +683,7 @@ def setKeyCallback(session, SoftCamKey, key):
                        datastr = "\n%s ; Added on %s for %s at %s\n" % (keystr, datetime.now(), name, getOrb(session))
                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                        open(SoftCamKey, "a").write(datastr)
-                       eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                       #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                        session.open(MessageBox, _("BISS key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
             else:
                  if key != findKeyTandberg(session, SoftCamKey, ""): # no change was made ## Tandberg
@@ -653,7 +693,7 @@ def setKeyCallback(session, SoftCamKey, key):
                        datastr = "\n%s ; Added on %s for %s at %s\n" % (keystr, datetime.now(), name, getOrb(session))
                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"       
                        open(SoftCamKey, "a").write(datastr)
-                       eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                       #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                        session.open(MessageBox, _("Tandberg key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
       elif key and len(key) == 32:
             if key != findKeyIRDETO(session, SoftCamKey, ""): # no change was made ## IRDETO
@@ -662,7 +702,7 @@ def setKeyCallback(session, SoftCamKey, key):
                   datastr = "\n%s ; Added on %s for %s at %s\n" % (keystr, datetime.now(), name, getOrb(session))
                   restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                   open(SoftCamKey, "a").write(datastr)
-                  eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                  #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                   session.open(MessageBox, _("IRDETO key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
       elif key:
                session.openWithCallback(boundFunction(setKeyCallback, session,SoftCamKey), HexKeyBoard,

@@ -20,6 +20,8 @@ from sys import version_info
 
 from Plugins.Extensions.KeyAdder.tools.VirtualKeyBoard_Icons.skin import SKIN_HD, SKIN_FHD
 
+save_key = "/etc/enigma2/savekeys"
+
 def getDesktopSize():
     s = getDesktop(0).size()
     return (s.width(), s.height())
@@ -576,8 +578,7 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 		elif text == "RIGHT":
 			self.cursorRight()
 		elif text == "PASTE":
-			value = self.readKey()
-			self["text"].setText(value)
+			self.readKey()
 		else:
 			if self.nb_only:
 				if len(self.text.replace('XcursorX','')) < 14:
@@ -588,11 +589,19 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 				self.set_GUI_Text()
 
 	def readKey(self):
-		if os.path.exists("/usr/keys/savekeys"):
-			key = open("/usr/keys/savekeys").read()
-			return key
-		else:
-			return ""
+		with open(save_key, "r") as lists:
+			list = []
+			for key in lists:
+				keys = key.split('" "')
+				list.append((keys))
+		from Screens.ChoiceBox import ChoiceBox
+		from Tools.BoundFunction import boundFunction
+		self.session.openWithCallback(self.keyCallback, ChoiceBox, title=_("choose the key to paste it"), list=list)
+
+	def keyCallback(self, result):
+		if result:
+			self["text"].setText(result[0])
+			return
 
 	def ok(self):
 		if PY3:
