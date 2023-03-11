@@ -42,7 +42,10 @@ config.plugins.KeyAdder.update = ConfigYesNo(default=True)
 config.plugins.KeyAdder.lastcaid = ConfigText(default="0", fixed_size=False)
 config.plugins.KeyAdder.softcampath = ConfigYesNo(default=False) #False = Auto Detecte path
 config.plugins.KeyAdder.custom_softcampath = ConfigText(default="/usr/keys", visible_width = 250, fixed_size = False)
-config.plugins.KeyAdder.keyboardStyle = ConfigYesNo(default=True)
+config.plugins.KeyAdder.keyboardStyle = ConfigSelection(default = "Style2", choices = [
+	("Style1", _("Old Style keyboard")),
+	("Style2", _("New Style keyboard""))
+	])
 config.plugins.KeyAdder.savenumber = ConfigSelectionNumber(1, 20, 1, default=5)
 BRANATV="/usr/lib/enigma2/python/boxbranding.so" ## OpenATV
 BRANDPLI="/usr/share/enigma2/rc_models/rc_models.cfg" ## OpenPLI/OV
