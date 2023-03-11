@@ -521,7 +521,7 @@ class HexKeyBoard(VirtualKeyBoardKeyAdder):
 
       def setLang(self):
             self.keys_list = [[u"EXIT", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"0", u"BACKSPACE"],
-                                 [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"EXIT"]]
+                                 [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"Clean/PASTE"]]
 
 def saveKey(key):
 	try:
