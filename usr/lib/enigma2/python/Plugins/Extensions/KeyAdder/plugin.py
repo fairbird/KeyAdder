@@ -853,16 +853,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
                         if len(x)>1:
                                 x[1].save()
                 configfile.save()
-                if not self.EnablekeyboardStyle_value == config.plugins.KeyAdder.keyboardStyle.value:
-                        self.session.openWithCallback(self.restart, MessageBox, _("Do you want to Restart GUI now ?!!"))
-                else:
-                	self.close()
-
-        def restart(self, answer=None):
-                if answer:
-                    self.session.open(TryQuitMainloop, 3)
-                    return
-                self.close(True)
+                self.close()
 
 
 def main(session, **kwargs):
