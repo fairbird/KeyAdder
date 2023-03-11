@@ -49,7 +49,7 @@ class VirtualKeyBoardList(MenuList):
 			self.l.setItemHeight(45)
 
 def VirtualKeyBoardEntryComponent(keys, selectedKey, shiftMode=False):
-	if config.plugins.KeyAdder.keyboardStyle.value == True:
+	if config.plugins.KeyAdder.keyboardStyle.value == "Style2":
 		res = [(keys)]
 		primaryColor = '#282828'
 		secondaryColor = '#4e4e4e'
@@ -228,7 +228,7 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 	def __init__(self, session, title="", text="",nb_only=False):
 		Screen.__init__(self, session)
 		NumericalTextInput.__init__(self, nextFunc=self.timeoutNI, handleTimeout=True)
-		if config.plugins.KeyAdder.keyboardStyle.value == True:
+		if config.plugins.KeyAdder.keyboardStyle.value == "Style2":
 			self.skin = self.buildSKin()
 		else:
 			if isHD():
