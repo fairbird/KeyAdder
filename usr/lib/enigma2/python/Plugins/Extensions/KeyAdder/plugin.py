@@ -4,7 +4,7 @@
 
 from enigma import eConsoleAppContainer, eDVBDB, iServiceInformation, eTimer, loadPNG, getDesktop, RT_WRAP, RT_HALIGN_LEFT, RT_VALIGN_CENTER, eListboxPythonMultiContent, gFont
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
-from Components.config import config, getConfigListEntry, ConfigText, ConfigSubsection, ConfigYesNo, configfile, ConfigSelection
+from Components.config import config, getConfigListEntry, ConfigText, ConfigSelectionNumber, ConfigSubsection, ConfigYesNo, configfile, ConfigSelection
 from Components.ConfigList import ConfigListScreen
 from Plugins.Plugin import PluginDescriptor
 from Tools.BoundFunction import boundFunction
@@ -37,28 +37,28 @@ from Plugins.Extensions.KeyAdder.tools.compat import PY3
 VER = getversioninfo()
 
 reswidth = getDesktop(0).size().width()
-resheight = getDesktop(0).size().height()
 config.plugins.KeyAdder = ConfigSubsection()
 config.plugins.KeyAdder.update = ConfigYesNo(default=True)
-config.plugins.KeyAdder.lastcaid = ConfigText(default='0', fixed_size=False)
+config.plugins.KeyAdder.lastcaid = ConfigText(default="0", fixed_size=False)
 config.plugins.KeyAdder.softcampath = ConfigYesNo(default=False) #False = Auto Detecte path
 config.plugins.KeyAdder.custom_softcampath = ConfigText(default="/usr/keys", visible_width = 250, fixed_size = False)
 config.plugins.KeyAdder.keyboardStyle = ConfigYesNo(default=True)
-BRANATV='/usr/lib/enigma2/python/boxbranding.so' ## OpenATV
-BRANDPLI='/usr/share/enigma2/rc_models/rc_models.cfg' ## OpenPLI/OV
-BRANDOPEN='/usr/lib/enigma2/python/Tools/StbHardware.pyo' ## Open source
-BRANDTS='/usr/lib/enigma2/python/Plugins/TSimage/__init__.pyo' ## TS
-BRANDOS='/var/lib/dpkg/status' ## DreamOS
-BRANDVU='/proc/stb/info/vumodel' ## VU+
+config.plugins.KeyAdder.savenumber = ConfigSelectionNumber(1, 20, 1, default=5)
+BRANATV="/usr/lib/enigma2/python/boxbranding.so" ## OpenATV
+BRANDPLI="/usr/share/enigma2/rc_models/rc_models.cfg" ## OpenPLI/OV
+BRANDOPEN="/usr/lib/enigma2/python/Tools/StbHardware.pyo" ## Open source
+BRANDTS="/usr/lib/enigma2/python/Plugins/TSimage/__init__.pyo" ## TS
+BRANDOS="/var/lib/dpkg/status" ## DreamOS
+BRANDVU="/proc/stb/info/vumodel" ## VU+
 
 save_key = "/etc/enigma2/savekeys"
 
 def DreamOS():
-    if os_path.exists('/var/lib/dpkg/status'):
+    if os_path.exists("/var/lib/dpkg/status"):
         return DreamOS
 
 def BHVU():
-    if os.path.exists('/proc/stb/info/vumodel') and os.path.exists('/usr/lib/enigma2/python/Blackhole'):
+    if os.path.exists("/proc/stb/info/vumodel") and os.path.exists("/usr/lib/enigma2/python/Blackhole"):
         return BHVU
 
 def VTI():
@@ -68,11 +68,11 @@ def VTI():
 
 from Plugins.Extensions.KeyAdder.tools.VirtualKeyboardKeyAdder import VirtualKeyBoardKeyAdder
 
-def logdata(label_name = '', data = None):
+def logdata(label_name = "", data = None):
     try:
         data=str(data)
-        fp = open('/tmp/KeyAdder.log', 'a')
-        fp.write( str(label_name) + ': ' + data+"\n")
+        fp = open("/tmp/KeyAdder.log", "a")
+        fp.write( str(label_name) + ": " + data+"\n")
         fp.close()
     except:
         trace_error()    
@@ -83,7 +83,7 @@ def trace_error():
     import traceback
     try:
         traceback.print_exc(file=sys.stdout)
-        traceback.print_exc(file=open('/tmp/KeyAdderError.log', 'a'))
+        traceback.print_exc(file=open("/tmp/KeyAdderError.log", "a"))
     except:
         pass
 
@@ -96,7 +96,7 @@ def getnewcaid(SoftCamKey):
           lines=open(SoftCamKey).readlines()
           for line in lines:
               line=line.strip()
-              if line.startswith('T'):
+              if line.startswith("T"):
                 caidnumber=line[2:6]
                 try:
                         caidnumbers.append(int(caidnumber))
@@ -155,7 +155,7 @@ class KeyAdderUpdate(Screen):
     if reswidth == 1920:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="704,424" backgroundColor="#16000000" title="KeyAdderUpdate">
-                	<widget name="pathfile" position="center,5" size="650,38" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                        <widget name="pathfile" position="center,5" size="650,38" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
                         <widget name="menu" position="center,43" size="650,306" backgroundColor="#16000000"/>
                         <eLabel position="25,360" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
                         <eLabel text="MENU" font="Regular;30" position="28,364" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
@@ -164,32 +164,37 @@ class KeyAdderUpdate(Screen):
     else:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate">
-                	<widget name="pathfile" position="5,-10" size="450,40" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                        <widget name="pathfile" position="5,-10" size="450,40" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
                         <widget name="menu" position="15,25" size="450,230" backgroundColor="#16000000"/>
                         <eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
                         <eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
                         <eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
                 </screen>'''
 
-    def __init__(self, session, title='', datalist = []):
+    def __init__(self, session, title="", datalist = []):
         Screen.__init__(self, session)
-        self['menu'] = MenuList([], enableWrapAround=True, content=eListboxPythonMultiContent)
-        self['actions'] = ActionMap(['WizardActions', 'ColorActions','MenuActions'], {
-         'ok': self.select,
-         'back': self.close,
-         'menu' :self.showMenuoptions})
-        title = 'KeyAdder Version %s' % VER
+        self["menu"] = MenuList([], enableWrapAround=True, content=eListboxPythonMultiContent)
+        self["actions"] = ActionMap(["WizardActions", "ColorActions","MenuActions"],
+        {
+                "ok": self.select,
+                "back": self.close,
+                "menu" :self.menu,
+         })
+        title = "KeyAdder Version %s" % VER
         self["pathfile"] = Label()
         self["pathfile"].setText("Current Path : " + findSoftCamKey())
-        self.softcampath = config.plugins.KeyAdder.custom_softcampath.value
         menuData = []
-        menuData.append((0, 'Add key Manually', 'key'))
-        menuData.append((1, 'Update Softcam online', 'update'))
+        menuData.append((0, "Add key Manually", "key"))
+        menuData.append((1, "Update Softcam online", "update"))
         if config.plugins.KeyAdder.softcampath.value == True:
-                menuData.append((2, 'Select Softcam.key Path', 'path'))
-        menuData.append((3, 'Exit', 'exit'))
+                menuData.append((2, "Select Softcam.key Path", "path"))
+        menuData.append((3, "Exit", "exit"))
         self.new_version = VER
         self.settitle(title, menuData)
+
+    def menu(self):
+        self.session.open(keyAdder_setup)
+        self.close()
 
     def settitle(self, title, datalist):
         if config.plugins.KeyAdder.update.value:
@@ -198,7 +203,7 @@ class KeyAdderUpdate(Screen):
         self.showmenulist(datalist)
 
     def select(self):
-        index = self['menu'].getSelectionIndex()
+        index = self["menu"].getSelectionIndex()
         if index == 0:
                 keymenu(self.session)
         elif index == 1:
@@ -223,40 +228,39 @@ class KeyAdderUpdate(Screen):
         list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
         list1.append(("MOHAMED_Nasr (Always Updated)", "MOHAMED_Nasr"))
         list1.append(("Serjoga", "Serjoga"))
-        self.session.openWithCallback(self.Downloadkeys, ChoiceBox, _('select site to downloan file'), list1)
+        self.session.openWithCallback(self.Downloadkeys, ChoiceBox, _("select site to downloan file"), list1)
            
     def Downloadkeys(self, select, SoftCamKey=None):
-        self.list = []
         cmdlist = []
         SoftCamKey = findSoftCamKey()
         agent='--header="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17"'
         crt="--debug --no-check-certificate"
-        command=''
+        command=""
         if select: 
             if select[1] == "softcam.org":
-                myurl = 'http://www.softcam.org/deneme6.php?file=SoftCam.Key'
-                command = 'wget -O %s %s' % (SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,'softcam',SoftCamKey, myurl)
+                myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
+                command = "wget -O %s %s" % (SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey, myurl)
             elif select[1] == "MOHAMED_OS":
-                myurl = 'https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/Enigma2/SoftCam.Key'
-                command = 'wget -q %s %s %s %s' % (crt, agent, SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,'softcam',SoftCamKey,myurl)
+                myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/Enigma2/SoftCam.Key"
+                command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "MOHAMED_Nasr":
-                myurl = 'https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key'
-                command = 'wget -q %s %s %s %s' % (crt, agent, SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,'softcam',SoftCamKey,myurl)
+                myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
+                command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "smcam":
-                myurl = 'https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key'
-                command = 'wget -q %s %s %s %s' % (crt, agent, SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,'softcam',SoftCamKey,myurl)
+                myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
+                command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "enigma1969":
-                myurl = 'http://drive.google.com/uc?authuser=0&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export=download'
-                command = 'wget -O %s %s' % (SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,'softcam',SoftCamKey,myurl)
+                myurl = "http://drive.google.com/uc?authuser=0&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export=download"
+                command = "wget -O %s %s" % (SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "Serjoga":
-                myurl = 'http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key'
-                command = 'wget -q %s %s %s %s' % (crt, agent, SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,'softcam',SoftCamKey,myurl)
+                myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
+                command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             else:
                 self.close()
             logdata("command",command)
@@ -276,18 +280,18 @@ class KeyAdderUpdate(Screen):
         res = []
         menulist = []
         if reswidth == 1280:
-            self['menu'].l.setItemHeight(50)
-            self['menu'].l.setFont(0, gFont('Regular', 28))
+            self["menu"].l.setItemHeight(50)
+            self["menu"].l.setFont(0, gFont("Regular", 28))
         else:
-            self['menu'].l.setItemHeight(75)
-            self['menu'].l.setFont(0, gFont('Regular', 42))
+            self["menu"].l.setItemHeight(75)
+            self["menu"].l.setFont(0, gFont("Regular", 42))
         for i in range(0, len(datalist)):
             txt = datalist[i][1]
             if reswidth == 1280:
-                  png = os_path.join(resolveFilename(SCOPE_PLUGINS, 'Extensions/KeyAdder/buttons/%s.png' % datalist[i][2]))
+                  png = os_path.join(resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/buttons/%s.png" % datalist[i][2]))
             else:
-                  png = os_path.join(resolveFilename(SCOPE_PLUGINS, 'Extensions/KeyAdder/buttons/fhd/%s.png' % datalist[i][2]))
-            res.append(MultiContentEntryText(pos=(0, 1), size=(0, 0), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text='', color=scolor, color_sel=cccolor, border_width=3, border_color=806544))
+                  png = os_path.join(resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/buttons/fhd/%s.png" % datalist[i][2]))
+            res.append(MultiContentEntryText(pos=(0, 1), size=(0, 0), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text="", color=scolor, color_sel=cccolor, border_width=3, border_color=806544))
             if reswidth == 1280:
                 res.append(MultiContentEntryText(pos=(60, 1), size=(723, 50), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text=str(txt), color=16777215, color_sel=16777215))
                 res.append(MultiContentEntryPixmapAlphaTest(pos=(5, 5), size=(40, 40), png=loadPNG(png)))
@@ -296,68 +300,8 @@ class KeyAdderUpdate(Screen):
                 res.append(MultiContentEntryPixmapAlphaTest(pos=(5, 5), size=(75, 75), png=loadPNG(png)))
             menulist.append(res)
             res = []
-        self['menu'].l.setList(menulist)
-        self['menu'].show()
-
-    def showMenuoptions(self):
-        choices=[]
-        self.list = []
-        EnablecheckUpdate = config.plugins.KeyAdder.update.value
-        Enablesoftcampath = config.plugins.KeyAdder.softcampath.value
-        EnablekeyboardStyle = config.plugins.KeyAdder.keyboardStyle.value
-        choices.append(("Install KeyAdder version %s" %self.new_version,"Install"))
-        if EnablecheckUpdate == False:
-                choices.append(("Press Ok to [Enable checking for Online Update]","enablecheckUpdate"))
-        else:
-                choices.append(("Press Ok to [Disable checking for Online Update]","disablecheckUpdate"))
-        if Enablesoftcampath == False:
-                choices.append(("Press Ok to [Enable custom softCam file path]","enablesoftcampath"))
-        else:
-                choices.append(("Press Ok to [Disable auto softCam file path]","disablesoftcampath"))
-        if EnablekeyboardStyle == False:
-                choices.append(("Press Ok to [Enable New keyboard Style]","enablekeyboardStyle"))
-        else:
-                choices.append(("Press Ok to [Enable Old keyboard Style]","disablekeyboardStyle"))
-        self.session.openWithCallback(self.choicesback, ChoiceBox, _('select task'),choices)
-
-    def choicesback(self, select):
-        if select:
-                if select[1] == "Install":
-                         self.install(True)
-                elif select[1] == "enablecheckUpdate":
-                         config.plugins.KeyAdder.update.value = True
-                         config.plugins.KeyAdder.update.save()
-                         configfile.save()
-                elif select[1] == "disablecheckUpdate":
-                         config.plugins.KeyAdder.update.value = False
-                         config.plugins.KeyAdder.update.save()
-                elif select[1] == "enablesoftcampath":
-                         config.plugins.KeyAdder.softcampath.value = True
-                         config.plugins.KeyAdder.softcampath.save()
-                         configfile.save()
-                         self.close()
-                elif select[1] == "disablesoftcampath":
-                         config.plugins.KeyAdder.softcampath.value = False
-                         config.plugins.KeyAdder.softcampath.save()
-                         configfile.save()
-                         self.close()
-                elif select[1] == "enablekeyboardStyle":
-                         config.plugins.KeyAdder.keyboardStyle.value = True
-                         config.plugins.KeyAdder.keyboardStyle.save()
-                         configfile.save()
-                         self.session.openWithCallback(self.restart, MessageBox, _("Settings changed, restart enigma2 need it now ?!"))
-                elif select[1] == "disablekeyboardStyle":
-                         config.plugins.KeyAdder.keyboardStyle.value = False
-                         config.plugins.KeyAdder.keyboardStyle.save()
-                         configfile.save()
-                         self.session.openWithCallback(self.restart, MessageBox, _("Settings changed, restart enigma2 need it now ?!"))
-
-    def restart(self, answer=None):
-        if answer:
-                self.session.open(TryQuitMainloop, 3)
-                return
-        self.close(True)
-
+        self["menu"].l.setList(menulist)
+        self["menu"].show()
 
     def checkupdates(self):
         try:
@@ -392,15 +336,15 @@ class KeyAdderUpdate(Screen):
         else :
                 new_version = self.new_version
                 new_description = self.new_description
-                self.session.openWithCallback(self.install, MessageBox, _('New version %s is available.\n\n%s.\n\nDo want ot install now.' % (new_version, new_description)), MessageBox.TYPE_YESNO)
+                self.session.openWithCallback(self.install, MessageBox, _("New version %s is available.\n\n%s.\n\nDo want ot install now." % (new_version, new_description)), MessageBox.TYPE_YESNO)
 
     def install(self,answer=False):
         try:
                 if answer:
                            cmdlist = []
-                           cmd='wget https://raw.githubusercontent.com/fairbird/KeyAdder/main/installer.sh -O - | /bin/sh'
+                           cmd="wget https://raw.githubusercontent.com/fairbird/KeyAdder/main/installer.sh -O - | /bin/sh"
                            cmdlist.append(cmd)
-                           self.session.open(Console, title='Installing last update, enigma will be started after install', cmdlist=cmdlist, finishedCallback=self.myCallback, closeOnSuccess=False)
+                           self.session.open(Console, title="Installing last update, enigma will be started after install", cmdlist=cmdlist, finishedCallback=self.myCallback, closeOnSuccess=False)
         except:
                 trace_error()
 
@@ -498,7 +442,7 @@ class PathsSelect(Screen):
                 configfile.save()
                 softcamkey = os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
                 if not os_path.exists(softcamkey):
-                	os.system('mkdir -p %s' % config.plugins.KeyAdder.custom_softcampath.value)
+                        os.system("mkdir -p %s" % config.plugins.KeyAdder.custom_softcampath.value)
                 self.close(True)
 
         def okClicked(self):
@@ -524,52 +468,53 @@ class HexKeyBoard(VirtualKeyBoardKeyAdder):
                                  [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"Clean/PASTE"]]
 
 def saveKey(key):
-	try:
+        try:
             if key != None:
-            	## read save keys file
-            	if not fileExists(save_key):
-            		os.system("touch %s" % save_key)
-            		with open(save_key, "w") as f:
-            			f.writelines(str(key.replace("|", "") + "\n"))
-            			return
-            	## Replace new key with None value
-            	with open(save_key, "r") as r:
-            		for line in r:
-              			line = line.strip()
-              			if line == "None":
-              				with open(save_key, "w") as r:
-              					r.write(str(key.replace("|", "") + "\n"))
-              					return
-            	with open(save_key, "r") as file:
-            		keyslist = [line.rstrip("\n") for line in file]
-            	## check current key if in list
-            	currentkey = str(key.replace("|", ""))
-            	if currentkey in keyslist:
-            		print("[KeyAdder] ****** Key already in save list")
-            		return
-            	## count numbers of lines
-            	lines = 1
-            	with open(save_key, "r") as file:
-            		for i, l in enumerate(file):
-            			lines = i + 1
-            	## save key in line 5 If the specified number is exceeded
-            	with open(save_key, "r") as file:
-            		data = file.readlines()
-            	print("[KeyAdder] lines ************** %s" % lines)
-            	if lines == 5:
-            		with open(save_key, "w") as f:
-            			for i,line in enumerate(data,1):
-            				if i == 5:
-            					f.writelines("%s" % currentkey)
-            				else:
-            					f.writelines("%s" % line)
-            	else:
-            		with open(save_key, "a") as f:
-            			f.writelines(str(key.replace("|", "") + "\n"))
-	except Exception as error:
-            	trace_error()
+                ## read save keys file
+                if not fileExists(save_key):
+                        os.system("touch %s" % save_key)
+                        with open(save_key, "w") as f:
+                                f.writelines(str(key.replace("|", "") + "\n"))
+                                return
+                ## Replace new key with None value
+                with open(save_key, "r") as r:
+                        for line in r:
+                                line = line.strip()
+                                if line == "None":
+                                        with open(save_key, "w") as r:
+                                                r.write(str(key.replace("|", "") + "\n"))
+                                                return
+                with open(save_key, "r") as file:
+                        keyslist = [line.rstrip("\n") for line in file]
+                ## check current key if in list
+                currentkey = str(key.replace("|", ""))
+                if currentkey in keyslist:
+                        print("[KeyAdder] ****** Key already in save list")
+                        return
+                ## count numbers of lines
+                lines = 1
+                linemubers = config.plugins.KeyAdder.savenumber.value
+                with open(save_key, "r") as file:
+                        for i, l in enumerate(file):
+                                lines = i + 1
+                ## save key in line 5 If the specified number is exceeded
+                with open(save_key, "r") as file:
+                        data = file.readlines()
+                print("[KeyAdder] lines ************** %s" % lines)
+                if lines == linemubers:
+                        with open(save_key, "w") as f:
+                                for i,line in enumerate(data,1):
+                                        if i == linemubers:
+                                                f.writelines("%s" % currentkey)
+                                        else:
+                                                f.writelines("%s" % line)
+                else:
+                        with open(save_key, "a") as f:
+                                f.writelines(str(key.replace("|", "") + "\n"))
+        except Exception as error:
+                trace_error()
 
-table = array('L')
+table = array("L")
 for byte in range(256):
       crc = 0
       for bit in range(8):
@@ -670,7 +615,7 @@ def setKeyCallback(session, SoftCamKey, key):
             if key != findKeyPowerVU(session, SoftCamKey, ""): # no change was made ## PowerVU
                   keystr = "P %s 00 %s" % (getonidsid(session), key)
                   name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                  datastr = "\n%s ; Added on %s for %s at %s\n" % (keystr, datetime.now(), name, getOrb(session))
+                  datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                   restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                   open(SoftCamKey, "a").write(datastr)
                   #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
@@ -680,7 +625,7 @@ def setKeyCallback(session, SoftCamKey, key):
                  if key != findKeyBISS(session, SoftCamKey, ""): # no change was made ## BISS
                        keystr = "F %08X 00 %s" % (getHash(session), key)
                        name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                       datastr = "\n%s ; Added on %s for %s at %s\n" % (keystr, datetime.now(), name, getOrb(session))
+                       datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                        open(SoftCamKey, "a").write(datastr)
                        #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
@@ -690,7 +635,7 @@ def setKeyCallback(session, SoftCamKey, key):
                        newcaid=getnewcaid(SoftCamKey)
                        keystr = "T %s 01 %s" % (newcaid, key) 
                        name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                       datastr = "\n%s ; Added on %s for %s at %s\n" % (keystr, datetime.now(), name, getOrb(session))
+                       datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"       
                        open(SoftCamKey, "a").write(datastr)
                        #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
@@ -699,14 +644,14 @@ def setKeyCallback(session, SoftCamKey, key):
             if key != findKeyIRDETO(session, SoftCamKey, ""): # no change was made ## IRDETO
                   keystr = "I 0604 M1 %s" % key
                   name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                  datastr = "\n%s ; Added on %s for %s at %s\n" % (keystr, datetime.now(), name, getOrb(session))
+                  datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                   restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                   open(SoftCamKey, "a").write(datastr)
                   #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                   session.open(MessageBox, _("IRDETO key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
       elif key:
                session.openWithCallback(boundFunction(setKeyCallback, session,SoftCamKey), HexKeyBoard,
-                  title=_("Invalid key, length is %d" % len(key)), text=key.ljust(16,'*'))
+                  title=_("Invalid key, length is %d" % len(key)), text=key.ljust(16,"*"))
 
 def getHash(session):
       ref = session.nav.getCurrentlyPlayingServiceReference()
@@ -755,7 +700,7 @@ def findKeyBISS(session, SoftCamKey, key="0000000000000000"):
                   if line.startswith(keystart):
                         keyline = line
       else:
-        with open(SoftCamKey, 'rU') as f:
+        with open(SoftCamKey, "rU") as f:
             for line in f:
                   if line.startswith(keystart):
                         keyline = line
@@ -773,7 +718,7 @@ def findKeyPowerVU(session, SoftCamKey, key="00000000000000"):
                   if line.startswith(keystart):
                         keyline = line
       else:
-        with open(SoftCamKey, 'rU') as f:
+        with open(SoftCamKey, "rU") as f:
             for line in f:
                   if line.startswith(keystart):
                         keyline = line
@@ -791,7 +736,7 @@ def findKeyTandberg(session, SoftCamKey, key="0000000000000000"):
                   if line.startswith(keystart):
                         keyline = line
       else:
-        with open(SoftCamKey, 'rU') as f:
+        with open(SoftCamKey, "rU") as f:
             for line in f:
                   if line.startswith(keystart):
                         keyline = line
@@ -809,7 +754,7 @@ def findKeyIRDETO(session, SoftCamKey, key="00000000000000000000000000000000"):
                   if line.startswith(keystart):
                         keyline = line
       else:
-        with open(SoftCamKey, 'rU') as f:
+        with open(SoftCamKey, "rU") as f:
             for line in f:
                   if line.startswith(keystart):
                         keyline = line
@@ -817,6 +762,108 @@ def findKeyIRDETO(session, SoftCamKey, key="00000000000000000000000000000000"):
             return keyline.split()[3]
       else:
             return key
+
+class keyAdder_setup(ConfigListScreen, Screen):
+        if reswidth == 1280:
+                skin="""
+<screen name="keyAdder_setup" position="center,center" size="620,398" title="keyAdder setup">
+<widget source="Title" position="5,5" size="610,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
+<widget name="config" position="15,45" size="584,303" scrollbarMode="showOnDemand"/>
+<widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
+<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="150,3" position="379,394" zPosition="-10"/>
+<widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_green" position="379,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+</screen>"""
+        else:
+                if DreamOS():
+                        skin="""
+<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
+<widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
+<widget name="config" position="10,275" size="603,81" scrollbarMode="showOnDemand"/>
+<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
+<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
+<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+</screen>"""
+                else:
+                        skin="""
+<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
+<widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
+<widget name="config" font="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
+<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
+<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
+<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+</screen>"""
+        def __init__(self, session):
+                self.session = session
+                Screen.__init__(self, session)
+                self.list = []
+                ConfigListScreen.__init__(self, self.list)
+
+                self["setupActions"] = ActionMap(["SetupActions", "ColorActions"],
+                {
+                        "cancel": self.cancel,
+                        "red": self.cancel,
+                        "green": self.save,
+                }, -2)
+
+                # Impoert class KeyAdderUpdate()
+                self.KeyAdderUpdate = KeyAdderUpdate(session)
+                self.EnablekeyboardStyle_value = config.plugins.KeyAdder.keyboardStyle.value
+
+                self["key_red"] = StaticText(_("Exit"))
+                self["key_green"] = StaticText(_("Save"))
+                self["help"] = StaticText()
+                self.createConfigList()
+                self.onLayoutFinish.append(self.setWindowTitle)
+
+        def setWindowTitle(self):
+                self.setTitle("KeyAdder Setup V%s" % VER)
+
+        def cancel(self):
+                self.close()
+
+        def createConfigList(self):
+                self.EnablecheckUpdate = getConfigListEntry(_("Enable checking for Online Update"), config.plugins.KeyAdder.update, _(" This Option to Enable or Disable checking for Online Update"))
+                self.Enablesoftcampath = getConfigListEntry(_("Enable custom softCam file path"), config.plugins.KeyAdder.softcampath, _("This option to Enable custom softCam file path"))
+                self.EnablekeyboardStyle = getConfigListEntry(_("Change VirtualKeyboard Style"), config.plugins.KeyAdder.keyboardStyle, _("This option to change Enable VirtualKeyboard Style appear"))
+                self.Selectsavenumber = getConfigListEntry(_("Choose keys save numbers"), config.plugins.KeyAdder.savenumber, _("This option to choose how many keys need to save it inside savefile"))
+
+                list = []
+                list.append(self.EnablecheckUpdate)
+                list.append(self.Enablesoftcampath)
+                list.append(self.EnablekeyboardStyle)
+                list.append(self.Selectsavenumber)
+
+                self["config"].list = list
+                self["config"].l.setList(list)
+                self["config"].onSelectionChanged.append(self.updateHelp)
+
+        def updateHelp(self):
+                cur = self["config"].getCurrent()
+                if cur:
+                        self["help"].text = cur[2]
+
+        def save(self):
+                for x in self["config"].list:
+                        if len(x)>1:
+                                x[1].save()
+                configfile.save()
+                if not self.EnablekeyboardStyle_value == config.plugins.KeyAdder.keyboardStyle.value:
+                        self.session.openWithCallback(self.restart, MessageBox, _("Do you want to Restart GUI now ?!!"))
+                else:
+                	self.close()
+
+        def restart(self, answer=None):
+                if answer:
+                    self.session.open(TryQuitMainloop, 3)
+                    return
+                self.close(True)
+
 
 def main(session, **kwargs):
     session.open(KeyAdderUpdate)
