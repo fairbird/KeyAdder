@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='6.8'
-description='What is NEW:\n-Update Copy/Paste Option (Now Save latest 5 keys).\n\n*************************\n:ما هو الجديد\n- تحديث خاصية حفظ/طباعة الشفرات الأن يمكن تخزين اخر خمس شفرات'
+version='6.9'
+description='What is NEW:\n- Add New option to menu for choose number of save keys.\n- Add New button (Clean/Paste) keyboard to clean savefile.\n\n*************************\n:ما هو الجديد\n- .إضافة خيار جديد في قائمة الاعدادات لاختيار عدد المفاتيح التي تريد تخزينها\n- إضافة زر جديد إلى الكيبورد لمسح ملف تخزين المفاتيح'
 ##############################################################
 
 ###########################################

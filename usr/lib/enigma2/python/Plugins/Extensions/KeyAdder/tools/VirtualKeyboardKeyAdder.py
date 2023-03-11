@@ -9,6 +9,7 @@ from Components.Label import Label
 from Components.Pixmap import Pixmap
 from Components.MenuList import MenuList
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
+from Screens.MessageBox import MessageBox
 from Screens.HelpMenu import HelpableScreen
 from enigma import eWidget, gRGB, getDesktop
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS, fileExists
@@ -579,6 +580,8 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 			self.cursorRight()
 		elif text == "PASTE":
 			self.readKey()
+		elif text == "Clean/PASTE":
+			self.cleanpastedata()
 		else:
 			if self.nb_only:
 				if len(self.text.replace('XcursorX','')) < 14:
@@ -604,6 +607,14 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 		if result:
 			self["text"].setText(result[0])
 			return
+
+	def cleanpastedata(self):
+		self.session.openWithCallback(self.cleanpaste, MessageBox, _('Are you sure you want to clean Savefile ?!!'), MessageBox.TYPE_YESNO)
+            	
+	def cleanpaste(self, answer):
+		if answer:
+			os.system("rm -f %s && touch %s" % (save_key, save_key))
+			self.session.open(MessageBox, _("Savefile Cleaned !!"), MessageBox.TYPE_INFO, timeout=5)
 
 	def ok(self):
 		if PY3:
