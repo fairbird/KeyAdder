@@ -618,7 +618,7 @@ def setKeyCallback(session, SoftCamKey, key):
                   datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                   restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                   open(SoftCamKey, "a").write(datastr)
-                  #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                  eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                   session.open(MessageBox, _("PowerVU key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
       elif key and len(key) == 16:
             if 0x2600 in caids:
@@ -628,7 +628,7 @@ def setKeyCallback(session, SoftCamKey, key):
                        datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                        open(SoftCamKey, "a").write(datastr)
-                       #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                       eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                        session.open(MessageBox, _("BISS key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
             else:
                  if key != findKeyTandberg(session, SoftCamKey, ""): # no change was made ## Tandberg
@@ -638,7 +638,7 @@ def setKeyCallback(session, SoftCamKey, key):
                        datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"       
                        open(SoftCamKey, "a").write(datastr)
-                       #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                       eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                        session.open(MessageBox, _("Tandberg key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
       elif key and len(key) == 32:
             if key != findKeyIRDETO(session, SoftCamKey, ""): # no change was made ## IRDETO
@@ -647,7 +647,7 @@ def setKeyCallback(session, SoftCamKey, key):
                   datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                   restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                   open(SoftCamKey, "a").write(datastr)
-                  #eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                  eConsoleAppContainer().execute("/etc/init.d/softcam restart")
                   session.open(MessageBox, _("IRDETO key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
       elif key:
                session.openWithCallback(boundFunction(setKeyCallback, session,SoftCamKey), HexKeyBoard,
