@@ -164,7 +164,7 @@ class KeyAdderUpdate(Screen):
     else:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate">
-                        <widget name="pathfile" position="5,-10" size="450,40" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                        <widget name="pathfile" position="center,5" size="450,40" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
                         <widget name="menu" position="15,25" size="450,230" backgroundColor="#16000000"/>
                         <eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
                         <eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
@@ -359,10 +359,10 @@ class PathsSelect(Screen):
                                 <screen name="PathsSelect" position="center,center" size="906,812" title="Select Select" >
                                         <eLabel position="180,805" size="170,3" foregroundColor="#00ff2525" backgroundColor="#00ff2525"/>
                                         <eLabel position="525,805" size="170,3" foregroundColor="#00389416" backgroundColor="#00389416"/>
-                                        <widget name="list_head" position="5,5" size="891,40" font="Regular;28" foregroundColor="#00cccc40"/>
+                                        <widget name="list_head" position="5,5" size="891,40" foregroundColor="#00cccc40"/>
                                         <widget source="key_red" render="Label" position="180,765" zPosition="1" size="170,40" font="Regular;28" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
                                         <widget source="key_green" render="Label" position="525,765" zPosition="1" size="170,40" font="Regular;28" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
-                                        <widget name="checkList" font="Regular;28" position="5,50" zPosition="2" size="892,707" scrollbarMode="showOnDemand"/>
+                                        <widget name="checkList" position="5,50" zPosition="2" size="892,707" scrollbarMode="showOnDemand"/>
                                 </screen>"""
                 else:
                         skin = """
@@ -379,7 +379,7 @@ class PathsSelect(Screen):
                         <screen name="PathsSelect" position="center,center" size="708,590" title="Select Select" >
                                 <eLabel position="95,580" size="170,3" foregroundColor="#00ff2525" backgroundColor="#00ff2525"/>
                                 <eLabel position="415,580" size="170,3" foregroundColor="#00389416" backgroundColor="#00389416"/>
-                                <widget name="list_head" position="5,5" size="689,38" font="Regular;24" foregroundColor="#00cccc40"/>
+                                <widget name="list_head" position="5,5" size="689,38" foregroundColor="#00cccc40"/>
                                 <widget source="key_red" render="Label" position="95,540" zPosition="1" size="170,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
                                 <widget source="key_green" render="Label" position="415,540" zPosition="1" size="170,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
                                 <widget name="checkList" position="5,50" zPosition="2" size="693,483" scrollbarMode="showOnDemand"/>
@@ -780,7 +780,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
                         skin="""
 <screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
 <widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
-<widget name="config" position="10,275" size="603,81" scrollbarMode="showOnDemand"/>
+<widget name="config" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
