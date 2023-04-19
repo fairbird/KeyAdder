@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='7.0'
-description='What is NEW:\n- Add New option to menu for choose number of save keys.\n- Add New button (Clean/Paste) keyboard to clean savefile.\n\n*************************\n:ما هو الجديد\n-إضافة خيار جديد في قائمة الاعدادات لاختيار عدد المفاتيح التي تريد تخزينها'
+version='7.1'
+description='What is NEW:\n- Improved some codes for DreamOS images.\n\n*************************\n:ما هو الجديد\n- DreamOS تحسين بعض الاكود لصور'
 ##############################################################
 
 ###########################################
