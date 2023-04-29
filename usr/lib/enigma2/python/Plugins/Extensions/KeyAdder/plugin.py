@@ -155,8 +155,8 @@ class KeyAdderUpdate(Screen):
     if reswidth == 1920:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="704,424" backgroundColor="#16000000" title="KeyAdderUpdate">
-                        <widget name="pathfile" position="center,20" size="650,56" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-                        <widget name="menu" position="center,83" size="650,241" backgroundColor="#16000000"/>
+                        <widget name="pathfile" position="center,10" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                        <widget name="menu" position="center,55" size="650,265" backgroundColor="#16000000"/>
                         <eLabel position="25,360" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
                         <eLabel text="MENU" font="Regular;30" position="28,364" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
                         <eLabel text="Press Menu for more options" font="Regular;33" position="148,360" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
