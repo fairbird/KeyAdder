@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='7.1'
-description='What is NEW:\n- Improved some codes for DreamOS images.\n\n*************************\n:ما هو الجديد\n- DreamOS تحسين بعض الاكود لصور'
+version='7.2'
+description='What is NEW:\n- Improved some skin codes.\n\n*************************\n:ما هو الجديد\n- تحسين بعض الاكود السكين'
 ##############################################################
 
 ###########################################
