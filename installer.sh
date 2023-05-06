@@ -58,13 +58,13 @@ install() {
 }
 
 #########################
-if python --version 2>&1 | grep -q '^Python 3\.'; then
+if [ -f /usr/bin/python3 ] ; then
     echo ":You have Python3 image ..."
-    sleep 1
+    sleep 0.1
     Packagesix=python3-six
 else
     echo ":You have Python2 image ..."
-    sleep 1
+    sleep 0.1
     Packagesix=python-six
 fi
 
