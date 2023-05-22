@@ -791,7 +791,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
                         skin="""
 <screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
 <widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
-<widget name="config" font="Regular;28" secondfont"Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
+<widget name="config" font="Regular;28" secondfont="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
