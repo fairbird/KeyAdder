@@ -225,7 +225,7 @@ class KeyAdderUpdate(Screen):
         list1.append(("smcam (Always Updated)", "smcam"))
         list1.append(("softcam.org (Always Updated)", "softcam.org"))
         list1.append(("enigma1969 (Always Updated)", "enigma1969"))
-        list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
+        #list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
         list1.append(("MOHAMED_Nasr (Always Updated)", "MOHAMED_Nasr"))
         list1.append(("Serjoga", "Serjoga"))
         self.session.openWithCallback(self.Downloadkeys, ChoiceBox, _("select site to downloan file"), list1)
