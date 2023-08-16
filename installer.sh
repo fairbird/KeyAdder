@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='7.2'
-description='What is NEW:\n- Improved some skin codes.\n\n*************************\n:ما هو الجديد\n- تحسين بعض الاكود السكين'
+version='7.3'
+description='What is NEW:\n- Remove MOHAMED_OS from list of download softcams file. No more link download.\n\n*************************\n:ما هو الجديد\n- من قائمة تحميل ملفات السوفتكام لعدم توفره MOHAMED_OS حذف عنوان'
 ##############################################################
 
 ###########################################
