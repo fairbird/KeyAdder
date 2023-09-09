@@ -228,6 +228,7 @@ class KeyAdderUpdate(Screen):
         #list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
         list1.append(("MOHAMED_Nasr (Always Updated)", "MOHAMED_Nasr"))
         list1.append(("Serjoga", "Serjoga"))
+        list1.append(("Novaler4k", "Novaler4k"))
         self.session.openWithCallback(self.Downloadkeys, ChoiceBox, _("select site to downloan file"), list1)
            
     def Downloadkeys(self, select, SoftCamKey=None):
@@ -259,6 +260,10 @@ class KeyAdderUpdate(Screen):
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "Serjoga":
                 myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
+                command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
+            elif select[1] == "Novaler4k":
+                myurl = "http://novaler.homelinux.com/SoftCam.Key"
                 command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             else:
