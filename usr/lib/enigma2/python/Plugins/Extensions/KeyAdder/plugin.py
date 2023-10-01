@@ -225,7 +225,7 @@ class KeyAdderUpdate(Screen):
         list1.append(("smcam (Always Updated)", "smcam"))
         list1.append(("softcam.org (Always Updated)", "softcam.org"))
         list1.append(("enigma1969 (Always Updated)", "enigma1969"))
-        #list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
+        list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
         list1.append(("MOHAMED_Nasr (Always Updated)", "MOHAMED_Nasr"))
         list1.append(("Serjoga", "Serjoga"))
         list1.append(("Novaler4k", "Novaler4k"))
@@ -237,13 +237,13 @@ class KeyAdderUpdate(Screen):
         agent='--header="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17"'
         crt="--debug --no-check-certificate"
         command=""
-        if select: 
+        if select:
             if select[1] == "softcam.org":
                 myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
                 command = "wget -O %s %s" % (SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey, myurl)
             elif select[1] == "MOHAMED_OS":
-                myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/Enigma2/SoftCam.Key"
+                myurl = "https://gitlab.com/MOHAMED_OS/softcam_emu/-/raw/main/SoftCam.Key?ref_type=heads"
                 command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "MOHAMED_Nasr":
