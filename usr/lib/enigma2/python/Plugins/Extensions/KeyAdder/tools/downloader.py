@@ -227,7 +227,6 @@ class imagedownloadScreen(Screen):
             self.remove_target()
             try:
                 self.close(False)
-               
             except:
                 pass
         else: 
@@ -244,6 +243,7 @@ class imagedownloadScreen2(Screen):
         self['activityslider'].setValue(0)
         self['status'] = Label()
         self['package'] = Label()
+        self.downloading = False
         self['actions'] = ActionMap(['OkCancelActions', 'ColorActions'], {'ok': self.dexit,
          'cancel': self.dexit}, -1)
         self['status'].setText(_('Downloading softcam,please wait..'))
@@ -258,6 +258,7 @@ class imagedownloadScreen2(Screen):
     def startDownload(self):
         try:
             self.timer.stop()
+            self.downloading = True
             del self.timer
         except:
             pass
