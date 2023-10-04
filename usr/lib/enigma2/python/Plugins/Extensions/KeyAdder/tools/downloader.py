@@ -182,7 +182,121 @@ class imagedownloadScreen(Screen):
         info = self.error_message
         self['status'].setText(info)
         self.setTitle(_('Download failed Press Ok To Exit'))
-        cmd = "echo 'message' > /tmp//.download_error.log"
+        cmd = "echo 'message' > /tmp/.download_error.log"
+        cmd = cmd.replace('message', info)
+        self.container = eConsoleAppContainer()
+        self.container.execute(cmd)
+        self.downloading = False
+        self.success=False
+        self['key_green'].hide()
+        self.instance.show()
+        self.remove_target()
+        return
+
+    def dexit(self):
+        try:
+            path=os.path.split(self.target)[0]
+        except:
+            pass
+        if self.downloading:
+            self.session.openWithCallback(self.abort,MessageBox, _('Are you sure to stop download.'), MessageBox.TYPE_YESNO)
+        else:
+            self.close(False)
+
+    def remove_target(self):
+            import os
+            try:
+                if os.path.exists(self.target):
+                    os.remove(self.target)
+            except:
+                pass
+
+    def abort(self,answer=True):
+        if answer==False:
+            return
+        if not self.downloading:
+            if os_path.exists('/tmp/download_install.log'):
+               os.remove('/tmp/download_install.log')
+            self.close(False)
+        elif self.downloader is not None:
+            self.downloader.stop
+            info = _('Aborting...')
+            self['status'].setText(info)
+            cmd = 'echo canceled > /tmp/.download_error.log ; rm target'
+            cmd = cmd.replace('target', self.target)
+            self.remove_target()
+            try:
+                self.close(False)
+               
+            except:
+                pass
+        else: 
+            self.close(False)
+        return
+
+class imagedownloadScreen2(Screen):
+    def __init__(self, session, name=''):
+        Screen.__init__(self, session)
+        self.skin = SKIN_imagedownloadScreen
+        self.name=name
+        self['activityslider'] = ProgressBar()
+        self['activityslider'].setRange((0, 100))
+        self['activityslider'].setValue(0)
+        self['status'] = Label()
+        self['package'] = Label()
+        self['actions'] = ActionMap(['OkCancelActions', 'ColorActions'], {'ok': self.dexit,
+         'cancel': self.dexit}, -1)
+        self['status'].setText(_('Downloading softcam,please wait..'))
+        self.setTitle(_('Connecting') + '...')
+        self.timer = eTimer()
+        try:
+            self.timer.callback.append(self.startDownload)
+        except:
+            self.timer_conn = self.timer.timeout.connect(self.startDownload)
+        self.timer.start(5000, 1)
+
+    def startDownload(self):
+        try:
+            self.timer.stop()
+            del self.timer
+        except:
+            pass
+        self.downloadfile2()
+
+    def downloadfile2(self, ofile=''):
+        debug = True
+        if True:
+            self['package'].setText(self.name)
+            self.setTitle(_('Connecting') + '...')
+            self['status'].setText(_('Connecting') + ' to server....')
+            self.downloading = True
+            #self.downloader = downloadWithProgress()
+            #self.downloader.addProgress(self.progress)
+            #self.downloader.start().addCallback(self.responseCompleted).addErrback(self.responseFailed)
+            try:
+            	self.responseCompleted()
+            except:
+            	self.responseFailed()
+
+    def responseCompleted(self, data = None):
+        self['activityslider'].setValue(int(100 * 100))
+        print('[Softcam downloader] Download succeeded. ')
+        info = 'Download completed successfully.\npress Ok To Exit'   
+        self['status'].setText(info)
+        self.setTitle(_('Download completed successfully.'))
+        self.downloading = False
+        self.success=True
+        self.instance.show()
+
+    def responseFailed(self, failure_instance = None, error_message = ''):
+        print('[Softcam downloader] Download failed. ')
+        self.error_message = error_message
+        if error_message == '' and failure_instance is not None:
+            self.error_message = failure_instance.getErrorMessage()
+        info = self.error_message
+        self['status'].setText(info)
+        self.setTitle(_('Download failed Press Ok To Exit'))
+        cmd = "echo 'message' > /tmp/.download_error.log"
         cmd = cmd.replace('message', info)
         self.container = eConsoleAppContainer()
         self.container.execute(cmd)
