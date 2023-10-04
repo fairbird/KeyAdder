@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='7.5'
-description='What is NEW:\n- MOHAMED_OS Download link for softcam.keys back again.\n\n*************************\n:ما هو الجديد\n- لتحميل ملف السوفتكام رجع من جديد للعمل MOHAMED_OS عنوان'
+version='7.6'
+description='What is NEW:\n- Update and fixs some codes.\n\n*************************\n:ما هو الجديد\n- تحديث وإصلاح بعض الأكواد'
 ##############################################################
 
 ###########################################
