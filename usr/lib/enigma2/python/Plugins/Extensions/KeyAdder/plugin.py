@@ -27,12 +27,12 @@ from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS
 import binascii
 import os
 from shutil import copyfile
-from Plugins.Extensions.KeyAdder.tools.downloader import getversioninfo, imagedownloadScreen
+from Plugins.Extensions.KeyAdder.tools.downloader import getversioninfo, imagedownloadScreen, imagedownloadScreen2
 
 # python3
-from os import path as os_path
+from os import path as os_path, remove as os_remove
 from Plugins.Extensions.KeyAdder.tools.Console import Console
-from Plugins.Extensions.KeyAdder.tools.compat import PY3
+from Plugins.Extensions.KeyAdder.tools.compat import PY3, compat_urlparse, compat_urlretrieve, compat_Request, compat_urlopen, compat_URLError
 
 VER = getversioninfo()
 
@@ -76,6 +76,15 @@ def logdata(label_name = "", data = None):
         fp.close()
     except:
         trace_error()    
+        pass
+
+def dellog(label_name = '', data = None):
+    try:
+        if os_path.exists('/tmp/KeyAdder.log'):
+                os_remove('/tmp/KeyAdder.log')
+        if os_path.exists('/tmp/KeyAdderError.log'):
+                os_remove('/tmp/KeyAdderError.log')
+    except:
         pass
 
 def trace_error():
@@ -151,6 +160,22 @@ def findSoftCamKey():
         else:
                 return os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
 
+def downloadFile(url, filePath):
+    try:
+        # Download the file from `url` and save it locally under `file_name`:
+        compat_urlretrieve(url, filePath)
+        return True
+        req = compat_Request(url, headers={'User-Agent': 'Mozilla/5.0'}) # add [headers={'User-Agent': 'Mozilla/5.0'}] to fix HTTP Error 403: Forbidden
+        response = compat_urlopen(req,timeout=5)
+        cprint("response.read",response.read())
+        output = open(filePath, 'wb')
+        output.write(response.read())
+        output.close()
+        response.close()
+    except:
+    	trace_error()
+    	return
+
 class KeyAdderUpdate(Screen):
     if reswidth == 1920:
            skin = '''
@@ -173,6 +198,7 @@ class KeyAdderUpdate(Screen):
 
     def __init__(self, session, title="", datalist = []):
         Screen.__init__(self, session)
+        dellog()
         self["menu"] = MenuList([], enableWrapAround=True, content=eListboxPythonMultiContent)
         self["actions"] = ActionMap(["WizardActions", "ColorActions","MenuActions"],
         {
@@ -230,7 +256,7 @@ class KeyAdderUpdate(Screen):
         list1.append(("Serjoga", "Serjoga"))
         list1.append(("Novaler4k", "Novaler4k"))
         self.session.openWithCallback(self.Downloadkeys, ChoiceBox, _("select site to downloan file"), list1)
-           
+ 
     def Downloadkeys(self, select, SoftCamKey=None):
         cmdlist = []
         SoftCamKey = findSoftCamKey()
@@ -238,25 +264,30 @@ class KeyAdderUpdate(Screen):
         crt="--debug --no-check-certificate"
         command=""
         if select:
-            if select[1] == "softcam.org":
-                myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
-                command = "wget -O %s %s" % (SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,"softcam",SoftCamKey, myurl)
-            elif select[1] == "MOHAMED_OS":
-                myurl = "https://gitlab.com/MOHAMED_OS/softcam_emu/-/raw/main/SoftCam.Key?ref_type=heads"
+        	### This codes if using site and get error (sslv3 alert handshake failure) from such as gitlab site
+                #myurl = "https://gitlab.com/xxxx/-/raw/main/SoftCam.Key"
+                #downloadFile(myurl, SoftCamKey)
+                #self.session.open(imagedownloadScreen2)
+            if select[1] == "smcam":
+                myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
                 command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
+            elif select[1] == "softcam.org":
+                myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
+                os.system("wget -O %s %s" % (SoftCamKey, myurl))
+                #os.system("wget -O {0} {1}".format(SoftCamKey, myurl)) # Just other code if the above does not work
+                self.session.open(imagedownloadScreen2)
+            elif select[1] == "enigma1969":
+                myurl = "http://drive.google.com/uc?authuser=0&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export=download"
+                command = "wget %s -q -O %s %s" % (crt, SoftCamKey, myurl)
+                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
+            elif select[1] == "MOHAMED_OS":
+            	myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
+            	command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "MOHAMED_Nasr":
                 myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
                 command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
-            elif select[1] == "smcam":
-                myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
-                command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
-                self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
-            elif select[1] == "enigma1969":
-                myurl = "http://drive.google.com/uc?authuser=0&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export=download"
-                command = "wget -O %s %s" % (SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "Serjoga":
                 myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
