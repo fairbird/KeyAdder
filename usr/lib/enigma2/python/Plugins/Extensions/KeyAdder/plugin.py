@@ -173,8 +173,8 @@ def downloadFile(url, filePath):
         output.close()
         response.close()
     except:
-    	trace_error()
-    	return
+        trace_error()
+        return
 
 class KeyAdderUpdate(Screen):
     if reswidth == 1920:
@@ -264,7 +264,7 @@ class KeyAdderUpdate(Screen):
         crt="--debug --no-check-certificate"
         command=""
         if select:
-        	### This codes if using site and get error (sslv3 alert handshake failure) from such as gitlab site
+                ### This codes if using site and get error (sslv3 alert handshake failure) from such as gitlab site
                 #myurl = "https://gitlab.com/xxxx/-/raw/main/SoftCam.Key"
                 #downloadFile(myurl, SoftCamKey)
                 #self.session.open(imagedownloadScreen2)
@@ -282,8 +282,8 @@ class KeyAdderUpdate(Screen):
                 command = "wget %s -q -O %s %s" % (crt, SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "MOHAMED_OS":
-            	myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
-            	command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
+                myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
+                command = "wget -q %s %s %s %s" % (crt, agent, SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "MOHAMED_Nasr":
                 myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
