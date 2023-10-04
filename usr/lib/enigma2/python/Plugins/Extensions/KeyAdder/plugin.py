@@ -167,7 +167,7 @@ def downloadFile(url, filePath):
         return True
         req = compat_Request(url, headers={'User-Agent': 'Mozilla/5.0'}) # add [headers={'User-Agent': 'Mozilla/5.0'}] to fix HTTP Error 403: Forbidden
         response = compat_urlopen(req,timeout=5)
-        cprint("response.read",response.read())
+        print("response.read",response.read())
         output = open(filePath, 'wb')
         output.write(response.read())
         output.close()
