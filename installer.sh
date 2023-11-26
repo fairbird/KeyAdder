@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='7.7'
-description='What is NEW:\n- Add New feature (Automatic Update softcam.keys).\n\n*************************\n:ما هو الجديد\n- إضافة خاصية جديدة - تحديث ملف السوفتكام بشكل آلي'
+version='7.8'
+description='What is NEW:\n- Add option to show message after finish download softcam.key.\n\n*************************\n:ما هو الجديد\n- إضافة خيار إظهار رسالة نهاية التحميل لملف السوفتكام'
 ##############################################################
 
 ###########################################

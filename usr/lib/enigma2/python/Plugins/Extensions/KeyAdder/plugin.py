@@ -43,10 +43,14 @@ config.plugins.KeyAdder.update = ConfigYesNo(default=True)
 config.plugins.KeyAdder.lastcaid = ConfigText(default="0", fixed_size=False)
 config.plugins.KeyAdder.softcampath = ConfigYesNo(default=False) #False = Auto Detecte path
 config.plugins.KeyAdder.custom_softcampath = ConfigText(default="/usr/keys", visible_width = 250, fixed_size = False)
-config.plugins.KeyAdder.keyboardStyle = ConfigSelection(default = "Style2", choices = [("Style1", _("Old Style keyboard")),("Style2", _("New Style keyboard"))])
+config.plugins.KeyAdder.keyboardStyle = ConfigSelection(default = "Style2", choices = [
+	("Style1", _("Old Style keyboard")),
+	("Style2", _("New Style keyboard")),
+	])
 config.plugins.KeyAdder.savenumber = ConfigSelectionNumber(1, 20, 1, default=5)
 config.plugins.KeyAdder.Autodownload_enabled = ConfigYesNo(default=False)
 config.plugins.KeyAdder.wakeup = ConfigClock(default=((7 * 60) + 9) * 60)  # 7:00
+config.plugins.KeyAdder.Show_Autoflash = ConfigYesNo(default=False)
 config.plugins.KeyAdder.Autodownload_sitelink = ConfigSelection(default = "smcam", choices = [
         ("smcam", _("smcam")),
         ("softcam.org", _("softcam.org")),
@@ -895,6 +899,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
                 self.Auto_enabled = getConfigListEntry(_("Automatic softcam.key update"), config.plugins.KeyAdder.Autodownload_enabled, _("This option to change Enable VirtualKeyboard Style appear"))
                 self.Auto_wakeup = getConfigListEntry(_("Choose update start time"), config.plugins.KeyAdder.wakeup, _("This option to choose the time hour to start download file"))
                 self.Auto_site = getConfigListEntry(_("Choose site to download file from it"), config.plugins.KeyAdder.Autodownload_sitelink, _("This option to choose the site you want to download file from it"))
+                self.Show_Autoflash = getConfigListEntry(_("Enable Show message after finish download file"), config.plugins.KeyAdder.Show_Autoflash, _("This option to Showing message of successfully after finish download file"))
 
                 self.org_wakeup = config.plugins.KeyAdder.wakeup.getValue()
 
@@ -904,6 +909,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
                 if config.plugins.KeyAdder.Autodownload_enabled.value:
                 	self.list.append(self.Auto_wakeup)
                 	self.list.append(self.Auto_site)
+                	self.list.append(self.Show_Autoflash)
                 self.list.append(self.Enablesoftcampath)
                 self.list.append(self.EnablekeyboardStyle)
                 self.list.append(self.Selectsavenumber)
@@ -1009,29 +1015,33 @@ class AutoStartTimer:
         agent = '--header="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17"'
         crt = "--debug --no-check-certificate"
         command = ""
-        if config.plugins.KeyAdder.Autodownload_sitelink.value == "smcam":
+        Site_Value = config.plugins.KeyAdder.Autodownload_sitelink.value
+        if Site_Value == "smcam":
                 myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
                 os.system("wget -O %s %s" % (SoftCamKey, myurl))
-        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "softcam.org":
+        elif Site_Value == "softcam.org":
                 myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
                 os.system("wget -O %s %s" % (SoftCamKey, myurl))
-        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "enigma1969":
+        elif Site_Value == "enigma1969":
                 myurl = "https://docs.google.com/uc?export=download&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export"
                 os.system("wget %s -O %s %s" % (crt, SoftCamKey, myurl))
-        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "MOHAMED_OS":
+        elif Site_Value == "MOHAMED_OS":
                 myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
                 os.system("wget -O %s %s" % (SoftCamKey, myurl))
-        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "MOHAMED_Nasr":
+        elif Site_Value == "MOHAMED_Nasr":
                 myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
                 os.system("wget -O %s %s" % (SoftCamKey, myurl))
-        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "Serjoga":
+        elif Site_Value == "Serjoga":
                 myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
                 os.system("wget -O %s %s" % (SoftCamKey, myurl))
-        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "Novaler4k":
+        elif Site_Value == "Novaler4k":
                 myurl = "http://novaler.homelinux.com/SoftCam.Key"
                 os.system("wget -O %s %s" % (SoftCamKey, myurl))
         else:
                 close()
+        if config.plugins.KeyAdder.Show_Autoflash.value:
+        	self.session.open(MessageBox, _("Download the file from the (%s) successfully !\n\nTo the path (%s) !" % (Site_Value, SoftCamKey)), MessageBox.TYPE_INFO)
+
 
 def main(session=None, **kwargs):
     session.open(KeyAdderUpdate)
