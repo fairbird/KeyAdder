@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='7.6'
-description='What is NEW:\n- Update and fixs some codes.\n\n*************************\n:ما هو الجديد\n- تحديث وإصلاح بعض الأكواد'
+version='7.7'
+description='What is NEW:\n- Add New feature (Automatic Update softcam.keys).\n\n*************************\n:ما هو الجديد\n- إضافة خاصية جديدة - تحديث ملف السوفتكام بشكل آلي'
 ##############################################################
 
 ###########################################

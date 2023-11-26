@@ -4,11 +4,12 @@
 
 from enigma import eConsoleAppContainer, eDVBDB, iServiceInformation, eTimer, loadPNG, getDesktop, RT_WRAP, RT_HALIGN_LEFT, RT_VALIGN_CENTER, eListboxPythonMultiContent, gFont
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
-from Components.config import config, getConfigListEntry, ConfigText, ConfigSelectionNumber, ConfigSubsection, ConfigYesNo, configfile, ConfigSelection
+from Components.config import config, getConfigListEntry, ConfigText, ConfigSelectionNumber, ConfigSubsection, ConfigYesNo, configfile, ConfigSelection, ConfigClock
 from Components.ConfigList import ConfigListScreen
 from Plugins.Plugin import PluginDescriptor
 from Tools.BoundFunction import boundFunction
 from ServiceReference import ServiceReference
+from Screens import Standby
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Screens.Standby import TryQuitMainloop
@@ -44,6 +45,18 @@ config.plugins.KeyAdder.softcampath = ConfigYesNo(default=False) #False = Auto D
 config.plugins.KeyAdder.custom_softcampath = ConfigText(default="/usr/keys", visible_width = 250, fixed_size = False)
 config.plugins.KeyAdder.keyboardStyle = ConfigSelection(default = "Style2", choices = [("Style1", _("Old Style keyboard")),("Style2", _("New Style keyboard"))])
 config.plugins.KeyAdder.savenumber = ConfigSelectionNumber(1, 20, 1, default=5)
+config.plugins.KeyAdder.Autodownload_enabled = ConfigYesNo(default=False)
+config.plugins.KeyAdder.wakeup = ConfigClock(default=((7 * 60) + 9) * 60)  # 7:00
+config.plugins.KeyAdder.Autodownload_sitelink = ConfigSelection(default = "smcam", choices = [
+        ("smcam", _("smcam")),
+        ("softcam.org", _("softcam.org")),
+        #("enigma1969", _("enigma1969")),
+        ("MOHAMED_OS", _("MOHAMED_OS")),
+        ("MOHAMED_Nasr", _("MOHAMED_Nasr")),
+        ("Serjoga", _("Serjoga")),
+        ("Novaler4k", _("Novaler4k")),
+        ])
+
 BRANATV="/usr/lib/enigma2/python/boxbranding.so" ## OpenATV
 BRANDPLI="/usr/share/enigma2/rc_models/rc_models.cfg" ## OpenPLI/OV
 BRANDOPEN="/usr/lib/enigma2/python/Tools/StbHardware.pyo" ## Open source
@@ -260,9 +273,9 @@ class KeyAdderUpdate(Screen):
     def Downloadkeys(self, select, SoftCamKey=None):
         cmdlist = []
         SoftCamKey = findSoftCamKey()
-        agent='--header="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17"'
-        crt="--debug --no-check-certificate"
-        command=""
+        agent = '--header="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17"'
+        crt = "--debug --no-check-certificate"
+        command = ""
         if select:
                 ### This codes if using site and get error (sslv3 alert handshake failure) from such as gitlab site
                 #myurl = "https://gitlab.com/xxxx/-/raw/main/SoftCam.Key"
@@ -278,8 +291,8 @@ class KeyAdderUpdate(Screen):
                 #os.system("wget -O {0} {1}".format(SoftCamKey, myurl)) # Just other code if the above does not work
                 self.session.open(imagedownloadScreen2)
             elif select[1] == "enigma1969":
-                myurl = "http://drive.google.com/uc?authuser=0&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export=download"
-                command = "wget %s -q -O %s %s" % (crt, SoftCamKey, myurl)
+                myurl = "https://docs.google.com/uc?export=download&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export"
+                command = "wget %s -q %s %s" % (crt, SoftCamKey, myurl)
                 self.session.open(imagedownloadScreen,"softcam",SoftCamKey,myurl)
             elif select[1] == "MOHAMED_OS":
                 myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
@@ -799,11 +812,15 @@ def findKeyIRDETO(session, SoftCamKey, key="00000000000000000000000000000000"):
       else:
             return key
 
+
 class keyAdder_setup(ConfigListScreen, Screen):
         if reswidth == 1280:
                 skin="""
 <screen name="keyAdder_setup" position="center,center" size="620,398" title="keyAdder setup">
-<widget source="Title" position="5,5" size="610,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
+<!--widget source="Title" position="5,5" size="371,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/!-->
+<widget source="global.CurrentTime" render="Label" position="5,5" size="371,30" font="Regular;25" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+</widget>
 <widget name="config" position="15,45" size="584,303" scrollbarMode="showOnDemand"/>
 <widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
@@ -815,7 +832,10 @@ class keyAdder_setup(ConfigListScreen, Screen):
                 if DreamOS():
                         skin="""
 <screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
-<widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
+<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+</widget>
 <widget name="config" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
@@ -826,7 +846,10 @@ class keyAdder_setup(ConfigListScreen, Screen):
                 else:
                         skin="""
 <screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
-<widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/>
+<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+</widget>
 <widget name="config" font="Regular;28" secondfont="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
@@ -845,38 +868,48 @@ class keyAdder_setup(ConfigListScreen, Screen):
                         "cancel": self.cancel,
                         "red": self.cancel,
                         "green": self.save,
+                        "left": self.keyLeft,
+                        "right": self.keyRight,
                 }, -2)
 
                 # Impoert class KeyAdderUpdate()
                 self.KeyAdderUpdate = KeyAdderUpdate(session)
-                self.EnablekeyboardStyle_value = config.plugins.KeyAdder.keyboardStyle.value
+                # Impoert class AutoStartTimer()
+                #self.AutoStartTimer = AutoStartTimer(session)
 
                 self["key_red"] = StaticText(_("Exit"))
                 self["key_green"] = StaticText(_("Save"))
                 self["help"] = StaticText()
-                self.createConfigList()
+                self.initConfig()
+                self.createSetup()
                 self.onLayoutFinish.append(self.setWindowTitle)
 
         def setWindowTitle(self):
                 self.setTitle("KeyAdder Setup V%s" % VER)
 
-        def cancel(self):
-                self.close()
-
-        def createConfigList(self):
+        def initConfig(self):
                 self.EnablecheckUpdate = getConfigListEntry(_("Enable checking for Online Update"), config.plugins.KeyAdder.update, _(" This Option to Enable or Disable checking for Online Update"))
                 self.Enablesoftcampath = getConfigListEntry(_("Enable custom softCam file path"), config.plugins.KeyAdder.softcampath, _("This option to Enable custom softCam file path"))
                 self.EnablekeyboardStyle = getConfigListEntry(_("Change VirtualKeyboard Style"), config.plugins.KeyAdder.keyboardStyle, _("This option to change Enable VirtualKeyboard Style appear"))
                 self.Selectsavenumber = getConfigListEntry(_("Choose keys save numbers"), config.plugins.KeyAdder.savenumber, _("This option to choose how many keys need to save it inside savefile"))
+                self.Auto_enabled = getConfigListEntry(_("Automatic softcam.key update"), config.plugins.KeyAdder.Autodownload_enabled, _("This option to change Enable VirtualKeyboard Style appear"))
+                self.Auto_wakeup = getConfigListEntry(_("Choose update start time"), config.plugins.KeyAdder.wakeup, _("This option to choose the time hour to start download file"))
+                self.Auto_site = getConfigListEntry(_("Choose site to download file from it"), config.plugins.KeyAdder.Autodownload_sitelink, _("This option to choose the site you want to download file from it"))
 
-                list = []
-                list.append(self.EnablecheckUpdate)
-                list.append(self.Enablesoftcampath)
-                list.append(self.EnablekeyboardStyle)
-                list.append(self.Selectsavenumber)
+                self.org_wakeup = config.plugins.KeyAdder.wakeup.getValue()
 
-                self["config"].list = list
-                self["config"].l.setList(list)
+        def createSetup(self):
+                self.list = []
+                self.list.append(self.Auto_enabled)
+                if config.plugins.KeyAdder.Autodownload_enabled.value:
+                	self.list.append(self.Auto_wakeup)
+                	self.list.append(self.Auto_site)
+                self.list.append(self.Enablesoftcampath)
+                self.list.append(self.EnablekeyboardStyle)
+                self.list.append(self.Selectsavenumber)
+
+                self["config"].list = self.list
+                self["config"].l.setList(self.list)
                 self["config"].onSelectionChanged.append(self.updateHelp)
 
         def updateHelp(self):
@@ -884,16 +917,130 @@ class keyAdder_setup(ConfigListScreen, Screen):
                 if cur:
                         self["help"].text = cur[2]
 
+        def keyLeft(self):
+                ConfigListScreen.keyLeft(self)
+                self.createSetup()
+
+        def keyRight(self):
+                ConfigListScreen.keyRight(self)
+                self.createSetup()
+
+        def cancel(self):
+                self.close()
+
         def save(self):
+                global autoStartTimer
                 for x in self["config"].list:
                         if len(x)>1:
                                 x[1].save()
                 configfile.save()
+                if autoStartTimer is not None:
+                        autoStartTimer.update()
+                        if self.org_wakeup != config.plugins.KeyAdder.wakeup.getValue():
+                                self.changedFinished()
                 self.close()
 
+        def changedFinished(self):
+                self.session.openWithCallback(self.ExecuteRestart, MessageBox, _("You need to restart the GUI") + "\n" + _("Do you want to restart now?"), MessageBox.TYPE_YESNO)
+                self.close()
 
-def main(session, **kwargs):
+        def ExecuteRestart(self, result):
+                if result:
+                        Standby.quitMainloop(3)
+                else:
+                        self.close()
+
+
+autoStartTimer = None
+
+class AutoStartTimer:
+    def __init__(self, session):
+        self.session = session
+        self.timer = eTimer()
+        try:
+            self.timer_conn = self.timer.timeout.connect(self.onTimer)
+        except:
+            self.timer.callback.append(self.onTimer)
+        self.update()
+
+    def getWakeTime(self):
+        import time
+        if config.plugins.KeyAdder.Autodownload_enabled.value:
+            clock = config.plugins.KeyAdder.wakeup.value
+            nowt = time.time()
+            now = time.localtime(nowt)
+            return int(time.mktime((now.tm_year, now.tm_mon, now.tm_mday, clock[0], clock[1], 0, now.tm_wday, now.tm_yday, now.tm_isdst)))
+        else:
+            return -1
+
+    def update(self, atLeast=0):
+        import time
+        self.timer.stop()
+        wake = self.getWakeTime()
+        nowtime = time.time()
+        if wake > 0:
+            if wake < nowtime + atLeast:
+                # Tomorrow.
+                wake += 24 * 3600
+            next = wake - int(nowtime)
+            if next > 3600:
+                next = 3600
+            if next <= 0:
+                next = 60
+            self.timer.startLongTimer(next)
+        else:
+            wake = -1
+        return wake
+
+    def onTimer(self):
+        import time
+        self.timer.stop()
+        now = int(time.time())
+        wake = self.getWakeTime()
+        atLeast = 0
+        if abs(wake - now) < 60:
+            self.runUpdate()
+            atLeast = 60
+        self.update(atLeast)
+
+    def runUpdate(self):
+        print("\n *********** Auto updating Softcam.key file************ \n")
+        SoftCamKey = findSoftCamKey()
+        agent = '--header="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17"'
+        crt = "--debug --no-check-certificate"
+        command = ""
+        if config.plugins.KeyAdder.Autodownload_sitelink.value == "smcam":
+                myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
+                os.system("wget -O %s %s" % (SoftCamKey, myurl))
+        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "softcam.org":
+                myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
+                os.system("wget -O %s %s" % (SoftCamKey, myurl))
+        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "enigma1969":
+                myurl = "https://docs.google.com/uc?export=download&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export"
+                os.system("wget %s -O %s %s" % (crt, SoftCamKey, myurl))
+        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "MOHAMED_OS":
+                myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
+                os.system("wget -O %s %s" % (SoftCamKey, myurl))
+        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "MOHAMED_Nasr":
+                myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
+                os.system("wget -O %s %s" % (SoftCamKey, myurl))
+        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "Serjoga":
+                myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
+                os.system("wget -O %s %s" % (SoftCamKey, myurl))
+        elif config.plugins.KeyAdder.Autodownload_sitelink.value == "Novaler4k":
+                myurl = "http://novaler.homelinux.com/SoftCam.Key"
+                os.system("wget -O %s %s" % (SoftCamKey, myurl))
+        else:
+                close()
+
+def main(session=None, **kwargs):
     session.open(KeyAdderUpdate)
+    global autoStartTimer
+    if session is not None:
+    	if autoStartTimer is None:
+    		autoStartTimer = AutoStartTimer(session)
+    return
+
 
 def Plugins(**kwargs):
     #NAME = "KeyAdder V{}".format(VER)
