@@ -1040,7 +1040,14 @@ class AutoStartTimer:
         else:
                 close()
         if config.plugins.KeyAdder.Show_Autoflash.value:
-        	self.session.open(MessageBox, _("Download the file from the (%s) successfully !\n\nTo the path (%s) !" % (Site_Value, SoftCamKey)), MessageBox.TYPE_INFO)
+        	try:
+        		file_size = os.path.getsize(SoftCamKey)
+        	except Exception as error:
+        		trace_error()
+        	if fileExists(SoftCamKey) and file_size > int(0):
+        		self.session.open(MessageBox, _("Download the file from the (%s) successfully !\n\nTo the path (%s) !" % (Site_Value, SoftCamKey)), MessageBox.TYPE_INFO)
+        	else:
+        		self.session.open(MessageBox, _("Download the file from the (%s) not successfully !" % Site_Value), MessageBox.TYPE_ERROR)
 
 
 def main(session=None, **kwargs):
