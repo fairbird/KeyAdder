@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='7.8'
-description='What is NEW:\n- Add option to show message after finish download softcam.key.\n\n*************************\n:ما هو الجديد\n- إضافة خيار إظهار رسالة نهاية التحميل لملف السوفتكام'
+version='7.9'
+description='What is NEW:\n- Add 2K skins support.\n\n*************************\n:ما هو الجديد\n- 2k إضافة دعم سكينات'
 ##############################################################
 
 ###########################################
