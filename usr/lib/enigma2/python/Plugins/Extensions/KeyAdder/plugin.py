@@ -194,7 +194,15 @@ def downloadFile(url, filePath):
         return
 
 class KeyAdderUpdate(Screen):
-    if reswidth == 1920:
+    if reswidth == 2560:
+           skin = '''
+                <screen name="KeyAdderUpdate" position="center,center" size="960,556" backgroundColor="#16000000" title="KeyAdderUpdate">
+			<widget name="menu" position="25,33" size="907,411" backgroundColor="#16000000"/>
+			<eLabel position="20,465" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
+			<eLabel text="MENU" font="Regular;45" position="23,469" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+			<eLabel text="Press Menu for more options" font="Regular;45" position="191,465" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+		</screen>'''
+    elif reswidth == 1920:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="704,424" backgroundColor="#16000000" title="KeyAdderUpdate">
                         <widget name="pathfile" position="center,10" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
@@ -264,15 +272,15 @@ class KeyAdderUpdate(Screen):
         self.close()
 
     def siteselect(self):
-        list1 = []
-        list1.append(("smcam (Always Updated)", "smcam"))
-        list1.append(("softcam.org (Always Updated)", "softcam.org"))
-        list1.append(("enigma1969 (Always Updated)", "enigma1969"))
-        list1.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
-        list1.append(("MOHAMED_Nasr (Always Updated)", "MOHAMED_Nasr"))
-        list1.append(("Serjoga", "Serjoga"))
-        list1.append(("Novaler4k", "Novaler4k"))
-        self.session.openWithCallback(self.Downloadkeys, ChoiceBox, _("select site to downloan file"), list1)
+        list = []
+        list.append(("smcam (Always Updated)", "smcam"))
+        list.append(("softcam.org (Always Updated)", "softcam.org"))
+        list.append(("enigma1969 (Always Updated)", "enigma1969"))
+        list.append(("MOHAMED_OS (Always Updated)", "MOHAMED_OS"))
+        list.append(("MOHAMED_Nasr (Always Updated)", "MOHAMED_Nasr"))
+        list.append(("Serjoga", "Serjoga"))
+        list.append(("Novaler4k", "Novaler4k"))
+        self.session.openWithCallback(self.Downloadkeys, ChoiceBox, _("select site to downloan file"), list)
  
     def Downloadkeys(self, select, SoftCamKey=None):
         cmdlist = []
@@ -332,25 +340,31 @@ class KeyAdderUpdate(Screen):
         scolor = cbcolor
         res = []
         menulist = []
-        if reswidth == 1280:
-            self["menu"].l.setItemHeight(50)
-            self["menu"].l.setFont(0, gFont("Regular", 28))
-        else:
+        if reswidth == 2560:
+            self["menu"].l.setItemHeight(85)
+            self["menu"].l.setFont(0, gFont("Regular", 50))
+        elif reswidth == 1920:
             self["menu"].l.setItemHeight(75)
             self["menu"].l.setFont(0, gFont("Regular", 42))
+        else:
+            self["menu"].l.setItemHeight(50)
+            self["menu"].l.setFont(0, gFont("Regular", 28))
         for i in range(0, len(datalist)):
             txt = datalist[i][1]
-            if reswidth == 1280:
-                  png = os_path.join(resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/buttons/%s.png" % datalist[i][2]))
-            else:
+            if reswidth == 2560 or reswidth == 1920:
                   png = os_path.join(resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/buttons/fhd/%s.png" % datalist[i][2]))
-            res.append(MultiContentEntryText(pos=(0, 1), size=(0, 0), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text="", color=scolor, color_sel=cccolor, border_width=3, border_color=806544))
-            if reswidth == 1280:
-                res.append(MultiContentEntryText(pos=(60, 1), size=(723, 50), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text=str(txt), color=16777215, color_sel=16777215))
-                res.append(MultiContentEntryPixmapAlphaTest(pos=(5, 5), size=(40, 40), png=loadPNG(png)))
             else:
+                  png = os_path.join(resolveFilename(SCOPE_PLUGINS, "Extensions/KeyAdder/buttons/%s.png" % datalist[i][2]))
+            res.append(MultiContentEntryText(pos=(0, 1), size=(0, 0), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text="", color=scolor, color_sel=cccolor, border_width=3, border_color=806544))
+            if reswidth == 2560:
+                res.append(MultiContentEntryText(pos=(100, 1), size=(1440, 85), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text=str(txt), color=16777215, color_sel=16777215))
+                res.append(MultiContentEntryPixmapAlphaTest(pos=(5, 5), size=(75, 75), png=loadPNG(png)))
+            elif reswidth == 1920:
                 res.append(MultiContentEntryText(pos=(100, 1), size=(1080, 75), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text=str(txt), color=16777215, color_sel=16777215))
                 res.append(MultiContentEntryPixmapAlphaTest(pos=(5, 5), size=(75, 75), png=loadPNG(png)))
+            else:
+                res.append(MultiContentEntryText(pos=(60, 1), size=(723, 50), font=0, flags=RT_HALIGN_LEFT | RT_VALIGN_CENTER | RT_WRAP, text=str(txt), color=16777215, color_sel=16777215))
+                res.append(MultiContentEntryPixmapAlphaTest(pos=(5, 5), size=(40, 40), png=loadPNG(png)))
             menulist.append(res)
             res = []
         self["menu"].l.setList(menulist)
@@ -406,7 +420,7 @@ class KeyAdderUpdate(Screen):
 
 
 class PathsSelect(Screen):
-        if reswidth == 1920:
+        if reswidth == 1920 or reswidth == 2560:
                 if DreamOS():
                         skin = """
                                 <screen name="PathsSelect" position="center,center" size="906,812" title="Select Select" >
@@ -818,21 +832,36 @@ def findKeyIRDETO(session, SoftCamKey, key="00000000000000000000000000000000"):
 
 
 class keyAdder_setup(ConfigListScreen, Screen):
-        if reswidth == 1280:
-                skin="""
-<screen name="keyAdder_setup" position="center,center" size="620,398" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="371,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/!-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="371,30" font="Regular;25" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+        if reswidth == 2560:
+                if DreamOS():
+                        skin="""
+<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
+<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
   <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
 </widget>
-<widget name="config" position="15,45" size="584,303" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="150,3" position="379,394" zPosition="-10"/>
-<widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
-<widget render="Label" source="key_green" position="379,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+<widget name="config" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
+<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
+<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
+<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
 </screen>"""
-        else:
+                else:
+                        skin="""
+<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
+<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+</widget>
+<widget name="config" font="Regular;35" secondfont="Regular;35" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
+<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
+<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
+<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+</screen>"""
+        elif reswidth == 1920:
                 if DreamOS():
                         skin="""
 <screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
@@ -854,12 +883,26 @@ class keyAdder_setup(ConfigListScreen, Screen):
 <widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
   <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
 </widget>
-<widget name="config" font="Regular;28" secondfont="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
+<widget name="config" font="Regular;28" secondfont="Regular;28" secondfont="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
 <widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
 <widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+</screen>"""
+        else:
+                skin="""
+<screen name="keyAdder_setup" position="center,center" size="620,398" title="keyAdder setup">
+<!--widget source="Title" position="5,5" size="371,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/!-->
+<widget source="global.CurrentTime" render="Label" position="5,5" size="371,30" font="Regular;25" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+</widget>
+<widget name="config" position="15,45" size="584,303" scrollbarMode="showOnDemand"/>
+<widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
+<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="150,3" position="379,394" zPosition="-10"/>
+<widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_green" position="379,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
 </screen>"""
         def __init__(self, session):
                 self.session = session
