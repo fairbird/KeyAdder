@@ -8,7 +8,7 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='7.9'
+version='8.0'
 description='What is NEW:\n- Add 2K skins support.\n\n*************************\n:ما هو الجديد\n- 2k إضافة دعم سكينات'
 ##############################################################
 
