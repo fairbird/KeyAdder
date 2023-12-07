@@ -844,8 +844,8 @@ class keyAdder_setup(ConfigListScreen, Screen):
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
+<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
 </screen>"""
                 else:
                         skin="""
@@ -858,8 +858,8 @@ class keyAdder_setup(ConfigListScreen, Screen):
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
+<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
 </screen>"""
         elif reswidth == 1920:
                 if DreamOS():
@@ -873,7 +873,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
 <widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
 </screen>"""
                 else:
@@ -883,11 +883,11 @@ class keyAdder_setup(ConfigListScreen, Screen):
 <widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
   <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
 </widget>
-<widget name="config" font="Regular;28" secondfont="Regular;28" secondfont="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
+<widget name="config" font="Regular;28" secondfont="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
 <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
 <widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
 </screen>"""
         else:
@@ -901,9 +901,10 @@ class keyAdder_setup(ConfigListScreen, Screen):
 <widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
 <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
 <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="150,3" position="379,394" zPosition="-10"/>
-<widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  shadowOffset="-1,-1"/>
+<widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
 <widget render="Label" source="key_green" position="379,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
 </screen>"""
+
         def __init__(self, session):
                 self.session = session
                 Screen.__init__(self, session)
