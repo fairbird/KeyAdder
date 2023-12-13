@@ -835,17 +835,17 @@ class keyAdder_setup(ConfigListScreen, Screen):
         if reswidth == 2560:
                 if DreamOS():
                         skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
+<screen name="keyAdder_setup" position="center,center" size="840,708" title="keyAdder setup">
 <!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
 <widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
   <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
 </widget>
-<widget name="config" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
+<widget name="config" position="28,70" size="780,508" scrollbarMode="showOnDemand"/>
+<widget source="help" render="Label" position="10,566" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,695" zPosition="-10"/>
+<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,695" zPosition="-10"/>
+<widget render="Label" source="key_red" position="123,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
+<widget render="Label" source="key_green" position="445,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
 </screen>"""
                 else:
                         skin="""
