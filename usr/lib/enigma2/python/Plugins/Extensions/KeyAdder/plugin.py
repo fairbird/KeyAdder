@@ -196,26 +196,30 @@ def downloadFile(url, filePath):
 class KeyAdderUpdate(Screen):
     if reswidth == 2560:
            skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="960,556" backgroundColor="#16000000" title="KeyAdderUpdate">
-			<widget name="menu" position="25,33" size="907,411" backgroundColor="#16000000"/>
-			<eLabel position="20,465" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
-			<eLabel text="MENU" font="Regular;45" position="23,469" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-			<eLabel text="Press Menu for more options" font="Regular;45" position="191,465" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+                <screen name="KeyAdderUpdate" position="center,center" size="960,634" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+                	<widget source="Title" render="Label" position="0,0" size="956,63" font="Regular;45" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+                	<widget name="pathfile" position="center,70" size="908,45" font="Regular;35" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+			<widget name="menu" position="25,123" size="907,440" backgroundColor="#16000000"/>
+			<eLabel position="20,570" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
+			<eLabel text="MENU" font="Regular;45" position="23,574" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+			<eLabel text="Press Menu for more options" font="Regular;45" position="191,570" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
 		</screen>'''
     elif reswidth == 1920:
            skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="704,424" backgroundColor="#16000000" title="KeyAdderUpdate">
-                        <widget name="pathfile" position="center,10" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-                        <widget name="menu" position="center,55" size="650,290" backgroundColor="#16000000"/>
-                        <eLabel position="25,360" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
-                        <eLabel text="MENU" font="Regular;30" position="28,364" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-                        <eLabel text="Press Menu for more options" font="Regular;33" position="148,360" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+                <screen name="KeyAdderUpdate" position="center,center" size="704,450" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+                	<widget source="Title" render="Label" position="0,0" size="704,45" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+                        <widget name="pathfile" position="center,40" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                        <widget name="menu" position="center,85" size="650,290" backgroundColor="#16000000"/>
+                        <eLabel position="25,390" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
+                        <eLabel text="MENU" font="Regular;30" position="28,394" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+                        <eLabel text="Press Menu for more options" font="Regular;33" position="148,390" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
                 </screen>'''
     else:
            skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate">
-                        <widget name="pathfile" position="10,5" size="458,61" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-                        <widget name="menu" position="10,75" size="450,173" backgroundColor="#16000000"/>
+                <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+                        <widget source="Title" render="Label" position="0,0" size="476,35" font="Regular;28" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+                        <widget name="pathfile" position="10,40" size="458,35" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                        <widget name="menu" position="10,80" size="450,173" backgroundColor="#16000000"/>
                         <eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
                         <eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
                         <eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
