@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='8.0'
-description='What is NEW:\n- Add 2K skins support.\n\n*************************\n:ما هو الجديد\n- 2k إضافة دعم سكينات'
+version='8.1'
+description='What is NEW:\n- Small update for plugin skin.\n\n*************************\n:ما هو الجديد\n- تحديث بسيط لسكين البلجن'
 ##############################################################
 
 ###########################################
