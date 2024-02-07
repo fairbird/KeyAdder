@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='8.1'
-description='What is NEW:\n- Small update for plugin skin.\n\n*************************\n:ما هو الجديد\n- تحديث بسيط لسكين البلجن'
+version='8.2'
+description='What is NEW:\n- Added a new feature to manually enter the keys and encryption value.\n\n*************************\n:ما هو الجديد\n- إضافة خاصية جديدة لإخال المفاتيح وقيمة التشفير بشكل يدوي'
 ##############################################################
 
 ###########################################
