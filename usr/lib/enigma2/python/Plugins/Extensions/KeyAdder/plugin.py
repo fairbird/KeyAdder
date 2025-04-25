@@ -706,7 +706,7 @@ def setKeyCallback(session, SoftCamKey, key):
       	elif key and len(key) == 16:
             	if 0x2600 in caids:
                  	if key != findKeyBISS(session, SoftCamKey, ""): # no change was made ## BISS
-                       		keystr = "F %08X 00 %s" % (getHash(session), key)
+                       		keystr = "F %08X 00000000 %s" % (getHash(session), key)
                        		name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                        		datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                        		restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
