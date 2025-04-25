@@ -706,12 +706,14 @@ def setKeyCallback(session, SoftCamKey, key):
         elif key and len(key) == 16:
                 if 0x2600 in caids:
                     if key != findKeyBISS(session, SoftCamKey, ""): # no change was made ## BISS
-                            sid = info.getInfo(iServiceInformation.sSID)
-                            vpid = info.getInfo(iServiceInformation.sVideoPID)
-                            sid_part = "{:04X}".format(sid)
-                            vpid_part = "{:04X}".format(vpid)
-                            keystr = "F %s%s 00 %s" % (sid_part, vpid_part, key)
-                            #keystr = "F %04X 00 %s" % (getHash(session), key)
+                            if getOrb(session) == "21.5E" or getOrb(session) == "21.5E" :
+                            	sid = info.getInfo(iServiceInformation.sSID)
+                            	vpid = info.getInfo(iServiceInformation.sVideoPID)
+                            	sid_part = "{:04X}".format(sid)
+                            	vpid_part = "{:04X}".format(vpid)
+                            	keystr = "F %s%s 00 %s" % (sid_part, vpid_part, key)
+                            else:
+                            	keystr = "F %08X 00 %s" % (getHash(session), key)
                             name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                             datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
@@ -790,14 +792,16 @@ def getOrb(session):
       return desc
 
 def findKeyBISS(session, SoftCamKey, key="0000000000000000"):
-      service = session.nav.getCurrentService()
-      info = service and service.info()
-      sid = info.getInfo(iServiceInformation.sSID)
-      vpid = info.getInfo(iServiceInformation.sVideoPID)
-      sid_part = "{:04X}".format(sid)
-      vpid_part = "{:04X}".format(vpid)
-      keystart = "F %s%s" % (sid_part, vpid_part)
-      #keystart = "F %04X" % getHash(session)
+      if getOrb(session) == "21.5E" or getOrb(session) == "21.5E" :
+      	service = session.nav.getCurrentService()
+      	info = service and service.info()
+      	sid = info.getInfo(iServiceInformation.sSID)
+      	vpid = info.getInfo(iServiceInformation.sVideoPID)
+      	sid_part = "{:04X}".format(sid)
+      	vpid_part = "{:04X}".format(vpid)
+      	keystart = "F %s%s" % (sid_part, vpid_part)
+      else:
+      	keystart = "F %08X" % getHash(session)
       keyline = ""
       if PY3:
         with open(SoftCamKey,"r", errors="ignore") as f:
