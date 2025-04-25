@@ -44,13 +44,13 @@ config.plugins.KeyAdder.lastcaid = ConfigText(default="0", fixed_size=False)
 config.plugins.KeyAdder.softcampath = ConfigYesNo(default=False) #False = Auto Detecte path
 config.plugins.KeyAdder.custom_softcampath = ConfigText(default="/usr/keys", visible_width = 250, fixed_size = False)
 config.plugins.KeyAdder.keyboardStyle = ConfigSelection(default = "Style2", choices = [
-	("Style1", _("Old Style keyboard")),
-	("Style2", _("New Style keyboard")),
-	])
+    ("Style1", _("Old Style keyboard")),
+    ("Style2", _("New Style keyboard")),
+    ])
 config.plugins.KeyAdder.AddkeyStyle = ConfigSelection(default = "auto", choices = [
-	("auto", _("Auto detect and add keys")),
-	("manual", _("Manual add all info keys")),
-	])
+    ("auto", _("Auto detect and add keys")),
+    ("manual", _("Manual add all info keys")),
+    ])
 config.plugins.KeyAdder.savenumber = ConfigSelectionNumber(1, 20, 1, default=5)
 config.plugins.KeyAdder.Autodownload_enabled = ConfigYesNo(default=False)
 config.plugins.KeyAdder.wakeup = ConfigClock(default=((7 * 60) + 9) * 60)  # 7:00
@@ -201,17 +201,17 @@ class KeyAdderUpdate(Screen):
     if reswidth == 2560:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="960,634" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-                	<widget source="Title" render="Label" position="0,0" size="956,63" font="Regular;45" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-                	<widget name="pathfile" position="center,70" size="908,45" font="Regular;35" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-			<widget name="menu" position="25,123" size="907,440" backgroundColor="#16000000"/>
-			<eLabel position="20,570" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
-			<eLabel text="MENU" font="Regular;45" position="23,574" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-			<eLabel text="Press Menu for more options" font="Regular;45" position="191,570" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
-		</screen>'''
+                    <widget source="Title" render="Label" position="0,0" size="956,63" font="Regular;45" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+                    <widget name="pathfile" position="center,70" size="908,45" font="Regular;35" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+            <widget name="menu" position="25,123" size="907,440" backgroundColor="#16000000"/>
+            <eLabel position="20,570" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
+            <eLabel text="MENU" font="Regular;45" position="23,574" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+            <eLabel text="Press Menu for more options" font="Regular;45" position="191,570" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+        </screen>'''
     elif reswidth == 1920:
            skin = '''
                 <screen name="KeyAdderUpdate" position="center,center" size="704,450" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-                	<widget source="Title" render="Label" position="0,0" size="704,45" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+                    <widget source="Title" render="Label" position="0,0" size="704,45" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
                         <widget name="pathfile" position="center,40" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
                         <widget name="menu" position="center,85" size="650,290" backgroundColor="#16000000"/>
                         <eLabel position="25,390" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
@@ -540,11 +540,11 @@ class HexKeyBoard(VirtualKeyBoardKeyAdder):
 
       def setLang(self):
             if config.plugins.KeyAdder.AddkeyStyle.value == "auto":
-            	self.keys_list = [[u"EXIT", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"0", u"BACKSPACE"],
-                                 	[u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"Clean/PASTE"]]
+                self.keys_list = [[u"EXIT", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"0", u"BACKSPACE"],
+                                    [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"Clean/PASTE"]]
             else:
-            	self.keys_list = [[u"EXIT", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"0", u"BACKSPACE"],
-                                 	[u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"SPACE"]]
+                self.keys_list = [[u"EXIT", u"1", u"2", u"3", u"4", u"5", u"6", u"7", u"8", u"9", u"0", u"BACKSPACE"],
+                                    [u"PASTE", u"A", u"B", u"C", u"D", u"E", u"F", u"OK", u"LEFT", u"RIGHT", u"CLEAR", u"SPACE"]]
 
 def saveKey(key):
         try:
@@ -663,26 +663,26 @@ def keymenu(session, service=None):
       SoftCamKey = findSoftCamKey()
       ref = session.nav.getCurrentlyPlayingServiceReference()
       if config.plugins.KeyAdder.AddkeyStyle.value == "auto":
-      	if not os_path.exists(SoftCamKey):
-            	session.open(MessageBox, _("Emu misses SoftCam.Key (%s)" % SoftCamKey), MessageBox.TYPE_ERROR)
-      	elif not hasCAID(session):
-            	session.open(MessageBox, _("CAID is missing for service (%s) CAIDS: %s\nOr the channel is FAT" % (ref.toString(), getCAIDS(session))), MessageBox.TYPE_ERROR)
-      	else:
-           	if caids and 0xe00 in caids:
-               		session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
-                  		title=_("Please enter new key:"), text=findKeyPowerVU(session, SoftCamKey))
-           	elif caids and 0x2600 in caids:
-               		session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
-                  		title=_("Please enter new key:"), text=findKeyBISS(session, SoftCamKey))
-           	elif caids and 0x604 in caids:
-               		session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
-                  		title=_("Please enter new key:"), text=findKeyIRDETO(session, SoftCamKey))
-           	elif caids and 0x1010 in caids:
-                   	newcaid=getnewcaid(SoftCamKey)
-                   	session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
-                  		title=_("Please enter new key for caid:"+newcaid), text=findKeyTandberg(session, SoftCamKey))
+        if not os_path.exists(SoftCamKey):
+                session.open(MessageBox, _("Emu misses SoftCam.Key (%s)" % SoftCamKey), MessageBox.TYPE_ERROR)
+        elif not hasCAID(session):
+                session.open(MessageBox, _("CAID is missing for service (%s) CAIDS: %s\nOr the channel is FAT" % (ref.toString(), getCAIDS(session))), MessageBox.TYPE_ERROR)
+        else:
+            if caids and 0xe00 in caids:
+                    session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
+                        title=_("Please enter new key:"), text=findKeyPowerVU(session, SoftCamKey))
+            elif caids and 0x2600 in caids:
+                    session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
+                        title=_("Please enter new key:"), text=findKeyBISS(session, SoftCamKey))
+            elif caids and 0x604 in caids:
+                    session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
+                        title=_("Please enter new key:"), text=findKeyIRDETO(session, SoftCamKey))
+            elif caids and 0x1010 in caids:
+                    newcaid=getnewcaid(SoftCamKey)
+                    session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
+                        title=_("Please enter new key for caid:"+newcaid), text=findKeyTandberg(session, SoftCamKey))
       else:
-      	session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard, title=_("Please enter new key:"))
+        session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard, title=_("Please enter new key:"))
 
 def setKeyCallback(session, SoftCamKey, key):
       global newcaid
@@ -692,59 +692,64 @@ def setKeyCallback(session, SoftCamKey, key):
       SoftCamKey = findSoftCamKey()
       ref = session.nav.getCurrentlyPlayingServiceReference()
       if config.plugins.KeyAdder.AddkeyStyle.value == "auto":
-      	if key: key = "".join(c for c in key if c in hexdigits).upper()
-      	saveKey(key)
-      	if key and len(key) == 14:
-            	if key != findKeyPowerVU(session, SoftCamKey, ""): # no change was made ## PowerVU
-                  	keystr = "P %s 00 %s" % (getonidsid(session), key)
-                  	name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                  	datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                  	restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
-                  	open(SoftCamKey, "a").write(datastr)
-                  	eConsoleAppContainer().execute("/etc/init.d/softcam restart")
-                  	session.open(MessageBox, _("PowerVU key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
-      	elif key and len(key) == 16:
-            	if 0x2600 in caids:
-                 	if key != findKeyBISS(session, SoftCamKey, ""): # no change was made ## BISS
-                       		keystr = "F %08X 00000000 %s" % (getHash(session), key)
-                       		name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                       		datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                       		restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
-                       		open(SoftCamKey, "a").write(datastr)
-                       		eConsoleAppContainer().execute("/etc/init.d/softcam restart")
-                       		session.open(MessageBox, _("BISS key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
-            	else:
-                 	if key != findKeyTandberg(session, SoftCamKey, ""): # no change was made ## Tandberg
-                       		newcaid=getnewcaid(SoftCamKey)
-                       		keystr = "T %s 01 %s" % (newcaid, key) 
-                       		name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                       		datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                       		restartmess = "\n*** Need to Restart emu TO Active new key ***\n"       
-                       		open(SoftCamKey, "a").write(datastr)
-                       		eConsoleAppContainer().execute("/etc/init.d/softcam restart")
-                       		session.open(MessageBox, _("Tandberg key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
-      	elif key and len(key) == 32:
-            	if key != findKeyIRDETO(session, SoftCamKey, ""): # no change was made ## IRDETO
-                  	keystr = "I 0604 M1 %s" % key
-                  	name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                  	datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                  	restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
-                  	open(SoftCamKey, "a").write(datastr)
-                  	eConsoleAppContainer().execute("/etc/init.d/softcam restart")
-                  	session.open(MessageBox, _("IRDETO key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
-      	elif key:
-               	session.openWithCallback(boundFunction(setKeyCallback, session,SoftCamKey), HexKeyBoard,
-                  	title=_("Invalid key, length is %d" % len(key)), text=key.ljust(16,"*"))
+        if key: key = "".join(c for c in key if c in hexdigits).upper()
+        saveKey(key)
+        if key and len(key) == 14:
+                if key != findKeyPowerVU(session, SoftCamKey, ""): # no change was made ## PowerVU
+                    keystr = "P %s 00 %s" % (getonidsid(session), key)
+                    name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
+                    datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
+                    restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
+                    open(SoftCamKey, "a").write(datastr)
+                    eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                    session.open(MessageBox, _("PowerVU key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
+        elif key and len(key) == 16:
+                if 0x2600 in caids:
+                    if key != findKeyBISS(session, SoftCamKey, ""): # no change was made ## BISS
+                            sid = info.getInfo(iServiceInformation.sSID)
+                            vpid = info.getInfo(iServiceInformation.sVideoPID)
+                            sid_part = "{:04X}".format(sid)
+                            vpid_part = "{:04X}".format(vpid)
+                            keystr = "F %s%s 00 %s" % (sid_part, vpid_part, key)
+                            #keystr = "F %04X 00 %s" % (getHash(session), key)
+                            name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
+                            datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
+                            restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
+                            open(SoftCamKey, "a").write(datastr)
+                            eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                            session.open(MessageBox, _("BISS key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
+                else:
+                    if key != findKeyTandberg(session, SoftCamKey, ""): # no change was made ## Tandberg
+                            newcaid=getnewcaid(SoftCamKey)
+                            keystr = "T %s 01 %s" % (newcaid, key) 
+                            name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
+                            datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
+                            restartmess = "\n*** Need to Restart emu TO Active new key ***\n"       
+                            open(SoftCamKey, "a").write(datastr)
+                            eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                            session.open(MessageBox, _("Tandberg key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
+        elif key and len(key) == 32:
+                if key != findKeyIRDETO(session, SoftCamKey, ""): # no change was made ## IRDETO
+                    keystr = "I 0604 M1 %s" % key
+                    name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
+                    datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
+                    restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
+                    open(SoftCamKey, "a").write(datastr)
+                    eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                    session.open(MessageBox, _("IRDETO key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
+        elif key:
+                session.openWithCallback(boundFunction(setKeyCallback, session,SoftCamKey), HexKeyBoard,
+                    title=_("Invalid key, length is %d" % len(key)), text=key.ljust(16,"*"))
       else:
-      	if key != None:
-      		saveKey(key)
-      		keystr = "%s" % key
-      		name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-      		datastr = "\n%s ; Added on %s for %s at %s" % (keystr.replace("|", ""), datetime.now(), name, getOrb(session))
-      		restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
-      		open(SoftCamKey, "a").write(datastr)
-      		eConsoleAppContainer().execute("/etc/init.d/softcam restart")
-      		session.open(MessageBox, _("key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
+        if key != None:
+            saveKey(key)
+            keystr = "%s" % key
+            name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
+            datastr = "\n%s ; Added on %s for %s at %s" % (keystr.replace("|", ""), datetime.now(), name, getOrb(session))
+            restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
+            open(SoftCamKey, "a").write(datastr)
+            eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+            session.open(MessageBox, _("key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
 
 def getHash(session):
       ref = session.nav.getCurrentlyPlayingServiceReference()
@@ -785,7 +790,14 @@ def getOrb(session):
       return desc
 
 def findKeyBISS(session, SoftCamKey, key="0000000000000000"):
-      keystart = "F %08X" % getHash(session)
+      service = session.nav.getCurrentService()
+      info = service and service.info()
+      sid = info.getInfo(iServiceInformation.sSID)
+      vpid = info.getInfo(iServiceInformation.sVideoPID)
+      sid_part = "{:04X}".format(sid)
+      vpid_part = "{:04X}".format(vpid)
+      keystart = "F %s%s" % (sid_part, vpid_part)
+      #keystart = "F %04X" % getHash(session)
       keyline = ""
       if PY3:
         with open(SoftCamKey,"r", errors="ignore") as f:
@@ -978,9 +990,9 @@ class keyAdder_setup(ConfigListScreen, Screen):
                 self.list = []
                 self.list.append(self.Auto_enabled)
                 if config.plugins.KeyAdder.Autodownload_enabled.value:
-                	self.list.append(self.Auto_wakeup)
-                	self.list.append(self.Auto_site)
-                	self.list.append(self.Show_Autoflash)
+                    self.list.append(self.Auto_wakeup)
+                    self.list.append(self.Auto_site)
+                    self.list.append(self.Show_Autoflash)
                 self.list.append(self.Enablesoftcampath)
                 self.list.append(self.EnablekeyboardStyle)
                 self.list.append(self.AddkeyStyle)
@@ -1112,22 +1124,22 @@ class AutoStartTimer:
         else:
                 close()
         if config.plugins.KeyAdder.Show_Autoflash.value:
-        	try:
-        		file_size = os.path.getsize(SoftCamKey)
-        	except Exception as error:
-        		trace_error()
-        	if fileExists(SoftCamKey) and file_size > int(0):
-        		self.session.open(MessageBox, _("Download the file from the (%s) successfully !\n\nTo the path (%s) !" % (Site_Value, SoftCamKey)), MessageBox.TYPE_INFO)
-        	else:
-        		self.session.open(MessageBox, _("Download the file from the (%s) not successfully !" % Site_Value), MessageBox.TYPE_ERROR)
+            try:
+                file_size = os.path.getsize(SoftCamKey)
+            except Exception as error:
+                trace_error()
+            if fileExists(SoftCamKey) and file_size > int(0):
+                self.session.open(MessageBox, _("Download the file from the (%s) successfully !\n\nTo the path (%s) !" % (Site_Value, SoftCamKey)), MessageBox.TYPE_INFO)
+            else:
+                self.session.open(MessageBox, _("Download the file from the (%s) not successfully !" % Site_Value), MessageBox.TYPE_ERROR)
 
 
 def main(session=None, **kwargs):
     session.open(KeyAdderUpdate)
     global autoStartTimer
     if session != None:
-    	if autoStartTimer is None:
-    		autoStartTimer = AutoStartTimer(session)
+        if autoStartTimer is None:
+            autoStartTimer = AutoStartTimer(session)
     return
 
 
