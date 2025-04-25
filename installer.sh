@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='8.3'
-description='What is NEW:\n- Update Biss.\n\n*************************\n:ما هو الجديد\n- Biss تحديث'
+version='8.4'
+description='What is NEW:\n- improvement Update Biss.\n\n*************************\n:ما هو الجديد\n- Biss تحسين تحديث'
 ##############################################################
 
 ###########################################
