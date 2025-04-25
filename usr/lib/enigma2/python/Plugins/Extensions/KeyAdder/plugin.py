@@ -706,13 +706,13 @@ def setKeyCallback(session, SoftCamKey, key):
         elif key and len(key) == 16:
                 if 0x2600 in caids:
                     if key != findKeyBISS(session, SoftCamKey, ""): # no change was made ## BISS
-                            if getOrb(session) == "21.5E" or getOrb(session) == "21.5E" :
+                            if getOrb(session) == "21.5E" or getOrb(session) == "21.6E" : # get keystr by (sid & vpid)
                             	sid = info.getInfo(iServiceInformation.sSID)
                             	vpid = info.getInfo(iServiceInformation.sVideoPID)
                             	sid_part = "{:04X}".format(sid)
                             	vpid_part = "{:04X}".format(vpid)
                             	keystr = "F %s%s 00 %s" % (sid_part, vpid_part, key)
-                            else:
+                            else: # get keystr by (Hash)
                             	keystr = "F %08X 00 %s" % (getHash(session), key)
                             name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                             datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
@@ -792,7 +792,7 @@ def getOrb(session):
       return desc
 
 def findKeyBISS(session, SoftCamKey, key="0000000000000000"):
-      if getOrb(session) == "21.5E" or getOrb(session) == "21.5E" :
+      if getOrb(session) == "21.5E" or getOrb(session) == "21.6E" :
       	service = session.nav.getCurrentService()
       	info = service and service.info()
       	sid = info.getInfo(iServiceInformation.sSID)
