@@ -206,27 +206,27 @@ def restartemu():
 			shell=True, text=True
 		).strip()
 		emuname = result
-		print(f"emuname ************************* {emuname}")
+		#print(f"emuname ************************* {emuname}")
 		if emuname:
-			if os_path.exists(f"/usr/bin/{emuname}"):
-				command = f"/usr/bin/{emuname} &"
-			elif os_path.exists(f"/usr/camd/{emuname}"):
-				command = f"/usr/camd/{emuname} &"
-			elif os_path.exists(f"/usr/cam/{emuname}"):
-				command = f"/usr/cam/{emuname} &"
-			elif os_path.exists(f"/usr/emu/{emuname}"):
-				command = f"/usr/emu/{emuname} &"
-			elif os_path.exists(f"/usr/softcams/{emuname}"):
-				command = f"/usr/softcams/{emuname} &"
-			elif os_path.exists(f"/var/bin/{emuname}"):
-				command = f"/var/bin/{emuname} &"
-			elif os_path.exists(f"/var/emu/{emuname}"):
-				command = f"/var/emu/{emuname} &"
+			if os_path.exists("/usr/bin/%s" % emuname):
+				command = "/usr/bin/%s &" % emuname
+			elif os_path.exists("/usr/camd/%s" % emuname):
+				command = "/usr/camd/%s &" % emuname
+			elif os_path.exists("/usr/cam/%s" % emuname):
+				command = "/usr/cam/%s &" % emuname
+			elif os_path.exists("/usr/emu/%s" % emuname):
+				command = "/usr/emu/%s &" % emuname
+			elif os_path.exists("/usr/softcams/%s" % emuname):
+				command = "/usr/softcams/%s &" % emuname
+			elif os_path.exists("/var/bin/%s" % emuname):
+				command = "/var/bin/%s &" % emuname
+			elif os_path.exists("/var/emu/%s" % emuname):
+				command = "/var/emu/%s &" % emuname
 			os.system(command)
 		else:
 			print("No matching emulator found.")
 	except subprocess.CalledProcessError as e:
-		print(f"Error while detecting emulator: {e}")
+		print("Error while detecting emulator: %s" % e)
 
 
 
