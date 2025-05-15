@@ -208,7 +208,20 @@ def restartemu():
 		emuname = result
 		print(f"emuname ************************* {emuname}")
 		if emuname:
-			command = f"/usr/bin/{emuname} &"
+			if os_path.exists(f"/usr/bin/{emuname}"):
+				command = f"/usr/bin/{emuname} &"
+			elif os_path.exists(f"/usr/camd/{emuname}"):
+				command = f"/usr/camd/{emuname} &"
+			elif os_path.exists(f"/usr/cam/{emuname}"):
+				command = f"/usr/cam/{emuname} &"
+			elif os_path.exists(f"/usr/emu/{emuname}"):
+				command = f"/usr/emu/{emuname} &"
+			elif os_path.exists(f"/usr/softcams/{emuname}"):
+				command = f"/usr/softcams/{emuname} &"
+			elif os_path.exists(f"/var/bin/{emuname}"):
+				command = f"/var/bin/{emuname} &"
+			elif os_path.exists(f"/var/emu/{emuname}"):
+				command = f"/var/emu/{emuname} &"
 			os.system(command)
 		else:
 			print("No matching emulator found.")
