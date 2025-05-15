@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='8.4'
-description='What is NEW:\n- improvement Update Biss.\n\n*************************\n:ما هو الجديد\n- Biss تحسين تحديث'
+version='8.5'
+description='What is NEW:\n- Improvement restart emu after add and save keys.\n\n*************************\n:ما هو الجديد\n- تحسين إعادة تشغيل المحاكيات بعد إدخال الشفرات وتحزينها'
 ##############################################################
 
 ###########################################
