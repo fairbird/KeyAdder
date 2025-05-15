@@ -27,6 +27,7 @@ from Components.MenuList import MenuList
 from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS
 import binascii
 import os
+import subprocess
 from shutil import copyfile
 from Plugins.Extensions.KeyAdder.tools.downloader import getversioninfo, imagedownloadScreen, imagedownloadScreen2
 
@@ -196,6 +197,25 @@ def downloadFile(url, filePath):
     except:
         trace_error()
         return
+
+def restartemu():
+	# Execute the shell command and get the first matching emulator name
+	try:
+		result = subprocess.check_output(
+			'ps -eo comm | grep -E "^(ncam|oscam|cccam|mgcamd|gbox|wicardd)" | sort -u | head -n1',
+			shell=True, text=True
+		).strip()
+		emuname = result
+		print(f"emuname ************************* {emuname}")
+		if emuname:
+			command = f"/usr/bin/{emuname} &"
+			os.system(command)
+		else:
+			print("No matching emulator found.")
+	except subprocess.CalledProcessError as e:
+		print(f"Error while detecting emulator: {e}")
+
+
 
 class KeyAdderUpdate(Screen):
     if reswidth == 2560:
@@ -701,7 +721,7 @@ def setKeyCallback(session, SoftCamKey, key):
                     datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                     restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                     open(SoftCamKey, "a").write(datastr)
-                    eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                    restartemu()
                     session.open(MessageBox, _("PowerVU key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key and len(key) == 16:
                 if 0x2600 in caids:
@@ -718,7 +738,7 @@ def setKeyCallback(session, SoftCamKey, key):
                             datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                             open(SoftCamKey, "a").write(datastr)
-                            eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                            restartemu()
                             session.open(MessageBox, _("BISS key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
                 else:
                     if key != findKeyTandberg(session, SoftCamKey, ""): # no change was made ## Tandberg
@@ -728,7 +748,7 @@ def setKeyCallback(session, SoftCamKey, key):
                             datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"       
                             open(SoftCamKey, "a").write(datastr)
-                            eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                            restartemu()
                             session.open(MessageBox, _("Tandberg key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key and len(key) == 32:
                 if key != findKeyIRDETO(session, SoftCamKey, ""): # no change was made ## IRDETO
@@ -737,7 +757,7 @@ def setKeyCallback(session, SoftCamKey, key):
                     datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                     restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                     open(SoftCamKey, "a").write(datastr)
-                    eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+                    restartemu()
                     session.open(MessageBox, _("IRDETO key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key:
                 session.openWithCallback(boundFunction(setKeyCallback, session,SoftCamKey), HexKeyBoard,
@@ -750,7 +770,7 @@ def setKeyCallback(session, SoftCamKey, key):
             datastr = "\n%s ; Added on %s for %s at %s" % (keystr.replace("|", ""), datetime.now(), name, getOrb(session))
             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
             open(SoftCamKey, "a").write(datastr)
-            eConsoleAppContainer().execute("/etc/init.d/softcam restart")
+            restartemu()
             session.open(MessageBox, _("key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
 
 def getHash(session):
