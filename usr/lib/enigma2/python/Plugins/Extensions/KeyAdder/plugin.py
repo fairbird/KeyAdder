@@ -208,20 +208,28 @@ def restartemu():
 		emuname = result
 		#print(f"emuname ************************* {emuname}")
 		if emuname:
+			clean_tmp = os.system('rm -rf /tmp/*.info* /tmp/*.tmp* /tmp/.%s /tmp/*share* /tmp/*.pid* /tmp/*sbox* /tmp/%s.* /tmp/*.%s' % (emuname, emuname, emuname))
 			if os_path.exists("/usr/bin/%s" % emuname):
-				command = "/usr/bin/%s &" % emuname
+				clean_tmp
+				command = "killall -9 %s && /usr/bin/%s &" % (emuname, emuname)
 			elif os_path.exists("/usr/camd/%s" % emuname):
-				command = "/usr/camd/%s &" % emuname
+				clean_tmp
+				command = "killall -9 %s && /usr/camd/%s &" % (emuname, emuname)
 			elif os_path.exists("/usr/cam/%s" % emuname):
-				command = "/usr/cam/%s &" % emuname
+				clean_tmp
+				command = "killall -9 %s && /usr/cam/%s &" % (emuname, emuname)
 			elif os_path.exists("/usr/emu/%s" % emuname):
-				command = "/usr/emu/%s &" % emuname
+				clean_tmp
+				command = "killall -9 %s && /usr/emu/%s &" % (emuname, emuname)
 			elif os_path.exists("/usr/softcams/%s" % emuname):
-				command = "/usr/softcams/%s &" % emuname
+				clean_tmp
+				command = "killall -9 %s && /usr/softcams/%s &" % (emuname, emuname)
 			elif os_path.exists("/var/bin/%s" % emuname):
-				command = "/var/bin/%s &" % emuname
+				clean_tmp
+				command = "killall -9 %s && /var/bin/%s &" % (emuname, emuname)
 			elif os_path.exists("/var/emu/%s" % emuname):
-				command = "/var/emu/%s &" % emuname
+				clean_tmp
+				command = "killall -9 %s && /var/emu/%s &" % (emuname, emuname)
 			os.system(command)
 		else:
 			print("No matching emulator found.")

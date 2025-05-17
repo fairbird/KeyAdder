@@ -8,7 +8,7 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='8.5'
+version='8.6'
 description='What is NEW:\n- Improvement restart emu after add and save keys.\n\n*************************\n:ما هو الجديد\n- تحسين إعادة تشغيل المحاكيات بعد إدخال الشفرات وتحزينها'
 ##############################################################
 
