@@ -203,7 +203,7 @@ def restartemu():
 	try:
 		result = subprocess.check_output(
 			'ps -eo comm | grep -E "^(ncam|oscam|cccam|mgcamd|gbox|wicardd)" | sort -u | head -n1',
-			shell=True, text=True
+			shell=True, universal_newlines=True
 		).strip()
 		emuname = result
 		#print(f"emuname ************************* {emuname}")
