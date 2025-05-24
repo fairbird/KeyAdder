@@ -8,7 +8,7 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='8.8'
+version='8.9'
 description='What is NEW:\n- Add new option to Enable\Disable Auto Restart emu after add keys.\n\n*************************\n:ما هو الجديد\n- إضافة خاصية جديدة لتفعيل او ألغاء إعادة تشغيل الايموهات بعد إدخال الشفرات'
 ##############################################################
 
