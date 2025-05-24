@@ -62,13 +62,15 @@ if [ -f /usr/bin/python3 ] ; then
     echo ":You have Python3 image ..."
     sleep 0.1
     Packagesix=python3-six
+    Packageprocps=procps
 else
     echo ":You have Python2 image ..."
     sleep 0.1
     Packagesix=python-six
+    Packageprocps=procps
 fi
 
-install $Packagesix
+install $Packagesix $Packageprocps
 
 #########################
 cd $TMPDIR
