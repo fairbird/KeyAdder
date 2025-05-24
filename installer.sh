@@ -8,8 +8,8 @@
 # ###########################################
 
 ######### Only These two lines to edit with new version ######
-version='8.9'
-description='What is NEW:\n- Add new option to Enable\Disable Auto Restart emu after add keys.\n\n*************************\n:ما هو الجديد\n- إضافة خاصية جديدة لتفعيل او ألغاء إعادة تشغيل الايموهات بعد إدخال الشفرات'
+version='9.0'
+description='What is NEW:\n- Fixes.\n\n*************************\n:ما هو الجديد\n- إصلاحات'
 ##############################################################
 
 ###########################################
@@ -62,13 +62,15 @@ if [ -f /usr/bin/python3 ] ; then
     echo ":You have Python3 image ..."
     sleep 0.1
     Packagesix=python3-six
+    Packageprocps=procps
 else
     echo ":You have Python2 image ..."
     sleep 0.1
     Packagesix=python-six
+    Packageprocps=procps
 fi
 
-install $Packagesix
+install $Packagesix $Packageprocps
 
 #########################
 cd $TMPDIR
