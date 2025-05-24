@@ -41,6 +41,7 @@ VER = getversioninfo()
 reswidth = getDesktop(0).size().width()
 config.plugins.KeyAdder = ConfigSubsection()
 config.plugins.KeyAdder.update = ConfigYesNo(default=True)
+config.plugins.KeyAdder.autorestart = ConfigYesNo(default=True)
 config.plugins.KeyAdder.lastcaid = ConfigText(default="0", fixed_size=False)
 config.plugins.KeyAdder.softcampath = ConfigYesNo(default=False) #False = Auto Detecte path
 config.plugins.KeyAdder.custom_softcampath = ConfigText(default="/usr/keys", visible_width = 250, fixed_size = False)
@@ -206,9 +207,9 @@ def restartemu():
 			shell=True, universal_newlines=True
 		).strip()
 		emuname = result
-		#print(f"emuname ************************* {emuname}")
+		# print(f"emuname ************************* {emuname}")
 		if emuname:
-			clean_tmp = os.system('rm -rf /tmp/*.info* /tmp/*.tmp* /tmp/.%s /tmp/*share* /tmp/*.pid* /tmp/*sbox* /tmp/%s.* /tmp/*.%s' % (emuname, emuname, emuname))
+			# clean_tmp = os.system('rm -rf /tmp/*.info* /tmp/*.tmp* /tmp/.%s /tmp/*share* /tmp/*.pid* /tmp/*sbox* /tmp/%s.* /tmp/*.%s' % (emuname, emuname, emuname))
 			if os_path.exists("/usr/bin/%s" % emuname):
 				clean_tmp
 				command = "killall -9 %s && /usr/bin/%s &" % (emuname, emuname)
@@ -742,7 +743,8 @@ def setKeyCallback(session, SoftCamKey, key):
                     datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                     restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                     open(SoftCamKey, "a").write(datastr)
-                    restartemu()
+                    if config.plugins.KeyAdder.autorestart.value:
+                    	restartemu()
                     session.open(MessageBox, _("PowerVU key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key and len(key) == 16:
                 if 0x2600 in caids:
@@ -759,7 +761,8 @@ def setKeyCallback(session, SoftCamKey, key):
                             datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                             open(SoftCamKey, "a").write(datastr)
-                            restartemu()
+                            if config.plugins.KeyAdder.autorestart.value:
+                            	restartemu()
                             session.open(MessageBox, _("BISS key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
                 else:
                     if key != findKeyTandberg(session, SoftCamKey, ""): # no change was made ## Tandberg
@@ -769,7 +772,8 @@ def setKeyCallback(session, SoftCamKey, key):
                             datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"       
                             open(SoftCamKey, "a").write(datastr)
-                            restartemu()
+                            if config.plugins.KeyAdder.autorestart.value:
+                            	restartemu()
                             session.open(MessageBox, _("Tandberg key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key and len(key) == 32:
                 if key != findKeyIRDETO(session, SoftCamKey, ""): # no change was made ## IRDETO
@@ -778,7 +782,8 @@ def setKeyCallback(session, SoftCamKey, key):
                     datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                     restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                     open(SoftCamKey, "a").write(datastr)
-                    restartemu()
+                    if config.plugins.KeyAdder.autorestart.value:
+                    	restartemu()
                     session.open(MessageBox, _("IRDETO key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key:
                 session.openWithCallback(boundFunction(setKeyCallback, session,SoftCamKey), HexKeyBoard,
@@ -791,7 +796,8 @@ def setKeyCallback(session, SoftCamKey, key):
             datastr = "\n%s ; Added on %s for %s at %s" % (keystr.replace("|", ""), datetime.now(), name, getOrb(session))
             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
             open(SoftCamKey, "a").write(datastr)
-            restartemu()
+            if config.plugins.KeyAdder.autorestart.value:
+            	restartemu()
             session.open(MessageBox, _("key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
 
 def getHash(session):
@@ -1019,8 +1025,9 @@ class keyAdder_setup(ConfigListScreen, Screen):
                 self.setTitle("KeyAdder Setup V%s" % VER)
 
         def initConfig(self):
-                self.EnablecheckUpdate = getConfigListEntry(_("Enable checking for Online Update"), config.plugins.KeyAdder.update, _(" This Option to Enable or Disable checking for Online Update"))
+                self.EnablecheckUpdate = getConfigListEntry(_("Enable checking for Online Update"), config.plugins.KeyAdder.update, _(" This option to Enable or Disable checking for Online Update"))
                 self.Enablesoftcampath = getConfigListEntry(_("Enable custom softCam file path"), config.plugins.KeyAdder.softcampath, _("This option to Enable custom softCam file path"))
+                self.Enableautorestart = getConfigListEntry(_("Enable auto restart emu"), config.plugins.KeyAdder.autorestart, _(" This option to Enable or Disable auto restart emus after add new keys"))
                 self.EnablekeyboardStyle = getConfigListEntry(_("Change Add keys Style"), config.plugins.KeyAdder.AddkeyStyle, _("This option allows keys to be entered automatically or manually "))
                 self.AddkeyStyle = getConfigListEntry(_("Change VirtualKeyboard Style"), config.plugins.KeyAdder.keyboardStyle, _("This option to change Enable VirtualKeyboard Style appear"))
                 self.Selectsavenumber = getConfigListEntry(_("Choose keys save numbers"), config.plugins.KeyAdder.savenumber, _("This option to choose how many keys need to save it inside savefile"))
@@ -1039,6 +1046,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
                     self.list.append(self.Auto_site)
                     self.list.append(self.Show_Autoflash)
                 self.list.append(self.Enablesoftcampath)
+                self.list.append(self.Enableautorestart)
                 self.list.append(self.EnablekeyboardStyle)
                 self.list.append(self.AddkeyStyle)
                 self.list.append(self.Selectsavenumber)
