@@ -244,34 +244,34 @@ def restartemu():
 class KeyAdderUpdate(Screen):
     if reswidth == 2560:
            skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="960,634" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-                    <widget source="Title" render="Label" position="0,0" size="956,63" font="Regular;45" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-                    <widget name="pathfile" position="center,70" size="908,45" font="Regular;35" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-            <widget name="menu" position="25,123" size="907,440" backgroundColor="#16000000"/>
-            <eLabel position="20,570" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
-            <eLabel text="MENU" font="Regular;45" position="23,574" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-            <eLabel text="Press Menu for more options" font="Regular;45" position="191,570" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
-        </screen>'''
+           		<screen name="KeyAdderUpdate" position="center,center" size="960,634" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+				<widget source="Title" render="Label" position="0,0" size="956,63" font="Regular;45" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+				<widget name="pathfile" position="center,70" size="908,45" font="Regular;35" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+				<widget name="menu" position="25,123" size="907,440" backgroundColor="#16000000"/>
+				<eLabel position="20,570" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
+				<eLabel text="MENU" font="Regular;45" position="23,574" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+				<eLabel text="Press Menu for more options" font="Regular;45" position="191,570" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+			</screen>'''
     elif reswidth == 1920:
            skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="704,450" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-                    <widget source="Title" render="Label" position="0,0" size="704,45" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-                        <widget name="pathfile" position="center,40" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-                        <widget name="menu" position="center,85" size="650,290" backgroundColor="#16000000"/>
-                        <eLabel position="25,390" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
-                        <eLabel text="MENU" font="Regular;30" position="28,394" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-                        <eLabel text="Press Menu for more options" font="Regular;33" position="148,390" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
-                </screen>'''
+			<screen name="KeyAdderUpdate" position="center,center" size="704,450" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+				<widget source="Title" render="Label" position="0,0" size="704,45" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+				<widget name="pathfile" position="center,40" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+				<widget name="menu" position="center,85" size="650,290" backgroundColor="#16000000"/>
+				<eLabel position="25,390" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
+				<eLabel text="MENU" font="Regular;30" position="28,394" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+				<eLabel text="Press Menu for more options" font="Regular;33" position="148,390" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+			</screen>'''
     else:
            skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-                        <widget source="Title" render="Label" position="0,0" size="476,35" font="Regular;28" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-                        <widget name="pathfile" position="10,40" size="458,35" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-                        <widget name="menu" position="10,80" size="450,173" backgroundColor="#16000000"/>
-                        <eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
-                        <eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-                        <eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
-                </screen>'''
+			<screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+				<widget source="Title" render="Label" position="0,0" size="476,35" font="Regular;28" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+				<widget name="pathfile" position="10,40" size="458,35" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+				<widget name="menu" position="10,80" size="450,173" backgroundColor="#16000000"/>
+				<eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
+				<eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+				<eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+			</screen>'''
 
     def __init__(self, session, title="", datalist = []):
         Screen.__init__(self, session)
@@ -923,78 +923,78 @@ def findKeyIRDETO(session, SoftCamKey, key="00000000000000000000000000000000"):
 
 
 class keyAdder_setup(ConfigListScreen, Screen):
-        if reswidth == 2560:
-                if DreamOS():
-                        skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,708" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" position="28,70" size="780,508" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,566" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,695" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,695" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
-<widget render="Label" source="key_green" position="445,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
-</screen>"""
-                else:
-                        skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" font="Regular;35" secondfont="Regular;35" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
-</screen>"""
-        elif reswidth == 1920:
-                if DreamOS():
-                        skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
-</screen>"""
-                else:
-                        skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" font="Regular;28" secondfont="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
-</screen>"""
-        else:
-                skin="""
-<screen name="keyAdder_setup" position="center,center" size="620,398" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="371,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/!-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="371,30" font="Regular;25" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" position="15,45" size="584,303" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="150,3" position="379,394" zPosition="-10"/>
-<widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
-<widget render="Label" source="key_green" position="379,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
-</screen>"""
+	if reswidth == 2560:
+		if DreamOS():
+			skin = """
+				<screen name="keyAdder_setup" position="center,center" size="840,708" title="keyAdder setup">
+					<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+					<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+						<convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+					</widget>
+					<widget name="config" position="28,70" size="780,508" scrollbarMode="showOnDemand"/>
+					<widget source="help" render="Label" position="10,566" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+					<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,695" zPosition="-10"/>
+					<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,695" zPosition="-10"/>
+					<widget render="Label" source="key_red" position="123,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
+					<widget render="Label" source="key_green" position="445,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
+				</screen>"""
+		else:
+			skin = """
+				<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
+					<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+					<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+  						<convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+					</widget>
+					<widget name="config" font="Regular;35" secondfont="Regular;35" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
+					<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+					<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
+					<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
+					<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
+					<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
+				</screen>"""
+	elif reswidth == 1920:
+		if DreamOS():
+			skin = """
+				<screen name="keyAdder_setup" position="center,center" size="1040,560" title="keyAdder setup">
+					<!--widget source="Title" position="5,5" size="1022,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+					<widget source="global.CurrentTime" render="Label" position="5,5" size="1022,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+						<convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+					</widget>
+					<widget name="config" position="18,70" size="1005,344" scrollbarMode="showOnDemand"/>
+					<widget source="help" render="Label" position="18,425" size="1000,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+					<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="223,550" zPosition="-10"/>
+					<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="585,550" zPosition="-10"/>
+					<widget render="Label" source="key_red" position="223,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
+					<widget render="Label" source="key_green" position="585,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+				</screen>"""
+		else:
+			skin = """
+				<screen name="keyAdder_setup" position="center,center" size="1040,560" title="keyAdder setup">
+					<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+					<widget source="global.CurrentTime" render="Label" position="5,5" size="1022,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+						<convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+					</widget>
+					<widget name="config" font="Regular;28" secondfont="Regular;28" itemHeight="45" position="18,70" size="1005,344" scrollbarMode="showOnDemand"/>
+					<widget source="help" render="Label" position="18,425" size="1000,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+					<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="223,550" zPosition="-10"/>
+					<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="585,550" zPosition="-10"/>
+					<widget render="Label" source="key_red" position="223,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
+					<widget render="Label" source="key_green" position="585,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+				</screen>"""
+	else:
+		skin = """
+			<screen name="keyAdder_setup" position="center,center" size="620,398" title="keyAdder setup">
+				<!--widget source="Title" position="5,5" size="371,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/!-->
+				<widget source="global.CurrentTime" render="Label" position="5,5" size="371,30" font="Regular;25" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+					<convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+				</widget>
+				<widget name="config" position="15,45" size="584,303" scrollbarMode="showOnDemand"/>
+				<widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+				<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
+				<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="150,3" position="379,394" zPosition="-10"/>
+				<widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
+				<widget render="Label" source="key_green" position="379,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+			</screen>"""
 
         def __init__(self, session):
                 self.session = session
