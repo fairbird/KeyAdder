@@ -171,14 +171,14 @@ def findSoftCamKey():
 			for line in data:
 				if "configdir:" in line.lower():
 					paths.insert(0, line.split(":")[1].strip())
-			for path in paths:
-				softcamkey = os_path.join(path, "SoftCam.Key")
-				print("[key] the %s exists %d" % (softcamkey, os_path.exists(softcamkey)))
-				if os_path.exists(softcamkey):
-					return softcamkey
-			return "/usr/keys/SoftCam.Key"
-		else:
-			return os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
+		for path in paths:
+			softcamkey = os_path.join(path, "SoftCam.Key")
+			print("[key] the %s exists %d" % (softcamkey, os_path.exists(softcamkey)))
+			if os_path.exists(softcamkey):
+				return softcamkey
+		return "/usr/keys/SoftCam.Key"
+	else:
+		return os_path.join(config.plugins.KeyAdder.custom_softcampath.value, "SoftCam.Key")
 
 
 def downloadFile(url, filePath):
