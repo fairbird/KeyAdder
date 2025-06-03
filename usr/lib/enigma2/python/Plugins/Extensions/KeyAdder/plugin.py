@@ -566,12 +566,12 @@ class PathsSelect(Screen):
 			os.system("mkdir -p %s" % config.plugins.KeyAdder.custom_softcampath.value)
 		self.close(True)
 
-		def okClicked(self):
-			if self.filelist.canDescent():
+	def okClicked(self):
+		if self.filelist.canDescent():
 				self.filelist.descent()
 
-		def exit(self):
-			self.close(True)
+	def exit(self):
+		self.close(True)
 
 
 class HexKeyBoard(VirtualKeyBoardKeyAdder):
