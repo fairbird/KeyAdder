@@ -104,9 +104,9 @@ def logdata(label_name = "", data = None):
 def dellog(label_name = '', data = None):
     try:
         if os_path.exists('/tmp/KeyAdder.log'):
-                os_remove('/tmp/KeyAdder.log')
+            os_remove('/tmp/KeyAdder.log')
         if os_path.exists('/tmp/KeyAdderError.log'):
-                os_remove('/tmp/KeyAdderError.log')
+            os_remove('/tmp/KeyAdderError.log')
     except:
         pass
 
@@ -120,39 +120,39 @@ def trace_error():
         pass
 
 def getnewcaid(SoftCamKey):
-   ##T 0001
-   caidnumbers=[]
-   newkey=1
-   if os_path.exists(SoftCamKey):
-      try:
-          lines=open(SoftCamKey).readlines()
-          for line in lines:
-              line=line.strip()
-              if line.startswith("T"):
-                caidnumber=line[2:6]
-                try:
+    ##T 0001
+    caidnumbers=[]
+    newkey=1
+    if os_path.exists(SoftCamKey):
+        try:
+            lines=open(SoftCamKey).readlines()
+            for line in lines:
+                line=line.strip()
+                if line.startswith("T"):
+                    caidnumber=line[2:6]
+                    try:
                         caidnumbers.append(int(caidnumber))
-                except:
+                    except:
                         continue
-      except:
-          caidnumbers=[]
-      try:
-              newcaid=max(caidnumbers)+1
-      except:
-              newcaid=1
-      formatter="{:04}"
-      newcaid=formatter.format(newcaid)
-      saved_caid=int(config.plugins.KeyAdder.lastcaid.value)+1
-      if saved_caid>newcaid:
-          newcaid=saved_caid
-      elif newcaid>saved_caid :                                                    
-         config.plugins.KeyAdder.lastcaid.value=newcaid
-         config.plugins.KeyAdder.lastcaid.save()
-      elif  newcaid==9999:
-          config.plugins.KeyAdder.lastcaid.value="1111"
-          config.plugins.KeyAdder.lastcaid.save()
-          newcaid=="1111"
-      return newcaid 
+        except:
+            caidnumbers=[]
+        try:
+            newcaid=max(caidnumbers)+1
+        except:
+                newcaid=1
+        formatter="{:04}"
+        newcaid=formatter.format(newcaid)
+        saved_caid=int(config.plugins.KeyAdder.lastcaid.value)+1
+        if saved_caid>newcaid:
+            newcaid=saved_caid
+        elif newcaid>saved_caid :                                                    
+            config.plugins.KeyAdder.lastcaid.value=newcaid
+            config.plugins.KeyAdder.lastcaid.save()
+        elif  newcaid==9999:
+            config.plugins.KeyAdder.lastcaid.value="1111"
+            config.plugins.KeyAdder.lastcaid.save()
+            newcaid=="1111"
+        return newcaid 
 
 def findSoftCamKey():
         paths = ["/etc/tuxbox/config/oscam-emu",
@@ -200,76 +200,81 @@ def downloadFile(url, filePath):
         return
 
 def restartemu():
-	# Execute the shell command and get the first matching emulator name
-	try:
-		result = subprocess.check_output(
-			'ps -eo comm | grep -E "^(ncam|oscam|cccam|mgcamd|gbox|wicardd)" | sort -u | head -n1',
-			shell=True, universal_newlines=True
-		).strip()
-		emuname = result
-		# print(f"emuname ************************* {emuname}")
-		if emuname:
-			clean_tmp = os.system('rm -rf /tmp/*.info* /tmp/*.tmp* /tmp/.%s /tmp/*share* /tmp/*.pid* /tmp/*sbox* /tmp/%s.* /tmp/*.%s' % (emuname, emuname, emuname))
-			if os_path.exists("/usr/bin/%s" % emuname):
-				clean_tmp
-				command = "killall -9 %s && /usr/bin/%s &" % (emuname, emuname)
-			elif os_path.exists("/usr/camd/%s" % emuname):
-				clean_tmp
-				command = "killall -9 %s && /usr/camd/%s &" % (emuname, emuname)
-			elif os_path.exists("/usr/cam/%s" % emuname):
-				clean_tmp
-				command = "killall -9 %s && /usr/cam/%s &" % (emuname, emuname)
-			elif os_path.exists("/usr/emu/%s" % emuname):
-				clean_tmp
-				command = "killall -9 %s && /usr/emu/%s &" % (emuname, emuname)
-			elif os_path.exists("/usr/softcams/%s" % emuname):
-				clean_tmp
-				command = "killall -9 %s && /usr/softcams/%s &" % (emuname, emuname)
-			elif os_path.exists("/var/bin/%s" % emuname):
-				clean_tmp
-				command = "killall -9 %s && /var/bin/%s &" % (emuname, emuname)
-			elif os_path.exists("/var/emu/%s" % emuname):
-				clean_tmp
-				command = "killall -9 %s && /var/emu/%s &" % (emuname, emuname)
-			os.system(command)
-		else:
-			print("No matching emulator found.")
-	except subprocess.CalledProcessError as e:
-		print("Error while detecting emulator: %s" % e)
+        # Execute the shell command and get the first matching emulator name
+        try:
+                result = subprocess.check_output(
+                        'ps -eo comm | grep -E "^(ncam|oscam|cccam|mgcamd|gbox|wicardd)" | sort -u | head -n1',
+                        shell=True, universal_newlines=True
+                ).strip()
+                emuname = result
+                # print(f"emuname ************************* {emuname}")
+                command = ""
+                if emuname:
+                        clean_tmp = os.system('rm -rf /tmp/*.info* /tmp/*.tmp* /tmp/.%s /tmp/*share* /tmp/*.pid* /tmp/*sbox* /tmp/%s.* /tmp/*.%s' % (emuname, emuname, emuname))
+                        if os_path.exists("/usr/bin/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /usr/bin/%s &" % (emuname, emuname)
+                        elif os_path.exists("/usr/bin/camd/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /usr/bin/camd/%s &" % (emuname, emuname)
+                        elif os_path.exists("/usr/bin/cam/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /usr/bin/cam/%s &" % (emuname, emuname)
+                        elif os_path.exists("/usr/bin/emu/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /usr/bin/emu/%s &" % (emuname, emuname)
+                        elif os_path.exists("/usr/bin/softcams/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /usr/bin/softcams/%s &" % (emuname, emuname)
+                        elif os_path.exists("/usr/softcams/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /usr/softcams/%s &" % (emuname, emuname)
+                        elif os_path.exists("/var/bin/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /var/bin/%s &" % (emuname, emuname)
+                        elif os_path.exists("/var/emu/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /var/emu/%s &" % (emuname, emuname)
+                        os.system(command)
+                        logdata("command",command)
+                else:
+                        print("No matching emulator found.")
+        except subprocess.CalledProcessError as e:
+                print("Error while detecting emulator: %s" % e)
 
 
 
 class KeyAdderUpdate(Screen):
     if reswidth == 2560:
-           skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="960,634" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-                    <widget source="Title" render="Label" position="0,0" size="956,63" font="Regular;45" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-                    <widget name="pathfile" position="center,70" size="908,45" font="Regular;35" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-            <widget name="menu" position="25,123" size="907,440" backgroundColor="#16000000"/>
-            <eLabel position="20,570" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
-            <eLabel text="MENU" font="Regular;45" position="23,574" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-            <eLabel text="Press Menu for more options" font="Regular;45" position="191,570" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
-        </screen>'''
+        skin = '''
+                        <screen name="KeyAdderUpdate" position="center,center" size="960,634" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+                                <widget source="Title" render="Label" position="0,0" size="956,63" font="Regular;45" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+                                <widget name="pathfile" position="center,70" size="908,45" font="Regular;35" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                                <widget name="menu" position="25,123" size="907,440" backgroundColor="#16000000"/>
+                                <eLabel position="20,570" size="160,60"  backgroundColor="#00ff0000" zPosition="1"/>
+                                <eLabel text="MENU" font="Regular;45" position="23,574" size="153,53" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+                                <eLabel text="Press Menu for more options" font="Regular;45" position="191,570" size="739,60" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+                        </screen>'''
     elif reswidth == 1920:
-           skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="704,450" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-                    <widget source="Title" render="Label" position="0,0" size="704,45" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-                        <widget name="pathfile" position="center,40" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-                        <widget name="menu" position="center,85" size="650,290" backgroundColor="#16000000"/>
-                        <eLabel position="25,390" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
-                        <eLabel text="MENU" font="Regular;30" position="28,394" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-                        <eLabel text="Press Menu for more options" font="Regular;33" position="148,390" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
-                </screen>'''
+        skin = '''
+                        <screen name="KeyAdderUpdate" position="center,center" size="704,450" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+                                <widget source="Title" render="Label" position="0,0" size="704,45" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+                                <widget name="pathfile" position="center,40" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                                <widget name="menu" position="center,85" size="650,290" backgroundColor="#16000000"/>
+                                <eLabel position="25,390" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
+                                <eLabel text="MENU" font="Regular;30" position="28,394" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+                                <eLabel text="Press Menu for more options" font="Regular;33" position="148,390" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+                        </screen>'''
     else:
-           skin = '''
-                <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-                        <widget source="Title" render="Label" position="0,0" size="476,35" font="Regular;28" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-                        <widget name="pathfile" position="10,40" size="458,35" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-                        <widget name="menu" position="10,80" size="450,173" backgroundColor="#16000000"/>
-                        <eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
-                        <eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-                        <eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
-                </screen>'''
+        skin = '''
+                        <screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+                                <widget source="Title" render="Label" position="0,0" size="476,35" font="Regular;28" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
+                                <widget name="pathfile" position="10,40" size="458,35" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
+                                <widget name="menu" position="10,80" size="450,173" backgroundColor="#16000000"/>
+                                <eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
+                                <eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
+                                <eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+                        </screen>'''
 
     def __init__(self, session, title="", datalist = []):
         Screen.__init__(self, session)
@@ -277,10 +282,10 @@ class KeyAdderUpdate(Screen):
         self["menu"] = MenuList([], enableWrapAround=True, content=eListboxPythonMultiContent)
         self["actions"] = ActionMap(["WizardActions", "ColorActions","MenuActions"],
         {
-                "ok": self.select,
-                "back": self.close,
-                "menu" :self.menu,
-         })
+            "ok": self.select,
+            "back": self.close,
+            "menu" :self.menu,
+        })
         title = "KeyAdder Version %s" % VER
         self["pathfile"] = Label()
         self["pathfile"].setText("Current Path : " + findSoftCamKey())
@@ -288,7 +293,7 @@ class KeyAdderUpdate(Screen):
         menuData.append((0, "Add key Manually", "key"))
         menuData.append((1, "Update Softcam online", "update"))
         if config.plugins.KeyAdder.softcampath.value == True:
-                menuData.append((2, "Select Softcam.key Path", "path"))
+            menuData.append((2, "Select Softcam.key Path", "path"))
         menuData.append((3, "Exit", "exit"))
         self.new_version = VER
         self.settitle(title, menuData)
@@ -744,25 +749,25 @@ def setKeyCallback(session, SoftCamKey, key):
                     restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                     open(SoftCamKey, "a").write(datastr)
                     if config.plugins.KeyAdder.autorestart.value:
-                    	restartemu()
+                        restartemu()
                     session.open(MessageBox, _("PowerVU key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key and len(key) == 16:
                 if 0x2600 in caids:
                     if key != findKeyBISS(session, SoftCamKey, ""): # no change was made ## BISS
                             if getOrb(session) == "21.5E" or getOrb(session) == "21.6E" : # get keystr by (sid & vpid)
-                            	sid = info.getInfo(iServiceInformation.sSID)
-                            	vpid = info.getInfo(iServiceInformation.sVideoPID)
-                            	sid_part = "{:04X}".format(sid)
-                            	vpid_part = "{:04X}".format(vpid)
-                            	keystr = "F %s%s 00 %s" % (sid_part, vpid_part, key)
+                                sid = info.getInfo(iServiceInformation.sSID)
+                                vpid = info.getInfo(iServiceInformation.sVideoPID)
+                                sid_part = "{:04X}".format(sid)
+                                vpid_part = "{:04X}".format(vpid)
+                                keystr = "F %s%s 00 %s" % (sid_part, vpid_part, key)
                             else: # get keystr by (Hash)
-                            	keystr = "F %08X 00 %s" % (getHash(session), key)
+                                keystr = "F %08X 00 %s" % (getHash(session), key)
                             name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                             datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
                             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                             open(SoftCamKey, "a").write(datastr)
                             if config.plugins.KeyAdder.autorestart.value:
-                            	restartemu()
+                                restartemu()
                             session.open(MessageBox, _("BISS key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
                 else:
                     if key != findKeyTandberg(session, SoftCamKey, ""): # no change was made ## Tandberg
@@ -773,7 +778,7 @@ def setKeyCallback(session, SoftCamKey, key):
                             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"       
                             open(SoftCamKey, "a").write(datastr)
                             if config.plugins.KeyAdder.autorestart.value:
-                            	restartemu()
+                                restartemu()
                             session.open(MessageBox, _("Tandberg key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key and len(key) == 32:
                 if key != findKeyIRDETO(session, SoftCamKey, ""): # no change was made ## IRDETO
@@ -783,7 +788,7 @@ def setKeyCallback(session, SoftCamKey, key):
                     restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                     open(SoftCamKey, "a").write(datastr)
                     if config.plugins.KeyAdder.autorestart.value:
-                    	restartemu()
+                        restartemu()
                     session.open(MessageBox, _("IRDETO key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
         elif key:
                 session.openWithCallback(boundFunction(setKeyCallback, session,SoftCamKey), HexKeyBoard,
@@ -797,7 +802,7 @@ def setKeyCallback(session, SoftCamKey, key):
             restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
             open(SoftCamKey, "a").write(datastr)
             if config.plugins.KeyAdder.autorestart.value:
-            	restartemu()
+                restartemu()
             session.open(MessageBox, _("key saved sucessfuly!%s %s" % (datastr, restartmess)), MessageBox.TYPE_INFO, timeout=10)
 
 def getHash(session):
@@ -840,15 +845,15 @@ def getOrb(session):
 
 def findKeyBISS(session, SoftCamKey, key="0000000000000000"):
       if getOrb(session) == "21.5E" or getOrb(session) == "21.6E" :
-      	service = session.nav.getCurrentService()
-      	info = service and service.info()
-      	sid = info.getInfo(iServiceInformation.sSID)
-      	vpid = info.getInfo(iServiceInformation.sVideoPID)
-      	sid_part = "{:04X}".format(sid)
-      	vpid_part = "{:04X}".format(vpid)
-      	keystart = "F %s%s" % (sid_part, vpid_part)
+        service = session.nav.getCurrentService()
+        info = service and service.info()
+        sid = info.getInfo(iServiceInformation.sSID)
+        vpid = info.getInfo(iServiceInformation.sVideoPID)
+        sid_part = "{:04X}".format(sid)
+        vpid_part = "{:04X}".format(vpid)
+        keystart = "F %s%s" % (sid_part, vpid_part)
       else:
-      	keystart = "F %08X" % getHash(session)
+        keystart = "F %08X" % getHash(session)
       keyline = ""
       if PY3:
         with open(SoftCamKey,"r", errors="ignore") as f:
@@ -923,76 +928,76 @@ def findKeyIRDETO(session, SoftCamKey, key="00000000000000000000000000000000"):
 class keyAdder_setup(ConfigListScreen, Screen):
         if reswidth == 2560:
                 if DreamOS():
-                        skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,708" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" position="28,70" size="780,508" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,566" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,695" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,695" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
-<widget render="Label" source="key_green" position="445,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
-</screen>"""
+                        skin = """
+                                <screen name="keyAdder_setup" position="center,center" size="840,708" title="keyAdder setup">
+                                        <!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+                                        <widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+                                                <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+                                        </widget>
+                                        <widget name="config" position="28,70" size="780,508" scrollbarMode="showOnDemand"/>
+                                        <widget source="help" render="Label" position="10,566" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+                                        <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,695" zPosition="-10"/>
+                                        <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,695" zPosition="-10"/>
+                                        <widget render="Label" source="key_red" position="123,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
+                                        <widget render="Label" source="key_green" position="445,655" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
+                                </screen>"""
                 else:
-                        skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" font="Regular;35" secondfont="Regular;35" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
-</screen>"""
+                        skin = """
+                                <screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
+                                        <!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;35" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+                                        <widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;35" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+                                                <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+                                        </widget>
+                                        <widget name="config" font="Regular;35" secondfont="Regular;35" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
+                                        <widget source="help" render="Label" position="10,420" size="818,90" font="Regular;35" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+                                        <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
+                                        <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
+                                        <widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black"  />
+                                        <widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;35" transparent="1" foregroundColor="#00ffffff" shadowColor="black" />
+                                </screen>"""
         elif reswidth == 1920:
                 if DreamOS():
-                        skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
-</screen>"""
+                        skin = """
+                                <screen name="keyAdder_setup" position="center,center" size="1040,560" title="keyAdder setup">
+                                        <!--widget source="Title" position="5,5" size="1022,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+                                        <widget source="global.CurrentTime" render="Label" position="5,5" size="1022,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+                                                <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+                                        </widget>
+                                        <widget name="config" position="18,70" size="1005,344" scrollbarMode="showOnDemand"/>
+                                        <widget source="help" render="Label" position="18,425" size="1000,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+                                        <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="223,550" zPosition="-10"/>
+                                        <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="585,550" zPosition="-10"/>
+                                        <widget render="Label" source="key_red" position="223,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
+                                        <widget render="Label" source="key_green" position="585,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+                                </screen>"""
                 else:
-                        skin="""
-<screen name="keyAdder_setup" position="center,center" size="840,560" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="826,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" font="Regular;28" secondfont="Regular;28" itemHeight="45" position="28,70" size="780,433" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="10,420" size="818,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="123,550" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="445,550" zPosition="-10"/>
-<widget render="Label" source="key_red" position="123,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
-<widget render="Label" source="key_green" position="445,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
-</screen>"""
+                        skin = """
+                                <screen name="keyAdder_setup" position="center,center" size="1040,560" title="keyAdder setup">
+                                        <!--widget source="Title" position="5,5" size="826,50" render="Label" font="Regular;28" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/-->
+                                        <widget source="global.CurrentTime" render="Label" position="5,5" size="1022,50" font="Regular;28" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+                                                <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+                                        </widget>
+                                        <widget name="config" font="Regular;28" secondfont="Regular;28" itemHeight="45" position="18,70" size="1005,344" scrollbarMode="showOnDemand"/>
+                                        <widget source="help" render="Label" position="18,425" size="1000,90" font="Regular;28" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+                                        <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="235,5" position="223,550" zPosition="-10"/>
+                                        <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="235,5" position="585,550" zPosition="-10"/>
+                                        <widget render="Label" source="key_red" position="223,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
+                                        <widget render="Label" source="key_green" position="585,515" size="235,40" zPosition="5" valign="center" halign="center" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+                                </screen>"""
         else:
-                skin="""
-<screen name="keyAdder_setup" position="center,center" size="620,398" title="keyAdder setup">
-<!--widget source="Title" position="5,5" size="371,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/!-->
-<widget source="global.CurrentTime" render="Label" position="5,5" size="371,30" font="Regular;25" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
-  <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
-</widget>
-<widget name="config" position="15,45" size="584,303" scrollbarMode="showOnDemand"/>
-<widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
-<eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
-<eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="150,3" position="379,394" zPosition="-10"/>
-<widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
-<widget render="Label" source="key_green" position="379,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
-</screen>"""
+                skin = """
+                        <screen name="keyAdder_setup" position="center,center" size="620,398" title="keyAdder setup">
+                                <!--widget source="Title" position="5,5" size="371,30" render="Label" font="Regular;25" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1" halign="center"/!-->
+                                <widget source="global.CurrentTime" render="Label" position="5,5" size="371,30" font="Regular;25" halign="right" foregroundColor="#00ffa500" backgroundColor="#16000000" transparent="1">
+                                        <convert type="ClockToText">Format:%d-%m-%Y    %H:%M:%S</convert>
+                                </widget>
+                                <widget name="config" position="15,45" size="584,303" scrollbarMode="showOnDemand"/>
+                                <widget source="help" render="Label" position="15,826" size="1187,199" font="Regular;25" foregroundColor="#00e5b243" backgroundColor="#16000000" valign="center" halign="center" transparent="1" zPosition="5"/>
+                                <eLabel text="" foregroundColor="#00ff2525" backgroundColor="#00ff2525" size="150,3" position="108,394" zPosition="-10"/>
+                                <eLabel text="" foregroundColor="#00389416" backgroundColor="#00389416" size="150,3" position="379,394" zPosition="-10"/>
+                                <widget render="Label" source="key_red" position="108,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black"/>
+                                <widget render="Label" source="key_green" position="379,360" size="150,35" zPosition="5" valign="center" halign="left" backgroundColor="#16000000" font="Regular;28" transparent="1" foregroundColor="#00ffffff" shadowColor="black" shadowOffset="-1,-1"/>
+                        </screen>"""
 
         def __init__(self, session):
                 self.session = session
