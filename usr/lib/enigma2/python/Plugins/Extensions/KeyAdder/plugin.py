@@ -214,15 +214,18 @@ def restartemu():
                         if os_path.exists("/usr/bin/%s" % emuname):
                                 clean_tmp
                                 command = "killall -9 %s && /usr/bin/%s &" % (emuname, emuname)
-                        elif os_path.exists("/usr/camd/%s" % emuname):
+                        elif os_path.exists("/usr/bin/camd/%s" % emuname):
                                 clean_tmp
-                                command = "killall -9 %s && /usr/camd/%s &" % (emuname, emuname)
-                        elif os_path.exists("/usr/cam/%s" % emuname):
+                                command = "killall -9 %s && /usr/bin/camd/%s &" % (emuname, emuname)
+                        elif os_path.exists("/usr/bin/cam/%s" % emuname):
                                 clean_tmp
-                                command = "killall -9 %s && /usr/cam/%s &" % (emuname, emuname)
-                        elif os_path.exists("/usr/emu/%s" % emuname):
+                                command = "killall -9 %s && /usr/bin/cam/%s &" % (emuname, emuname)
+                        elif os_path.exists("/usr/bin/emu/%s" % emuname):
                                 clean_tmp
-                                command = "killall -9 %s && /usr/emu/%s &" % (emuname, emuname)
+                                command = "killall -9 %s && /usr/bin/emu/%s &" % (emuname, emuname)
+                        elif os_path.exists("/usr/bin/softcams/%s" % emuname):
+                                clean_tmp
+                                command = "killall -9 %s && /usr/bin/softcams/%s &" % (emuname, emuname)
                         elif os_path.exists("/usr/softcams/%s" % emuname):
                                 clean_tmp
                                 command = "killall -9 %s && /usr/softcams/%s &" % (emuname, emuname)
