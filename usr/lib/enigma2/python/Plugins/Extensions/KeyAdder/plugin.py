@@ -208,6 +208,7 @@ def restartemu():
 		).strip()
 		emuname = result
 		# print(f"emuname ************************* {emuname}")
+		command = ""
 		if emuname:
 			clean_tmp = os.system('rm -rf /tmp/*.info* /tmp/*.tmp* /tmp/.%s /tmp/*share* /tmp/*.pid* /tmp/*sbox* /tmp/%s.* /tmp/*.%s' % (emuname, emuname, emuname))
 			if os_path.exists("/usr/bin/%s" % emuname):
@@ -232,6 +233,7 @@ def restartemu():
 				clean_tmp
 				command = "killall -9 %s && /var/emu/%s &" % (emuname, emuname)
 			os.system(command)
+			logdata("command",command)
 		else:
 			print("No matching emulator found.")
 	except subprocess.CalledProcessError as e:
