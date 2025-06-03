@@ -1060,6 +1060,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
 
 	def createSetup(self):
 		self.list = []
+		self.list.append(self.EnablecheckUpdate)
 		self.list.append(self.Auto_enabled)
 		if config.plugins.KeyAdder.Autodownload_enabled.value:
 			self.list.append(self.Auto_wakeup)
