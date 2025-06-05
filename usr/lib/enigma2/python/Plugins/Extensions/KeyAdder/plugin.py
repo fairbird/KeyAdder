@@ -34,6 +34,7 @@ from string import hexdigits
 from datetime import datetime
 from Components.MenuList import MenuList
 from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS
+from ServiceReference import ServiceReference
 
 from Plugins.Extensions.KeyAdder.tools.Console import Console
 from Plugins.Extensions.KeyAdder.tools.compat import PY3, compat_urlparse, compat_urlretrieve, compat_Request, compat_urlopen, compat_URLError
@@ -85,6 +86,7 @@ BRANDVU="/proc/stb/info/vumodel" ## VU+
 
 save_key = "/etc/enigma2/savekeys"
 
+SUPPORTED_CAIDS = [0xE00, 0x2600, 0x604, 0x1010]  # PowerVU, BISS, IRDETO, Tandberg
 
 def DreamOS():
 	if os_path.exists("/var/lib/dpkg/status"):
@@ -678,48 +680,41 @@ def crc323(string):
                         value = table[(ord(ch) ^ value) & 0xff] ^ (value >> 8)
         return value ^ 0xffffffff
 
+def hasCAID(session, service_ref=None):
+    service = session.nav.getCurrentService()
+    info = service and service.info()
+    caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
 
-def hasCAID(session):
-        service = session.nav.getCurrentService()
-        info = service and service.info()
-        caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
-        if caids and 0xe00 in caids: return True
-        if caids and 0x2600 in caids: return True
-        if caids and 0x604 in caids: return True
-        if caids and 0x1010 in caids: return True
-        try:
-                return eDVBDB.getInstance().hasCAID(ref, 0xe00) # PowerVU
-        except:
-                pass
-        try:
-                return eDVBDB.getInstance().hasCAID(ref, 0x2600) # BISS
-        except:
-                pass
-        try:
-                return eDVBDB.getInstance().hasCAID(ref, 0x604) # IRDETO
-        except:
-                pass
-        try:
-                return eDVBDB.getInstance().hasCAID(ref, 0x1010) # Tandberg
-        except:
-                pass
-        return False
+    if caids:
+        for caid in SUPPORTED_CAIDS:
+            if caid in caids:
+                return True
 
+    # Fallback: try DVB DB lookup if service_ref available
+    ref = service_ref or session.nav.getCurrentlyPlayingServiceReference()
+    dvbdb = eDVBDB.getInstance()
+    for caid in SUPPORTED_CAIDS:
+        try:
+            if dvbdb.hasCAID(ref, caid):
+                return True
+        except Exception:
+            continue
+
+    return False
 
 def getCAIDS(session):
-        service = session.nav.getCurrentService()
-        info = service and service.info()
-        caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
-        caidstr = "None"
-        if caids: caidstr = " ".join(["%04X (%d)" % (x,x) for x in sorted(caids)])
-        return caidstr
+    service = session.nav.getCurrentService()
+    info = service and service.info()
+    caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
+    if not caids:
+        return "None"
+    return " ".join(["%04X (%d)" % (x, x) for x in sorted(set(caids))])
 
 
 #refactored to accept more args to adapt with dreamos channelist context menu
 def keymenu(session, service=None, *args, **kwargs):
-    # Handle different calling conventions
+    # Normalize service reference
     if not isinstance(service, eServiceReference):
-        # Possibly called from Red button: shift args
         if args and isinstance(args[0], eServiceReference):
             service = args[0]
 
@@ -729,30 +724,50 @@ def keymenu(session, service=None, *args, **kwargs):
     service_obj = session.nav.getCurrentService()
     info = service_obj and service_obj.info()
     caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
-    SoftCamKey = findSoftCamKey()
     ref = service or session.nav.getCurrentlyPlayingServiceReference()
+    SoftCamKey = findSoftCamKey()
 
     if config.plugins.KeyAdder.AddkeyStyle.value == "auto":
         if not os_path.exists(SoftCamKey):
-            session.open(MessageBox, _("Emu misses SoftCam.Key (%s)" % SoftCamKey), MessageBox.TYPE_ERROR)
-        elif not hasCAID(session):
-            session.open(MessageBox, _("CAID is missing for service (%s) CAIDS: %s\nOr the channel is FAT" % (ref.toString(), getCAIDS(session))), MessageBox.TYPE_ERROR)
-        else:
-            if caids and 0xe00 in caids:
-                session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
-                        title=_("Please enter new key:"), text=findKeyPowerVU(session, SoftCamKey))
-            elif caids and 0x2600 in caids:
-                session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
-                        title=_("Please enter new key:"), text=findKeyBISS(session, SoftCamKey))
-            elif caids and 0x604 in caids:
-                session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
-                        title=_("Please enter new key:"), text=findKeyIRDETO(session, SoftCamKey))
-            elif caids and 0x1010 in caids:
-                newcaid = getnewcaid(SoftCamKey)
-                session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard,
-                        title=_("Please enter new key for caid:"+newcaid), text=findKeyTandberg(session, SoftCamKey))
-    else:
-        session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard, title=_("Please enter new key:"))
+            session.open(MessageBox, _("SoftCam.Key not found: %s") % SoftCamKey, MessageBox.TYPE_ERROR)
+            return
+
+		# Use service name instead of service ref
+        if not hasCAID(session, ref):
+            service_name = ServiceReference(ref).getServiceName()
+            service_ref = ref.toString()
+            caid_list = getCAIDS(session)
+
+            # Optional: map known CAIDs to names
+            known_caid_names = {
+                0xE00: "PowerVU",
+                0x2600: "BISS",
+                0x604: "IRDETO",
+                0x1010: "Tandberg"
+            }
+
+            caid_descriptions = []
+            service_obj = session.nav.getCurrentService()
+            info = service_obj and service_obj.info()
+            caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
+            if caids:
+                for caid in sorted(caids):
+                    name = known_caid_names.get(caid, "Unknown")
+                    caid_descriptions.append("%04X (%s)" % (caid, name))
+                caid_str = ", ".join(caid_descriptions)
+            else:
+                caid_str = "None"
+
+            msg = _("CAID not supported for this service.\nService: %s\nRef: %s\nCAIDs: %s") % (
+                service_name,
+                service_ref,
+                caid_str
+            )
+            session.open(MessageBox, msg, MessageBox.TYPE_ERROR)
+            return
+
+    # Manual mode fallback
+    session.openWithCallback(boundFunction(setKeyCallback, session, SoftCamKey), HexKeyBoard, title=_("Please enter new key:"))
 
 
 def setKeyCallback(session, SoftCamKey, key):
