@@ -1048,7 +1048,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
 		self.EnablecheckUpdate = getConfigListEntry(_("Enable checking for Online Update"), config.plugins.KeyAdder.update, _(" This option to Enable or Disable checking for Online Update"))
 		self.Enablesoftcampath = getConfigListEntry(_("Enable custom softCam file path"), config.plugins.KeyAdder.softcampath, _("This option to Enable custom softCam file path"))
 		self.Enableautorestart = getConfigListEntry(_("Enable auto restart emu"), config.plugins.KeyAdder.autorestart, _(" This option to Enable or Disable auto restart emus after add new keys"))
-		self.EnablekeyboardStyle = getConfigListEntry(_("Change Add keys Style"), config.plugins.KeyAdder.AddkeyStyle, _("This option allows keys to be entered automatically or manually "))
+		self.EnablekeyboardStyle = getConfigListEntry(_("Change Add keys Style"), config.plugins.KeyAdder.AddkeyStyle, _("This option allows keys to be entered automatically or manually\nIf choose manually you need to put the encryption character + caids + keys"))
 		self.AddkeyStyle = getConfigListEntry(_("Change VirtualKeyboard Style"), config.plugins.KeyAdder.keyboardStyle, _("This option to change Enable VirtualKeyboard Style appear"))
 		self.Selectsavenumber = getConfigListEntry(_("Choose keys save numbers"), config.plugins.KeyAdder.savenumber, _("This option to choose how many keys need to save it inside savefile"))
 		self.Auto_enabled = getConfigListEntry(_("Automatic softcam.key update"), config.plugins.KeyAdder.Autodownload_enabled, _("This option to change Enable VirtualKeyboard Style appear"))
