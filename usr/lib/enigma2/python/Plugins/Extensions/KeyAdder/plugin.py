@@ -746,10 +746,10 @@ def setKeyCallback(session, SoftCamKey, key):
         caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
         SoftCamKey = findSoftCamKey()
         ref = session.nav.getCurrentlyPlayingServiceReference()
-	if config.plugins.KeyAdder.autorestart.value:
-		restartmess = "\n*** Emu will be Auto Restart to Active new key ***\n"
-	else:
-		restartmess = "\n*** Need to Restart emu to Active new key ***\n"
+        if config.plugins.KeyAdder.autorestart.value:
+                restartmess = "\n*** Emu will be Auto Restart to Active new key ***\n"
+        else:
+                restartmess = "\n*** Need to Restart emu to Active new key ***\n"
         if config.plugins.KeyAdder.AddkeyStyle.value == "auto":
                 if key: key = "".join(c for c in key if c in hexdigits).upper()
                 saveKey(key)
