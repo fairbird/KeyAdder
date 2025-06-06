@@ -777,6 +777,10 @@ def setKeyCallback(session, SoftCamKey, key):
         caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
         SoftCamKey = findSoftCamKey()
         ref = session.nav.getCurrentlyPlayingServiceReference()
+	      if config.plugins.KeyAdder.autorestart.value:
+		      restartmess = "\n*** Emu will be Auto Restart to Active new key ***\n"
+	      else:
+		      restartmess = "\n*** Need to Restart emu to Active new key ***\n"
         if config.plugins.KeyAdder.AddkeyStyle.value == "auto":
                 if key: key = "".join(c for c in key if c in hexdigits).upper()
                 saveKey(key)
@@ -785,7 +789,6 @@ def setKeyCallback(session, SoftCamKey, key):
                                 keystr = "P %s 00 %s" % (getonidsid(session), key)
                                 name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                                 datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                                restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                                 open(SoftCamKey, "a").write(datastr)
                                 if config.plugins.KeyAdder.autorestart.value:
                                         restartemu()
@@ -803,7 +806,6 @@ def setKeyCallback(session, SoftCamKey, key):
                                                 keystr = "F %08X 00 %s" % (getHash(session), key)
                                         name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                                         datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                                         open(SoftCamKey, "a").write(datastr)
                                         if config.plugins.KeyAdder.autorestart.value:
                                                 restartemu()
@@ -814,7 +816,6 @@ def setKeyCallback(session, SoftCamKey, key):
                                         keystr = "T %s 01 %s" % (newcaid, key)
                                         name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                                         datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                                         open(SoftCamKey, "a").write(datastr)
                                         if config.plugins.KeyAdder.autorestart.value:
                                                 restartemu()
@@ -824,7 +825,6 @@ def setKeyCallback(session, SoftCamKey, key):
                                 keystr = "I 0604 M1 %s" % key
                                 name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                                 datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                                restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                                 open(SoftCamKey, "a").write(datastr)
                                 if config.plugins.KeyAdder.autorestart.value:
                                         restartemu()
@@ -838,7 +838,6 @@ def setKeyCallback(session, SoftCamKey, key):
                         keystr = "%s" % key
                         name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                         datastr = "\n%s ; Added on %s for %s at %s" % (keystr.replace("|", ""), datetime.now(), name, getOrb(session))
-                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                         open(SoftCamKey, "a").write(datastr)
                         if config.plugins.KeyAdder.autorestart.value:
                                 restartemu()
@@ -1080,7 +1079,7 @@ class keyAdder_setup(ConfigListScreen, Screen):
 		self.Enablesoftcampath = getConfigListEntry(_("Enable custom softCam file path"), config.plugins.KeyAdder.softcampath, _("This option to Enable custom softCam file path"))
 		self.Enableautorestart = getConfigListEntry(_("Enable auto restart emu"), config.plugins.KeyAdder.autorestart, _(" This option to Enable or Disable auto restart emus after add new keys"))
 		self.ShowPlugin = getConfigListEntry(_("Show Plugin"), config.plugins.KeyAdder.showplugin, _(" This option allow you to acces directly to the plugin from channelist + menu or long blue button"))
-		self.EnablekeyboardStyle = getConfigListEntry(_("Change Add keys Style"), config.plugins.KeyAdder.AddkeyStyle, _("This option allows keys to be entered automatically or manually "))
+		self.EnablekeyboardStyle = getConfigListEntry(_("Change Add keys Style"), config.plugins.KeyAdder.AddkeyStyle, _("This option allows keys to be entered automatically or manually\nIf choose manually you need to put the encryption character + caids + keys"))
 		self.AddkeyStyle = getConfigListEntry(_("Change VirtualKeyboard Style"), config.plugins.KeyAdder.keyboardStyle, _("This option to change Enable VirtualKeyboard Style appear"))
 		self.Selectsavenumber = getConfigListEntry(_("Choose keys save numbers"), config.plugins.KeyAdder.savenumber, _("This option to choose how many keys need to save it inside savefile"))
 		self.Auto_enabled = getConfigListEntry(_("Automatic softcam.key update"), config.plugins.KeyAdder.Autodownload_enabled, _("This option to change Enable VirtualKeyboard Style appear"))
