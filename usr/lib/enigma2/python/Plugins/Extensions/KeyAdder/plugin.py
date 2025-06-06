@@ -746,6 +746,10 @@ def setKeyCallback(session, SoftCamKey, key):
         caids = info and info.getInfoObject(iServiceInformation.sCAIDs)
         SoftCamKey = findSoftCamKey()
         ref = session.nav.getCurrentlyPlayingServiceReference()
+	if config.plugins.KeyAdder.autorestart.value:
+		restartmess = "\n*** Emu will be Auto Restart to Active new key ***\n"
+	else:
+		restartmess = "\n*** Need to Restart emu to Active new key ***\n"
         if config.plugins.KeyAdder.AddkeyStyle.value == "auto":
                 if key: key = "".join(c for c in key if c in hexdigits).upper()
                 saveKey(key)
@@ -754,7 +758,6 @@ def setKeyCallback(session, SoftCamKey, key):
                                 keystr = "P %s 00 %s" % (getonidsid(session), key)
                                 name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                                 datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                                restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                                 open(SoftCamKey, "a").write(datastr)
                                 if config.plugins.KeyAdder.autorestart.value:
                                         restartemu()
@@ -772,7 +775,6 @@ def setKeyCallback(session, SoftCamKey, key):
                                                 keystr = "F %08X 00 %s" % (getHash(session), key)
                                         name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                                         datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                                         open(SoftCamKey, "a").write(datastr)
                                         if config.plugins.KeyAdder.autorestart.value:
                                                 restartemu()
@@ -782,8 +784,7 @@ def setKeyCallback(session, SoftCamKey, key):
                                         newcaid=getnewcaid(SoftCamKey)
                                         keystr = "T %s 01 %s" % (newcaid, key) 
                                         name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-                                        datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"	   
+                                        datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))	   
                                         open(SoftCamKey, "a").write(datastr)
                                         if config.plugins.KeyAdder.autorestart.value:
                                                 restartemu()
@@ -793,7 +794,6 @@ def setKeyCallback(session, SoftCamKey, key):
                                 keystr = "I 0604 M1 %s" % key
                                 name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                                 datastr = "\n%s ; Added on %s for %s at %s" % (keystr, datetime.now(), name, getOrb(session))
-                                restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                                 open(SoftCamKey, "a").write(datastr)
                                 if config.plugins.KeyAdder.autorestart.value:
                                         restartemu()
@@ -807,7 +807,6 @@ def setKeyCallback(session, SoftCamKey, key):
                         keystr = "%s" % key
                         name = ServiceReference(session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
                         datastr = "\n%s ; Added on %s for %s at %s" % (keystr.replace("|", ""), datetime.now(), name, getOrb(session))
-                        restartmess = "\n*** Need to Restart emu TO Active new key ***\n"
                         open(SoftCamKey, "a").write(datastr)
                         if config.plugins.KeyAdder.autorestart.value:
                                 restartemu()
