@@ -1167,35 +1167,35 @@ class AutoStartTimer:
 		self.update(atLeast)
 
 	def runUpdate(self):
-		print("\n *********** Auto updating Softcam.key file************ \n")
+		#print("\n *********** Auto updating Softcam.key file************ \n")
 		SoftCamKey = findSoftCamKey()
 		agent = '--header="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17"'
 		crt = "--debug --no-check-certificate"
 		command = ""
 		Site_Value = config.plugins.KeyAdder.Autodownload_sitelink.value
 		if Site_Value == "smcam":
-				myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
-				os.system("wget -O %s %s" % (SoftCamKey, myurl))
+			myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
+			os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "softcam.org":
-				myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
-				os.system("wget -O %s %s" % (SoftCamKey, myurl))
+			myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
+			os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "enigma1969":
-				myurl = "https://docs.google.com/uc?export=download&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export"
-				os.system("wget %s -O %s %s" % (crt, SoftCamKey, myurl))
+			myurl = "https://docs.google.com/uc?export=download&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export"
+			os.system("wget %s -O %s %s" % (crt, SoftCamKey, myurl))
 		elif Site_Value == "MOHAMED_OS":
-				myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
-				os.system("wget -O %s %s" % (SoftCamKey, myurl))
+			myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
+			os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "MOHAMED_Nasr":
-				myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
-				os.system("wget -O %s %s" % (SoftCamKey, myurl))
+			myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
+			os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "Serjoga":
-				myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
-				os.system("wget -O %s %s" % (SoftCamKey, myurl))
+			myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
+			os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "Novaler4k":
-				myurl = "http://novaler.homelinux.com/SoftCam.Key"
-				os.system("wget -O %s %s" % (SoftCamKey, myurl))
+			myurl = "http://novaler.homelinux.com/SoftCam.Key"
+			os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		else:
-				close()
+			close()
 		if config.plugins.KeyAdder.Show_Autoflash.value:
 			try:
 				file_size = os.path.getsize(SoftCamKey)
