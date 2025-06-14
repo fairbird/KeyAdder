@@ -669,7 +669,7 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 		self.moveActiveKey(-1)
 
 	def right(self):
-		self.moveActiveKey(+1)
+		self.moveActiveKey(1)
 
 	def up(self):
 		self.moveActiveKey(-self.first_line_len)
@@ -729,3 +729,42 @@ class VirtualKeyBoardKeyAdder(Screen, NumericalTextInput, HelpableScreen):
 					return
 				else:
 					selkey += 1
+
+
+		print("[keyGotAscii] gotAsciiCode triggered")
+		try:
+			char = getPrevAsciiCode()
+			print("[keyGotAscii] Received ASCII char:", char, "->", chr(char) if 0 <= char <= 255 else "Invalid")
+			if char == 56:
+				print("[keyGotAscii] Ignored spurious key interpreted as '8'")
+				return
+			if char < 0 or char > 255:
+				return
+			char = chr(char)
+			if not PY3:
+				try:
+					char.decode("utf-8")
+				except UnicodeDecodeError:
+					return
+			if self.inShiftKeyList(char):
+				self.shiftMode = True
+				list = self.shiftkeys_list
+			else:
+				self.shiftMode = False
+				list = self.keys_list
+			if char == " ":
+				char = "SPACE"
+			selkey = 0
+			for keylist in list:
+				for key in keylist:
+					if key == char:
+						self.selectedKey = selkey
+						print("[keyGotAscii] Final interpreted char:", char)
+						print("[keyGotAscii] Match found, key index:", selkey)
+						self.okClicked()
+						self.showActiveKey()
+						return
+					selkey += 1
+		except Exception as e:
+			print("[KeyAdder] keyGotAscii error:", str(e))
+			return
