@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Code By RAED and mfaraj57
+# Code By RAED and mfaraj57 (c) 2025
 
 import binascii
 import os
@@ -255,23 +255,23 @@ class KeyAdderUpdate(Screen):
 			</screen>'''
 	elif reswidth == 1920:
 		skin = '''
-			<screen name="KeyAdderUpdate" position="center,center" size="704,450" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-				<widget source="Title" render="Label" position="0,0" size="704,45" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-				<widget name="pathfile" position="center,40" size="650,45" font="Regular;28" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-				<widget name="menu" position="center,85" size="650,290" backgroundColor="#16000000"/>
-				<eLabel position="25,390" size="110,50" backgroundColor="#00ff0000" zPosition="1"/>
-				<eLabel text="MENU" font="Regular;30" position="28,394" size="103,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-				<eLabel text="Press Menu for more options" font="Regular;33" position="148,390" size="546,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+			<screen name="KeyAdderUpdate" position="center,center" size="704,580" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+				<widget source="Title" render="Label" position="0,5" size="704,50" font="Regular;35" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000" />
+				<widget name="pathfile" position="20,60" size="669,72" font="Regular;28" halign="center" valign="center" foregroundColor="#00cccc40" backgroundColor="#16000000" />
+				<widget name="menu" position="20,138" size="675,378" backgroundColor="#16000000" />
+				<eLabel position="25,525" size="134,50" backgroundColor="#00ff0000" zPosition="1"/>
+				<eLabel text="MENU" font="Regular;30" position="28,529" size="127,43" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center" />
+				<eLabel text="Press Menu for more options" font="Regular;33" position="168,525" size="526,50" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center" />
 			</screen>'''
 	else:
 		skin = '''
-			<screen name="KeyAdderUpdate" position="center,center" size="476,306" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
-				<widget source="Title" render="Label" position="0,0" size="476,35" font="Regular;28" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000"/>
-				<widget name="pathfile" position="10,40" size="458,35" font="Regular;24" foregroundColor="#00cccc40" backgroundColor="#16000000"/>
-				<widget name="menu" position="10,80" size="450,173" backgroundColor="#16000000"/>
-				<eLabel position="15,259" size="80,40" backgroundColor="#00ff0000" zPosition="1"/>
-				<eLabel text="MENU" font="Regular;26" position="18,261" size="74,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center"/>
-				<eLabel text="Press Menu for more options" font="Regular;25" position="104,259" size="369,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center"/>
+			<screen name="KeyAdderUpdate" position="center,center" size="476,336" backgroundColor="#16000000" title="KeyAdderUpdate" flags="wfNoBorder">
+				<widget source="Title" render="Label" position="0,5" size="476,35" font="Regular;28" halign="center" valign="center" foregroundColor="#00ffffff" backgroundColor="#16000000" />
+				<widget name="pathfile" position="10,45" size="458,55" font="Regular;24" halign="center" valign="center" foregroundColor="#00cccc40" backgroundColor="#16000000" />
+				<widget name="menu" position="10,104" size="450,160" backgroundColor="#16000000" />
+				<eLabel position="10,288" size="94,40" backgroundColor="#00ff0000" zPosition="1" />
+				<eLabel text="MENU" font="Regular;26" position="12,288" size="88,35" foregroundColor="#00000000" backgroundColor="#00ffffff" zPosition="3" valign="center" halign="center" />
+				<eLabel text="Press Menu for more options" font="Regular;25" position="113,288" size="357,40" foregroundColor="#00ffffff" backgroundColor="#00000000" zPosition="2" valign="center" />
 			</screen>'''
 
 	def __init__(self, session, title="", datalist = []):
@@ -1167,35 +1167,35 @@ class AutoStartTimer:
 		self.update(atLeast)
 
 	def runUpdate(self):
-		#print("\n *********** Auto updating Softcam.key file************ \n")
+		print("\n *********** Auto updating Softcam.key file************ \n")
 		SoftCamKey = findSoftCamKey()
 		agent = '--header="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17"'
 		crt = "--debug --no-check-certificate"
 		command = ""
 		Site_Value = config.plugins.KeyAdder.Autodownload_sitelink.value
 		if Site_Value == "smcam":
-			myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
-			os.system("wget -O %s %s" % (SoftCamKey, myurl))
+				myurl = "https://raw.githubusercontent.com/smcam/s/main/SoftCam.Key"
+				os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "softcam.org":
-			myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
-			os.system("wget -O %s %s" % (SoftCamKey, myurl))
+				myurl = "http://www.softcam.org/deneme6.php?file=SoftCam.Key"
+				os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "enigma1969":
-			myurl = "https://docs.google.com/uc?export=download&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export"
-			os.system("wget %s -O %s %s" % (crt, SoftCamKey, myurl))
+				myurl = "https://docs.google.com/uc?export=download&id=1aujij43w7qAyPHhfBLAN9sE-BZp8_AwI&export"
+				os.system("wget %s -O %s %s" % (crt, SoftCamKey, myurl))
 		elif Site_Value == "MOHAMED_OS":
-			myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
-			os.system("wget -O %s %s" % (SoftCamKey, myurl))
+				myurl = "https://raw.githubusercontent.com/MOHAMED19OS/SoftCam_Emu/main/SoftCam.Key"
+				os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "MOHAMED_Nasr":
-			myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
-			os.system("wget -O %s %s" % (SoftCamKey, myurl))
+				myurl = "https://raw.githubusercontent.com/popking159/softcam/master/SoftCam.Key"
+				os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "Serjoga":
-			myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
-			os.system("wget -O %s %s" % (SoftCamKey, myurl))
+				myurl = "http://raw.githubusercontent.com/audi06/SoftCam.Key_Serjoga/master/SoftCam.Key"
+				os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		elif Site_Value == "Novaler4k":
-			myurl = "http://novaler.homelinux.com/SoftCam.Key"
-			os.system("wget -O %s %s" % (SoftCamKey, myurl))
+				myurl = "http://novaler.homelinux.com/SoftCam.Key"
+				os.system("wget -O %s %s" % (SoftCamKey, myurl))
 		else:
-			close()
+				close()
 		if config.plugins.KeyAdder.Show_Autoflash.value:
 			try:
 				file_size = os.path.getsize(SoftCamKey)

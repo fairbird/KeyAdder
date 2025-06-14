@@ -1,8 +1,6 @@
 #!/usr/bin/python
-# Code by mfaraj57 and RAED (c) 2018
-
-# python3
-from __future__ import print_function
+# -*- coding: utf-8 -*-
+# Code by RAED and mfaraj57 (c) 2025
 
 from Components.ActionMap import ActionMap
 from Components.Label import Label
@@ -234,10 +232,12 @@ class imagedownloadScreen(Screen):
         return
 
 class imagedownloadScreen2(Screen):
-    def __init__(self, session, name=''):
+    def __init__(self, session, name='', url='', target=''):
         Screen.__init__(self, session)
         self.skin = SKIN_imagedownloadScreen
-        self.name=name
+        self.name = name
+        self.url = url
+        self.target = target
         self['activityslider'] = ProgressBar()
         self['activityslider'].setRange((0, 100))
         self['activityslider'].setValue(0)
