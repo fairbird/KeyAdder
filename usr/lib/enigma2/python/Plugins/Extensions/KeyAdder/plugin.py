@@ -571,7 +571,9 @@ class PathsSelect(Screen):
 				self.filelist.descent()
 
 	def exit(self):
-		self.close(True)
+		for x in self["config"].list:
+			x[1].cancel()
+		self.close()
 
 
 class HexKeyBoard(VirtualKeyBoardKeyAdder):
@@ -1089,6 +1091,8 @@ class keyAdder_setup(ConfigListScreen, Screen):
 		self.createSetup()
 
 	def cancel(self):
+		for x in self["config"].list:
+			x[1].cancel()
 		self.close()
 
 	def save(self):
