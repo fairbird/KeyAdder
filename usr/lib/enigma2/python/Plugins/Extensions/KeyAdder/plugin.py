@@ -572,7 +572,8 @@ class PathsSelect(Screen):
 
 	def exit(self):
 		for x in self["config"].list:
-			x[1].cancel()
+			if len(x) > 1:
+				x[1].cancel()
 		self.close()
 
 
@@ -1092,7 +1093,8 @@ class keyAdder_setup(ConfigListScreen, Screen):
 
 	def cancel(self):
 		for x in self["config"].list:
-			x[1].cancel()
+			if len(x)>1:
+				x[1].cancel()
 		self.close()
 
 	def save(self):
