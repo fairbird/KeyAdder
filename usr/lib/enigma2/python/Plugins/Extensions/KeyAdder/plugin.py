@@ -199,13 +199,22 @@ def downloadFile(url, filePath):
 
 
 def restartemu():
-	# Execute the shell command and get the first matching emulator name
+	# Detect running emulator without using 'ps' (not available on all receivers)
+	targets = {"ncam", "oscam", "cccam", "mgcamd", "gbox", "wicardd"}
 	try:
-		result = subprocess.check_output(
-			'ps -eo comm | grep -E "^(ncam|oscam|cccam|mgcamd|gbox|wicardd)" | sort -u | head -n1',
-			shell=True, universal_newlines=True
-		).strip()
-		emuname = result
+		emuname = ""
+		for pid in os.listdir("/proc"):
+			if not pid.isdigit():
+				continue
+			try:
+				with open("/proc/%s/comm" % pid, "r") as f:
+					comm = f.read().strip()
+				if comm in targets:
+					emuname = comm
+					break
+			except (IOError, OSError):
+				continue
+
 		# print(f"emuname ************************* {emuname}")
 		command = ""
 		if emuname:
@@ -235,11 +244,11 @@ def restartemu():
 				clean_tmp
 				command = "killall -9 %s && /var/emu/%s &" % (emuname, emuname)
 			os.system(command)
-			logdata("command",command)
+			logdata("command", command)
 		else:
 			print("No matching emulator found.")
-	except subprocess.CalledProcessError as e:
-			print("Error while detecting emulator: %s" % e)
+	except Exception as e:
+		print("Error while detecting emulator: %s" % e)
 
 
 class KeyAdderUpdate(Screen):
