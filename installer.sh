@@ -47,11 +47,9 @@ install() {
         echo
         if [ $OSTYPE = "Opensource" ]; then
             $OPKGINSTAL "$1"
-            sleep 1
             clear
         elif [ $OSTYPE = "DreamOS" ]; then
             $OPKGINSTAL "$1" -y
-            sleep 1
             clear
         fi
     fi
@@ -60,12 +58,10 @@ install() {
 #########################
 if [ -f /usr/bin/python3 ] ; then
     echo ":You have Python3 image ..."
-    sleep 0.1
     Packagesix=python3-six
     Packageprocps=procps
 else
     echo ":You have Python2 image ..."
-    sleep 0.1
     Packagesix=python-six
     Packageprocps=procps
 fi
@@ -74,18 +70,16 @@ install $Packagesix $Packageprocps
 
 #########################
 cd $TMPDIR
-set -e
 echo "Downloading And Insallling KeyAdder plugin Please Wait ......"
 echo
 wget https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz -qP $TMPDIR
 tar -xzf main.tar.gz
 cp -r KeyAdder-main/usr /
 rm -rf *main*
-set +e
 cd ..
 #########################
 
-sleep 1
+sleep 2
 clear
 echo "#########################################################"
 echo "#          KeyAdder INSTALLED SUCCESSFULLY              #"
@@ -96,10 +90,6 @@ echo "#########################################################"
 echo "#           your Device will RESTART Now                #"
 echo "#########################################################"
 
-if [ $OSTYPE = "Opensource" ]; then
-    killall -9 enigma2
-else
-    systemctl restart enigma2
-fi
+killall enigma2
 
 exit 0
