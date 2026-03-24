@@ -3,14 +3,11 @@
 ######### Only These two lines to edit with new version ######
 version='9.5'
 description='What is NEW:\n- Fixes.\n\n*************************\n:ما هو الجديد\n- إصلاحات'
-##############################################################
 
-###########################################
 # Configure where we can find things here #
 TMPDIR='/tmp'
 PLUGINDIR='/usr/lib/enigma2/python/Plugins/Extensions'
 
-#######################
 # Remove Old Version #
 rm -rf $PLUGINDIR/AddKey
 rm -rf $PLUGINDIR/KeyAdder
@@ -62,19 +59,27 @@ fi
 install $Packagesix $Packageprocps
 
 #########################
-cd $TMPDIR
+cd /tmp
 set -e
 echo "Downloading And Insallling KeyAdder plugin Please Wait ......"
 echo
-wget https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz -qP $TMPDIR
+wget https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz
 tar -xzf main.tar.gz
 cp -r KeyAdder-main/usr /
-rm -rf *main*
+rm -rf *ArabicSavior* > /dev/null 2>&1
+rm -rf *main* > /dev/null 2>&1
 set +e
 cd ..
 sync
 #########################
 
+### Check if plugin installed correctly
+if [ ! -d '/usr/lib/enigma2/python/Plugins/Extensions/KeyAdder' ]; then
+	echo "Some thing wrong .. Plugin not installed"
+	exit 1
+fi
+
+sync
 echo "#########################################################"
 echo "#         KeyAdder INSTALLED SUCCESSFULLY               #"
 echo "#                 RAED (fiarbird)                       #"              
