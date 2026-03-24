@@ -1,11 +1,4 @@
 #!/bin/bash
-# ###########################################
-# SCRIPT : DOWNLOAD AND INSTALL KeyAdder
-# ###########################################
-#
-# Command: wget https://raw.githubusercontent.com/fairbird/KeyAdder/main/installer.sh -qO - | /bin/sh
-#
-# ###########################################
 
 ######### Only These two lines to edit with new version ######
 version='9.5'
@@ -70,26 +63,26 @@ install $Packagesix $Packageprocps
 
 #########################
 cd $TMPDIR
+set -e
 echo "Downloading And Insallling KeyAdder plugin Please Wait ......"
 echo
 wget https://github.com/fairbird/KeyAdder/archive/refs/heads/main.tar.gz -qP $TMPDIR
 tar -xzf main.tar.gz
 cp -r KeyAdder-main/usr /
 rm -rf *main*
+set +e
 cd ..
+sync
 #########################
 
-sleep 2
-clear
 echo "#########################################################"
-echo "#          KeyAdder INSTALLED SUCCESSFULLY              #"
-echo "#                 Raed  &  mfaraj57                     #"
+echo "#         KeyAdder INSTALLED SUCCESSFULLY               #"
+echo "#                 RAED (fiarbird)                       #"              
 echo "#                     support                           #"
 echo "#   https://www.tunisia-sat.com/forums/threads/3955125/ #"
 echo "#########################################################"
 echo "#           your Device will RESTART Now                #"
 echo "#########################################################"
-
+sleep 3
 killall enigma2
-
 exit 0
