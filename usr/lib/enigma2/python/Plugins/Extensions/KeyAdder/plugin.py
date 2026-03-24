@@ -26,7 +26,6 @@ from Screens.ChoiceBox import ChoiceBox
 from Screens.InputBox import InputBox
 from Components.Input import Input
 from Components.Label import Label
-from Components.Console import Console
 from Components.MenuList import MenuList
 from Components.Sources.StaticText import StaticText
 from Components.FileList import FileList
@@ -36,6 +35,7 @@ from string import hexdigits
 from datetime import datetime
 from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS
 
+from Plugins.Extensions.KeyAdder.tools.Console import Console
 from Plugins.Extensions.KeyAdder.tools.compat import PY3, compat_urlparse, compat_urlretrieve, compat_Request, compat_urlopen, compat_URLError
 from Plugins.Extensions.KeyAdder.tools.VirtualKeyboardKeyAdder import VirtualKeyBoardKeyAdder
 from Plugins.Extensions.KeyAdder.tools.downloader import getversioninfo, imagedownloadScreen, imagedownloadScreen2
