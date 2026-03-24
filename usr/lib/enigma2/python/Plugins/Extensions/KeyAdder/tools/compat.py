@@ -4,6 +4,7 @@ from threading import Thread
 
 PY3 = version_info[0] == 3
 
+
 # Disable certificate verification on python 2.7.9
 if version_info >= (2, 7, 9):
 	import ssl
@@ -43,9 +44,7 @@ else:
 	from urllib.parse import urlunparse as compat_urlunparse
 	from http.client import HTTPException as compat_HTTPException
 
-
 SUBURI = '&suburi='
-
 
 def compat_urlopen(url, timeout=5):
 	"""

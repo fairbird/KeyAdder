@@ -111,7 +111,7 @@ class Console(Screen):
             if self.showStartStopText:
                 self['text'].appendText(_('Execution finished!!'))
             if self.finishedCallback is not None:
-                self.finishedCallback(not self.errorOcurred)
+                self.finishedCallback()
             if not self.errorOcurred and self.closeOnSuccess:
                 self.closeConsole()
             else:
