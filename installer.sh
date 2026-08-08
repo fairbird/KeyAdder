@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ######### Only These two lines to edit with new version ######
-version='9.5'
+version='9.6'
 description='What is NEW:\n- Fixes.\n\n*************************\n:ما هو الجديد\n- إصلاحات'
 
 # Configure where we can find things here #
