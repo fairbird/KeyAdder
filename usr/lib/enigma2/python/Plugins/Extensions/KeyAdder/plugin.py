@@ -580,9 +580,10 @@ class PathsSelect(Screen):
                                 self.filelist.descent()
 
         def exit(self):
-                for x in self["config"].list:
+                for x in self["checkList"].list:
                         if len(x) > 1:
-                                x[1].cancel()
+                                if hasattr(x[1], 'cancel'):
+                                        x[1].cancel()
                 self.close()
 
 
@@ -1102,8 +1103,9 @@ class keyAdder_setup(ConfigListScreen, Screen):
 
         def cancel(self):
                 for x in self["config"].list:
-                        if len(x)>1:
-                                x[1].cancel()
+                        if len(x) > 1:
+                                if hasattr(x[1], 'cancel'):
+                                        x[1].cancel()
                 self.close()
 
         def save(self):
